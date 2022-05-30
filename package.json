@@ -17,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/almorcrette/mix-a-mood/issues"
   },
-  "homepage": "https://github.com/almorcrette/mix-a-mood#readme"
+  "homepage": "https://github.com/almorcrette/mix-a-mood#readme",
+  "dependencies": {
+    "jest": "^28.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0",
+    "jest-environment-jsdom": "^28.1.0"
+  }
 }
