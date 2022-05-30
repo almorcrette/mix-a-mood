@@ -6,7 +6,8 @@ class View {
 
     this.emotionSelectorEls = [
       document.querySelector('#happy'),
-      document.querySelector('#sad')
+      document.querySelector('#sad'),
+      document.querySelector('#tired')
     ]
     this.emotionSubmitEl = document.querySelector("#emotion-submit")
     
