@@ -4,14 +4,19 @@ class View {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel
 
-    this.emotionSelectorEl = document.querySelector('#happy')
+    this.emotionSelectorEls = [
+      document.querySelector('#happy'),
+      document.querySelector('#sad')
+    ]
     this.emotionSubmitEl = document.querySelector("#emotion-submit")
     
 
     this.emotionSubmitEl.addEventListener('click', () => {
-      if (this.emotionSelectorEl.checked == true) {
-      this.generateMood(this.emotionSelectorEl.value);
-      }
+      this.emotionSelectorEls.forEach((emotion) => {
+        if (emotion.checked == true) {
+          this.generateMood(emotion.value);
+        }
+      })
     })
 
   }
