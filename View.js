@@ -31,12 +31,20 @@ class View {
   }
 
   displayMood() {
+    this.removeEmotionSelection();
     let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
     moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
     moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
     moodDisplayEl.src = `./assets/${this.moodModel.getMood()}-full.jpg`;
     document.querySelector("#mood-result-container").append(moodDisplayEl);
+  }
+
+  removeEmotionSelection() {
+    const emotionSelectionEls = document.querySelectorAll('.emotion-selection')
+    emotionSelectionEls.forEach((element) => {
+      element.remove();
+    })
   }
 }
 
