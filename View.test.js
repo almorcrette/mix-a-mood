@@ -23,8 +23,12 @@ describe('View', () => {
         const view = new View(mockedMoodModel);
         const happySelectorEl = document.querySelector('#happy');
         happySelectorEl.checked = true;
-        const emotionSubmitEl = document.querySelector('#emotion-submit');
-        emotionSubmitEl.click();
+        const generateButtonEl = document.querySelector('#generate');
+        
+        console.log("I am about to click on the button in a passing test")
+        generateButtonEl.click();
+        console.log("I have clicked on the button in a passing test")
+
         expect(view.moodModel.setMood).toHaveBeenCalledWith("happy");
       })
       it("calls with parameter 'sad' when 'sad' radio button selected", () => {
@@ -32,8 +36,12 @@ describe('View', () => {
         const view = new View(mockedMoodModel);
         const sadSelectorEl = document.querySelector('#sad');
         sadSelectorEl.checked = true;
-        const emotionSubmitEl = document.querySelector('#emotion-submit');
-        emotionSubmitEl.click();
+        const generateButtonEl = document.querySelector('#generate');
+        
+        console.log("I am about to click on the button in a passing test")
+        generateButtonEl.click();
+        console.log("I have clicked on the button in a passing test")
+
         expect(view.moodModel.setMood).toHaveBeenCalledWith("sad");
       })
       it("calls with parameter 'tired' when 'tired' radio button selected", () => {
@@ -41,8 +49,12 @@ describe('View', () => {
         const view = new View(mockedMoodModel);
         const tiredSelectorEl = document.querySelector('#tired');
         tiredSelectorEl.checked = true;
-        const emotionSubmitEl = document.querySelector('#emotion-submit');
-        emotionSubmitEl.click();
+        const generateButtonEl = document.querySelector('#generate');
+
+        console.log("I am about to click on the button in a passing test")
+        generateButtonEl.click();
+        console.log("I have clicked on the button in a passing test")
+
         expect(view.moodModel.setMood).toHaveBeenCalledWith("tired");
       })
     })
@@ -55,29 +67,39 @@ describe('View', () => {
 
   describe(".displayMood", () => {
 
-    it("is called when 'Generate' submit button is clicked", () => {
-      // document.body.innerHTML = fs.readFileSync('./index.HTML')
-      // const happySelectorEl = document.querySelector('#happy');
-      // happySelectorEl.checked = true;
-      // const emotionSubmitEl = document.querySelector('#emotion-submit');
-      // emotionSubmitEl.click();
-      // console.log(`document.querySelectorAll('div.mood-display'): `, document.querySelectorAll('div.mood-display'))
+    it("displays the mood stored in the moodModel", () => {
+      const view = new View(mockedMoodModel);
+      view.displayMood();
+      expect(document.querySelectorAll('div.mood-display').length).toBe(1);
+      expect(document.querySelector('div.mood-display').innerText).toEqual('happy');
     })
 
-    it("displays the mood stored in the moodModel", () => {
-        const view = new View(mockedMoodModel);
-        view.displayMood();
-        expect(document.querySelectorAll('div.mood-display').length).toBe(1);
-        expect(document.querySelector('div.mood-display').innerText).toEqual('happy');
-      })
+    it("is called when 'Generate' button is clicked", () => {
+      document.body.innerHTML = fs.readFileSync('./index.HTML');
+      const view = new View(mockedMoodModel);
+      const happySelectorEl = document.querySelector('#happy');
+      happySelectorEl.checked = true;
+      const generateButtonEl = document.querySelector('#generate');
+      console.log(`generate button: `, generateButtonEl)
+      
+      console.log("I am about to click on the button in the failing test")
+      generateButtonEl.click();
+      console.log("I should have clicked the button in the failing test")
+
+      // console.log(`document.querySelectorAll('div.mood-display'): `, document.querySelectorAll('div.mood-display'))
+      expect(document.querySelectorAll('div.mood-display').length).toBe(1);
+      expect(document.querySelector('div.mood-display').innerText).toEqual('happy');
+    })
+
+
 
       // it("displays happy-img when 'happy' radio button selected and 'Generate' clicked", () => {
       //   document.body.innerHTML = fs.readFileSync('./index.HTML')
       //   const view = new View(mockedMoodModel);
       //   const happySelectorEl = document.querySelector('#happy');
       //   happySelectorEl.checked = true;
-      //   const emotionSubmitEl = document.querySelector('#emotion-submit');
-      //   emotionSubmitEl.click();
+      //   const generateButtonEl = document.querySelector('#generate');
+      //   generateButtonEl.click();
       //   expect(document.querySelector('.mood-display').id).toEqual('happy-img');
       // })
 
