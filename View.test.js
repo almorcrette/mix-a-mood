@@ -5,10 +5,15 @@
 const fs = require('fs');
 const View = require('./View.js')
 
-const mockedMoodModel = {}
+const mockedHappyMoodModel = {}
 
-mockedMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
-mockedMoodModel.getMood = jest.fn().mockReturnValue('happy')
+mockedHappyMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
+mockedHappyMoodModel.getMood = jest.fn().mockReturnValue('happy')
+
+const mockedSadMoodModel = {}
+
+mockedSadMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
+mockedSadMoodModel.getMood = jest.fn().mockReturnValue('sad')
 
 
 describe('View', () => {
@@ -20,7 +25,7 @@ describe('View', () => {
     describe("calls setMood on the moodModel using as emotion parameter the selected radio button", () => {
       it("calls with parameter 'happy' when 'happy' radio button selected", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        const view = new View(mockedMoodModel);
+        const view = new View(mockedHappyMoodModel);
         const happySelectorEl = document.querySelector('#happy');
         happySelectorEl.checked = true;
         const generateButtonEl = document.querySelector('#generate');        
@@ -29,7 +34,7 @@ describe('View', () => {
       })
       it("calls with parameter 'sad' when 'sad' radio button selected", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        const view = new View(mockedMoodModel);
+        const view = new View(mockedHappyMoodModel);
         const sadSelectorEl = document.querySelector('#sad');
         sadSelectorEl.checked = true;
         const generateButtonEl = document.querySelector('#generate');
@@ -38,7 +43,7 @@ describe('View', () => {
       })
       it("calls with parameter 'tired' when 'tired' radio button selected", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        const view = new View(mockedMoodModel);
+        const view = new View(mockedHappyMoodModel);
         const tiredSelectorEl = document.querySelector('#tired');
         tiredSelectorEl.checked = true;
         const generateButtonEl = document.querySelector('#generate');
@@ -55,32 +60,43 @@ describe('View', () => {
 
   describe(".displayMood", () => {
 
-    it("displays the mood stored in the moodModel", () => {
-      const view = new View(mockedMoodModel);
-      view.displayMood();
-      expect(document.querySelectorAll('img.mood-display').length).toBe(1);
-      expect(document.querySelector('img.mood-display').alt).toEqual('happy face');
-    })
-
     it("is called when 'Generate' button is clicked", () => {
       document.body.innerHTML = fs.readFileSync('./index.HTML');
-      const view = new View(mockedMoodModel);
+      const view = new View(mockedHappyMoodModel);
       const happySelectorEl = document.querySelector('#happy');
       happySelectorEl.checked = true;
       const generateButtonEl = document.querySelector('#generate');
       generateButtonEl.click();
-      expect(document.querySelectorAll('img.mood-display').length).toBe(1);
-      expect(document.querySelector('img.mood-display').alt).toEqual('happy face');
-      expect(document.querySelector('img.mood-display').id).toEqual('happy-img');
-      expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/assets/happy-full.png');
-      
+      expect(document.querySelectorAll('img.mood-display').length).toBe(1);   
+    })
+
+    describe("displays the mood stored in the moodModel", () => {
+      it('e.g. happy mood', () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        view.displayMood();
+        expect(document.querySelectorAll('img.mood-display').length).toBe(1);
+        expect(document.querySelector('img.mood-display').alt).toEqual('happy face');
+        expect(document.querySelector('img.mood-display').id).toEqual('happy-img');
+        expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/assets/happy-full.png');
+      })
+      it('e.g. sad mood', () => {      
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedSadMoodModel);
+        view.displayMood();
+        expect(document.querySelectorAll('img.mood-display').length).toBe(1);
+        expect(document.querySelector('img.mood-display').alt).toEqual('sad face');
+        expect(document.querySelector('img.mood-display').id).toEqual('sad-img');
+        expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/assets/sad-full.png');
+
+      })
     })
 
 
 
       // it("displays happy-img when 'happy' radio button selected and 'Generate' clicked", () => {
       //   document.body.innerHTML = fs.readFileSync('./index.HTML')
-      //   const view = new View(mockedMoodModel);
+      //   const view = new View(mockedHappyMoodModel);
       //   const happySelectorEl = document.querySelector('#happy');
       //   happySelectorEl.checked = true;
       //   const generateButtonEl = document.querySelector('#generate');
