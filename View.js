@@ -35,7 +35,7 @@ class View {
     moodDisplayEl.classList.add('mood-display');
     moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
     moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
-    moodDisplayEl.src = './assets/happy-full.png';
+    moodDisplayEl.src = `./assets/${this.moodModel.getMood()}-full.png`;
     document.querySelector("#mood-result-container").append(moodDisplayEl);
   }
 }
