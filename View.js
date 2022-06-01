@@ -10,6 +10,7 @@ class View {
       document.querySelector('#tired')
     ]
     this.emotionSubmitEl = document.querySelector("#emotion-submit")
+    this.moodResultEl = document.querySelector("#mood-result")
     
 
     this.emotionSubmitEl.addEventListener('click', () => {
@@ -18,6 +19,10 @@ class View {
           this.generateMood(emotion.value);
         }
       })
+      let moodDisplayEl = document.createElement('img');
+      moodDisplayEl.classList.add('mood-display')
+      moodDisplayEl.id = 'happy-img'
+      this.moodResultEl.append(moodDisplayEl)
     })
 
   }
