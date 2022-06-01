@@ -49,14 +49,25 @@ describe('View', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         expect(document.querySelector('.mood-display')).toBe(null)
       })
-      it("displays happy-img when 'radio button selected and 'Generate' clicked", () => {
+      it("displays happy-img when 'happy' radio button selected and 'Generate' clicked", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         const view = new View(mockedMoodModel);
         const happySelectorEl = document.querySelector('#happy');
         happySelectorEl.checked = true;
         const emotionSubmitEl = document.querySelector('#emotion-submit');
         emotionSubmitEl.click();
-        expect(document.querySelector('.mood-display').id) === 'happy-img';
+        expect(document.querySelector('.mood-display').id).toEqual('happy-img');
+      })
+      it("displays sad-img when 'sad' button selected and 'Generate' clicked", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        const view = new View(mockedMoodModel);
+        const sadSelectorEl = document.querySelector('#sad');
+        sadSelectorEl.checked = true;
+        const emotionSubmitEl = document.querySelector('#emotion-submit');
+        emotionSubmitEl.click();
+        console.log(`document.querySelector('.mood-display'):`, document.querySelector('.mood-display'))
+        console.log(`document.querySelector('.mood-display').id: `, document.querySelector('.mood-display').id)
+        expect(document.querySelector('.mood-display').id).toEqual('sad-img');
       })
 
     })

@@ -21,7 +21,7 @@ class View {
       })
       let moodDisplayEl = document.createElement('img');
       moodDisplayEl.classList.add('mood-display')
-      moodDisplayEl.id = 'happy-img'
+      moodDisplayEl.id = `${this.moodModel.getMood}-img`
       this.moodResultEl.append(moodDisplayEl)
     })
 
