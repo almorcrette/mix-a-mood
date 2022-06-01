@@ -45,12 +45,13 @@ describe('View', () => {
 
     })
     describe("displays the mood when 'Generate' is clicked", () => {
+      document.body.innerHTML = fs.readFileSync('./index.HTML')
       const view = new View(mockedMoodModel);
       const happySelectorEl = document.querySelector('#happy');
       happySelectorEl.checked = true;
       const emotionSubmitEl = document.querySelector('#emotion-submit');
       emotionSubmitEl.click();
-      expect(document.querySelector('.mood-display').id) === 'happy';
+      expect(document.querySelector('.mood-display').id) === 'happy-img';
     })
   })
 })
