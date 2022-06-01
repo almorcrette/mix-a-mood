@@ -14,13 +14,11 @@ class View {
     
 
     document.querySelector("#generate").addEventListener('click', () => {
-      console.log("event listener on generate button has triggered")
       this.emotionSelectorEls.forEach((emotion) => {
         if (emotion.checked == true) {
           this.generateMood(emotion.value);
         }
       })
-      console.log(`this.moodModel.getMood(): `, this.moodModel.getMood())
       this.displayMood();
     })
 
@@ -37,8 +35,6 @@ class View {
     moodDisplayEl.classList.add('mood-display');
     moodDisplayEl.innerText = `${this.moodModel.getMood()}`;
     // moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
-    console.log(`moodDisplayEl: `, moodDisplayEl)
-    console.log(`this.moodResultContainerEl: `, this.moodResultContainerEl)
     document.querySelector("#mood-result-container").append(moodDisplayEl);
   }
 }
