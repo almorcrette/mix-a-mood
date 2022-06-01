@@ -9,21 +9,34 @@ class View {
       document.querySelector('#sad'),
       document.querySelector('#tired')
     ]
-    this.emotionSubmitEl = document.querySelector("#emotion-submit")
+    // this.emotionSubmitEl = document.querySelector("#generate")
+    // this.moodResultContainerEl = document.querySelector("#mood-result-container")
     
 
-    this.emotionSubmitEl.addEventListener('click', () => {
+    document.querySelector("#generate").addEventListener('click', () => {
       this.emotionSelectorEls.forEach((emotion) => {
         if (emotion.checked == true) {
           this.generateMood(emotion.value);
         }
       })
+      this.displayMood();
     })
 
   }
 
   generateMood(emotion) {
-    this.moodModel.setMood(emotion)
+    this.moodModel.setMood(emotion);
+    // this._displayMood();
+    
+  }
+
+  displayMood() {
+    let moodDisplayEl = document.createElement('img');
+    moodDisplayEl.classList.add('mood-display');
+    moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
+    moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
+    moodDisplayEl.src = `./assets/${this.moodModel.getMood()}-full.jpg`;
+    document.querySelector("#mood-result-container").append(moodDisplayEl);
   }
 }
 
