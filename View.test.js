@@ -58,8 +58,8 @@ describe('View', () => {
     it("displays the mood stored in the moodModel", () => {
       const view = new View(mockedMoodModel);
       view.displayMood();
-      expect(document.querySelectorAll('div.mood-display').length).toBe(1);
-      expect(document.querySelector('div.mood-display').innerText).toEqual('happy');
+      expect(document.querySelectorAll('img.mood-display').length).toBe(1);
+      expect(document.querySelector('img.mood-display').alt).toEqual('happy face');
     })
 
     it("is called when 'Generate' button is clicked", () => {
@@ -69,8 +69,11 @@ describe('View', () => {
       happySelectorEl.checked = true;
       const generateButtonEl = document.querySelector('#generate');
       generateButtonEl.click();
-      expect(document.querySelectorAll('div.mood-display').length).toBe(1);
-      expect(document.querySelector('div.mood-display').innerText).toEqual('happy');
+      expect(document.querySelectorAll('img.mood-display').length).toBe(1);
+      expect(document.querySelector('img.mood-display').alt).toEqual('happy face');
+      expect(document.querySelector('img.mood-display').id).toEqual('happy-img');
+      expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/assets/happy-full.png');
+      
     })
 
 

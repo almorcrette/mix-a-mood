@@ -31,10 +31,11 @@ class View {
   }
 
   displayMood() {
-    let moodDisplayEl = document.createElement('div');
+    let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
-    moodDisplayEl.innerText = `${this.moodModel.getMood()}`;
-    // moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
+    moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
+    moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
+    moodDisplayEl.src = './assets/happy-full.png';
     document.querySelector("#mood-result-container").append(moodDisplayEl);
   }
 }
