@@ -3,7 +3,6 @@ class MoodModel {
   }
 
   setMood(emotion) {
-    console.log(`emotion param in setMood: `, emotion)
     this.mood = emotion;
   }
 

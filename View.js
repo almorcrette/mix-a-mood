@@ -10,7 +10,7 @@ class View {
       document.querySelector('#tired')
     ]
     this.emotionSubmitEl = document.querySelector("#emotion-submit")
-    this.moodResultEl = document.querySelector("#mood-result")
+    this.moodResultContainerEl = document.querySelector("#mood-result-container")
     
 
     this.emotionSubmitEl.addEventListener('click', () => {
@@ -18,6 +18,7 @@ class View {
         if (emotion.checked == true) {
           this.generateMood(emotion.value);
         }
+        console.log(`this.moodModel.getMood(): `, this.moodModel.getMood())
       })
       
     })
@@ -26,15 +27,18 @@ class View {
 
   generateMood(emotion) {
     this.moodModel.setMood(emotion);
-    this._displayMood();
+    // this._displayMood();
     
   }
 
-  _displayMood() {
-    let moodDisplayEl = document.createElement('img');
-    moodDisplayEl.classList.add('mood-display')
-    moodDisplayEl.id = `${this.moodModel.getMood()}-img`
-    this.moodResultEl.append(moodDisplayEl)
+  displayMood() {
+    let moodDisplayEl = document.createElement('div');
+    moodDisplayEl.classList.add('mood-display');
+    moodDisplayEl.innerText = `${this.moodModel.getMood()}`;
+    // moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
+    console.log(`moodDisplayEl: `, moodDisplayEl)
+    console.log(`this.moodResultContainerEl: `, this.moodResultContainerEl)
+    this.moodResultContainerEl.append(moodDisplayEl);
   }
 }
 
