@@ -92,18 +92,24 @@ describe('View', () => {
       })
     })
 
+    it('removes emotion selection once a mood is generated', () => {
+      document.body.innerHTML = fs.readFileSync('./index.HTML');
+      const view = new View(mockedHappyMoodModel);
+      const happySelectorEl = document.querySelector('#happy');
+      happySelectorEl.checked = true;
+      const generateButtonEl = document.querySelector('#generate');
+      generateButtonEl.click();
+      expect(document.querySelectorAll('.emotion-selection').length).toBe(0)
+    })
 
-
-      // it("displays happy-img when 'happy' radio button selected and 'Generate' clicked", () => {
-      //   document.body.innerHTML = fs.readFileSync('./index.HTML')
-      //   const view = new View(mockedHappyMoodModel);
-      //   const happySelectorEl = document.querySelector('#happy');
-      //   happySelectorEl.checked = true;
-      //   const generateButtonEl = document.querySelector('#generate');
-      //   generateButtonEl.click();
-      //   expect(document.querySelector('.mood-display').id).toEqual('happy-img');
-      // })
-
-
+    it('removes generate button once a mood is generated', () => {
+      document.body.innerHTML = fs.readFileSync('./index.HTML');
+      const view = new View(mockedHappyMoodModel);
+      const happySelectorEl = document.querySelector('#happy');
+      happySelectorEl.checked = true;
+      const generateButtonEl = document.querySelector('#generate');
+      generateButtonEl.click();
+      expect(document.querySelectorAll('#generate').length).toBe(0)
+    })
   })
 })
