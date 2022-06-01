@@ -8,6 +8,7 @@ const View = require('./View.js')
 const mockedMoodModel = {}
 
 mockedMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
+mockedMoodModel.getMood = jest.fn().mockReturnValue('happy')
 
 
 describe('View', () => {
@@ -43,6 +44,21 @@ describe('View', () => {
         expect(view.moodModel.setMood).toHaveBeenCalledWith("tired");
       })
 
+    })
+    describe("displays the mood when 'Generate' is clicked", () => {
+      it("no mood-display when 'Generate' not yet clicked", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        expect(document.querySelector('.mood-display')).toBe(null)
+      })
+      it("displays happy-img when 'happy' radio button selected and 'Generate' clicked", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        const view = new View(mockedMoodModel);
+        const happySelectorEl = document.querySelector('#happy');
+        happySelectorEl.checked = true;
+        const emotionSubmitEl = document.querySelector('#emotion-submit');
+        emotionSubmitEl.click();
+        expect(document.querySelector('.mood-display').id).toEqual('happy-img');
+      })
     })
   })
 })
