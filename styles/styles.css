@@ -6,4 +6,48 @@ body {
 
 .header {
   background-color: azure;
+  text-align: left;
+  text-indent: 10px;
+  font-size: 50px;
+  letter-spacing: 3px;
+  padding: 30px;
+  color: rgb(95, 95, 102);
+}
+
+.emotion-selection {
+  padding:20px;
+  margin: auto;
+  min-width:400px;
+  width: 50%;
+  background-color: lightgray;
+}
+
+#question {
+  font-size: 25px;
+  font-style: italic;
+
+}
+
+input {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+label {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 5px;
+  font-family:'Courier New', Courier, monospace;
+  background-color: orange;
+  border-color: darkorange;
+
+}
+
+img.mood-display {
+  max-width:300px;
 }
