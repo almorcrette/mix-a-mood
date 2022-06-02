@@ -141,7 +141,7 @@ describe('View', () => {
     })
 
     describe("'Play again' button", () => {
-      it("hidden before mood is generated", () => {
+      it("is hidden before mood is generated", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML');
         const view = new View(mockedHappyMoodModel);
         expect(document.querySelector('#play-again').hidden).toBe(true)
@@ -166,6 +166,18 @@ describe('View', () => {
         expect(document.querySelectorAll('.emotion-selection').length).not.toBe(0)
         expect(document.querySelectorAll('#generate').length).toBe(1)
         expect(document.querySelectorAll('img.mood-display').length).toBe(0);
+      })
+    })
+  })
+
+  describe("Randomise", () => {
+    describe("'Randomise' button", () => {
+      it("is visible on the start screen", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        expect(document.querySelectorAll('button#randomise').length).toBe(1)
+        expect(document.querySelector('button#randomise').textContent).toBe('Randomise')
+        
       })
     })
   })
