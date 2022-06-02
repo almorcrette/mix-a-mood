@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "esbuild index.js --bundle  --outfile=bundle.js --watch",
-    "start": "open index.html"
+    "start": "esbuild index.js --bundle  --outfile=bundle.js --watch"
   },
   "repository": {
     "type": "git",
