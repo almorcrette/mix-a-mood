@@ -9,6 +9,7 @@ const mockedHappyMoodModel = {}
 
 mockedHappyMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
 mockedHappyMoodModel.getMood = jest.fn().mockReturnValue('happy')
+mockedHappyMoodModel.setRandomMood = jest.fn();
 
 const mockedSadMoodModel = {}
 
@@ -141,7 +142,7 @@ describe('View', () => {
     })
 
     describe("'Play again' button", () => {
-      it("hidden before mood is generated", () => {
+      it("is hidden before mood is generated", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML');
         const view = new View(mockedHappyMoodModel);
         expect(document.querySelector('#play-again').hidden).toBe(true)
@@ -153,7 +154,7 @@ describe('View', () => {
         sadSelectorEl.checked = true;
         const generateButtonEl = document.querySelector('#generate');
         generateButtonEl.click();
-        expect(document.querySelectorAll('#play-again').length).toBe(1)
+        expect(document.querySelector('#play-again').hidden).toBe(false)
       })
       it("resets to the start screen when clicked", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML');
@@ -170,5 +171,31 @@ describe('View', () => {
     })
   })
 
+  describe("Randomise", () => {
+    describe(".randomiseMood", () => {
+      it("calls setRandomMood on moodModel", () => {
+        const view = new View(mockedHappyMoodModel);
+        view.randomiseMood();
+        expect(view.moodModel.setRandomMood).toHaveBeenCalled();
+      })
+    })
+    describe("'Randomise' button", () => {
+      it("is visible on the start screen", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        expect(document.querySelectorAll('button#randomise').length).toBe(1)
+        expect(document.querySelector('button#randomise').textContent).toBe('Randomise')
+      })
+      it("randomises a mood and displays it when clicked", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        document.querySelector('button#randomise').click();
+        expect(document.querySelectorAll('img.mood-display').length).toBe(1);   
+        expect(document.querySelectorAll('h3.mood-display').length).toBe(1);
+        expect(document.querySelector('#play-again').hidden).toBe(false)
+      })
+    })
 
+
+  })
 })

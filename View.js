@@ -23,6 +23,12 @@ class View {
       this.displayPlayAgainButton();
     })
 
+    document.querySelector('button#randomise').addEventListener('click', () => {
+      this.randomiseMood();
+      this.displayMood();
+      this.displayPlayAgainButton();
+    })
+
     document.querySelector('#play-again').addEventListener('click', () => {
       this.reset();
     })
@@ -31,7 +37,10 @@ class View {
 
   generateMood(emotion) {
     this.moodModel.setMood(emotion);
-    
+  }
+
+  randomiseMood() {
+    this.moodModel.setRandomMood();
   }
 
   displayMood() {
