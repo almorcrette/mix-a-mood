@@ -113,15 +113,15 @@ describe('View', () => {
       expect(document.querySelectorAll('#generate').length).toBe(0)
     })
   })
-
   describe(".reset", () => {
-    it('resets to start screen', () => {
+    it("resets to the start screen to play again", () => {
       document.body.innerHTML = fs.readFileSync('./index.HTML');
       const view = new View(mockedHappyMoodModel);
       view.displayMood();
       view.reset();
       expect(document.querySelectorAll('.emotion-selection').length).notToBe(0)
-      expect(document.querySelectorAll('#generate').length).toBe()
+      expect(document.querySelectorAll('#generate').length).toBe(1)
+      expect(document.querySelectorAll('img.mood-display').length).toBe(0);
     })
   })
 })
