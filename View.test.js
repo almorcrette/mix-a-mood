@@ -104,14 +104,26 @@ describe('View', () => {
       }))
     })
 
-    it("displays text 'You are feeling [mood]'", () => {
-      document.body.innerHTML = fs.readFileSync('./index.HTML');
-      const view = new View(mockedHappyMoodModel);
-      const happySelectorEl = document.querySelector('#happy');
-      happySelectorEl.checked = true;
-      const generateButtonEl = document.querySelector('#generate');
-      generateButtonEl.click();
-      expect(document.querySelector('h3.mood-display').innerText).toEqual('You are feeling happy')
+    describe("displays text 'You are feeling [mood]'", () => {
+      it("e.g. 'You are feeling happy", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        const happySelectorEl = document.querySelector('#happy');
+        happySelectorEl.checked = true;
+        const generateButtonEl = document.querySelector('#generate');
+        generateButtonEl.click();
+        expect(document.querySelector('h3.mood-display').innerText).toEqual('You are feeling happy') 
+      })
+      it("e.g. 'You are feeling sad", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedSadMoodModel);
+        const sadSelectorEl = document.querySelector('#sad');
+        sadSelectorEl.checked = true;
+        const generateButtonEl = document.querySelector('#generate');
+        generateButtonEl.click();
+        expect(document.querySelector('h3.mood-display').innerText).toEqual('You are feeling sad') 
+      })
+
     })
   })
 

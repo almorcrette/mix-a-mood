@@ -37,7 +37,7 @@ class View {
   displayMood() {
     this.removeEmotionSelection();
     let moodTextDisplayEl = document.createElement('h3');
-    moodTextDisplayEl.innerText = 'You are feeling happy';
+    moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
     moodTextDisplayEl.classList.add('mood-display');
     let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
