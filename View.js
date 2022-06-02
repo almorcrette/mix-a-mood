@@ -31,7 +31,10 @@ class View {
 
   generateMood(emotion) {
     this.moodModel.setMood(emotion);
-    
+  }
+
+  randomiseMood() {
+    this.moodModel.setRandomMood();
   }
 
   displayMood() {

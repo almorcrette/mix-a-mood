@@ -9,6 +9,7 @@ const mockedHappyMoodModel = {}
 
 mockedHappyMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
 mockedHappyMoodModel.getMood = jest.fn().mockReturnValue('happy')
+mockedHappyMoodModel.setRandomMood = jest.fn();
 
 const mockedSadMoodModel = {}
 
@@ -177,10 +178,16 @@ describe('View', () => {
         const view = new View(mockedHappyMoodModel);
         expect(document.querySelectorAll('button#randomise').length).toBe(1)
         expect(document.querySelector('button#randomise').textContent).toBe('Randomise')
-        
       })
     })
+    describe(".randomiseMood", () => {
+      it("calls setRandomMood on moodModel", () => {
+        const view = new View(mockedHappyMoodModel);
+        view.randomiseMood();
+        expect(view.moodModel.setRandomMood).toHaveBeenCalled();
+
+      })
+
+    })
   })
-
-
 })
