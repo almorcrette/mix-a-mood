@@ -26,7 +26,6 @@ class View {
 
   generateMood(emotion) {
     this.moodModel.setMood(emotion);
-    // this._displayMood();
     
   }
 
@@ -43,8 +42,13 @@ class View {
   removeEmotionSelection() {
     const emotionSelectionEls = document.querySelectorAll('.emotion-selection')
     emotionSelectionEls.forEach((element) => {
-      element.remove();
+      element.hidden = true;
     })
+  }
+
+  reset() {
+    document.querySelector('.emotion-selection').hidden = false;
+    document.querySelector('.mood-display').remove();
   }
 }
 
