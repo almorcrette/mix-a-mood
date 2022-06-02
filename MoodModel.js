@@ -8,8 +8,7 @@ class MoodModel {
   }
 
   setRandomMood() {
-    this.mood = this._emotions[Math.floor(Math.random(0, this._emotions.length))]
-
+    this.mood = this._emotions[Math.floor(Math.random()*this._emotions.length)]
   }
 
   getMood() {
