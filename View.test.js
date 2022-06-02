@@ -119,21 +119,27 @@ describe('View', () => {
     })
 
     describe("'Play again' button", () => {
-      it("not present before mood is generated", () => {
+      it("hidden before mood is generated", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML');
         const view = new View(mockedHappyMoodModel);
-        expect(document.querySelectorAll('#play-again').length).toBe(0)
+        expect(document.querySelector('#play-again').hidden).toBe(true)
       })
       it("'Play again' button appears once a mood is generated", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML');
         const view = new View(mockedHappyMoodModel);
-        view.displayMood();
+        const sadSelectorEl = document.querySelector('#sad');
+        sadSelectorEl.checked = true;
+        const generateButtonEl = document.querySelector('#generate');
+        generateButtonEl.click();
         expect(document.querySelectorAll('#play-again').length).toBe(1)
       })
       it("resets to the start screen when clicked", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML');
         const view = new View(mockedHappyMoodModel);
-        view.displayMood();
+        const sadSelectorEl = document.querySelector('#sad');
+        sadSelectorEl.checked = true;
+        const generateButtonEl = document.querySelector('#generate');
+        generateButtonEl.click();
         document.querySelector('#play-again').click();
         expect(document.querySelectorAll('.emotion-selection').length).not.toBe(0)
         expect(document.querySelectorAll('#generate').length).toBe(1)

@@ -20,6 +20,11 @@ class View {
         }
       })
       this.displayMood();
+      this.displayPlayAgainButton();
+    })
+
+    document.querySelector('#play-again').addEventListener('click', () => {
+      this.reset();
     })
 
   }
@@ -39,6 +44,10 @@ class View {
     document.querySelector("#mood-result-container").append(moodDisplayEl);
   }
 
+  displayPlayAgainButton() {
+    document.querySelector('#play-again').hidden = false;
+  }
+
   removeEmotionSelection() {
     const emotionSelectionEls = document.querySelectorAll('.emotion-selection')
     emotionSelectionEls.forEach((element) => {
@@ -49,6 +58,7 @@ class View {
   reset() {
     document.querySelector('.emotion-selection').hidden = false;
     document.querySelector('.mood-display').remove();
+    document.querySelector('#play-again').hidden = true;
   }
 }
 
