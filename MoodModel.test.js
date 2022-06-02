@@ -1,3 +1,4 @@
+const { JestEnvironment } = require('@jest/environment');
 const MoodModel = require('./MoodModel')
 
 const model = new MoodModel;
@@ -17,4 +18,12 @@ describe('MoodModel', () => {
       });
     });
   });
+  describe('.setRandomMood', () => {
+    it('sets the mood to one of the stored emotions', () => {
+      model.setMood();
+      model.setRandomMood();
+      console.log(model.getMood());
+      expect(model.emotions).toContain(model.getMood());
+    })
+  })
 });
