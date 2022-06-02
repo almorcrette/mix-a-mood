@@ -104,16 +104,43 @@ describe('View', () => {
       }))
     })
   })
-  
-  describe(".reset", () => {
-    it("resets to the start screen to play again", () => {
-      document.body.innerHTML = fs.readFileSync('./index.HTML');
-      const view = new View(mockedHappyMoodModel);
-      view.displayMood();
-      view.reset();
-      expect(document.querySelectorAll('.emotion-selection').length).not.toBe(0)
-      expect(document.querySelectorAll('#generate').length).toBe(1)
-      expect(document.querySelectorAll('img.mood-display').length).toBe(0);
+
+  describe("Play again", () => {
+    describe(".reset", () => {
+      it("resets to the start screen to play again", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        view.displayMood();
+        view.reset();
+        expect(document.querySelectorAll('.emotion-selection').length).not.toBe(0)
+        expect(document.querySelectorAll('#generate').length).toBe(1)
+        expect(document.querySelectorAll('img.mood-display').length).toBe(0);
+      })
+    })
+
+    describe("'Play again' button", () => {
+      it("not present before mood is generated", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        expect(document.querySelectorAll('#play-again').length).toBe(0)
+      })
+      it("'Play again' button appears once a mood is generated", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        view.displayMood();
+        expect(document.querySelectorAll('#play-again').length).toBe(1)
+      })
+      it("resets to the start screen when clicked", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML');
+        const view = new View(mockedHappyMoodModel);
+        view.displayMood();
+        document.querySelector('#play-again').click();
+        expect(document.querySelectorAll('.emotion-selection').length).not.toBe(0)
+        expect(document.querySelectorAll('#generate').length).toBe(1)
+        expect(document.querySelectorAll('img.mood-display').length).toBe(0);
+      })
     })
   })
+
+
 })
