@@ -4,20 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-
-    <title>My web page</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Mix-A-Mood</title>
   </head>
   <body>
+    <!-- Header -->
+    <nav class="header">
+      <span class = "logo">Mix-A-Mood</span>
+      <ul>
+        <li><a href="#">MIX</a></li>
+        <li><a href="#">ABOUT</a></li>
+      </ul>
+    </nav>
 
-    <section class="emotion-selection">
-      <span>How do you feel today?</span>
-      <br>
-      <input type="radio" name="emotion" id="happy" value="happy">
+    <!-- Banner -->
+    <div class="banner">
+      <h1 class="section-title">How do you feel today?</h1>
+    </div>
+
+    <section class="emotion-selection-container">
+      <input type="radio" name="emotion" class="emotion-radio" id="happy" value="happy">
       <label for="happy">Happy</label>
-      <input type="radio" name="emotion" id="sad" value="sad">
+      <input type="radio" name="emotion" class="emotion-radio" id="sad" value="sad">
       <label for="sad">Sad</label>
-      <input type="radio" name="emotion" id="tired"value="tired">
+      <input type="radio" name="emotion" class="emotion-radio" id="tired"value="tired">
       <label for="tired">Tired</label>
       <br>
       <button type="button" id="generate">Generate</button>
