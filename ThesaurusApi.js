@@ -2,6 +2,17 @@ require('dotenv').config()
 
 class ThesaurusApi {
 
+  isSimilarTo(word) {
+    this.findSimilarTo(
+      word,
+      (data) => {
+        return data.similarTo;
+      }),
+      (err) => {
+        console.log('error:' + err);
+      }
+  }
+
   findSimilarTo(word, successCB, errorCB) {
     const url = `https://wordsapiv1.p.rapidapi.com/words/${word}/similarTo`;
     const options = {
@@ -14,7 +25,7 @@ class ThesaurusApi {
     fetch(url, options)
       .then(res => res.json())
       .then(json => successCB(json))
-      .catch(err => errorCB('error:' + err))
+      .catch(err => errorCB(err))
   }
 }
 

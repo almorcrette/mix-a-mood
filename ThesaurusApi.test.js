@@ -6,22 +6,41 @@ describe('ThesaurusApi', () => {
   describe('.findSimilarTo', () => {
     it('fetches words similar to word passed as argument', () => {
       const thesaurusApi = new ThesaurusApi();
-        fetch.mockResponseOnce(JSON.stringify({
+      fetch.mockResponseOnce(JSON.stringify({
+        "word": "exhausted",
+        "similarTo": [
+          "tired",
+          "drained"
+        ]
+      }))
+      thesaurusApi.findSimilarTo('exhausted', (res) => {
+        expect(res).toEqual({
           "word": "exhausted",
-          "simmilarTo": [
+          "similarTo": [
             "tired",
             "drained"
           ]
-        }))
-        thesaurusApi.findSimilarTo('exhausted', (res) => {
-          expect(res).toEqual({
-            "word": "exhausted",
-            "simmilarTo": [
-              "tired",
-              "drained"
-            ]
-          })
         })
+      })
+    })
+  })
+  describe('.isSimilarTo', () => {
+    it('fetches words similar to word passed as argument', () => {
+      const thesaurusApi = new ThesaurusApi();
+      fetch.mockResponseOnce(JSON.stringify({
+        "word": "exhausted",
+        "similarTo": [
+          "tired",
+          "drained"
+        ]
+      }))
+      thesaurusApi.isSimilarTo('exhausted', (res) => {
+        expect(res).toEqual([
+            "tired",
+            "drained"
+          ]
+        )
+      })
     })
   })
 })
