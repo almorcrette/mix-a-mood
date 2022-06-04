@@ -25,8 +25,7 @@ class MoodModel {
     if (this.mood != null) {
       return
     } else {
-      console.log('reached here on failing test')
-      // console.log(this.thesaurusApi.findSimilarTo(emotion, this.matchInLibrary, this.errorCB));
+      this.mood = this._matchInLibrary(this.thesaurusApi.isSimilarTo(emotion));
     }
   }
 
@@ -38,11 +37,9 @@ class MoodModel {
     return this._moodLibrary;
   }
 
-  matchInLibrary(data) {
-    console.log('data: ', data)
+  _matchInLibrary(data) {
     let wordMatch = null;
-    data.similarTo.some((similarWord) => {
-      console.log('this._moodLibrary: ', this._moodLibrary)
+    data.some((similarWord) => {
       this._moodLibrary.some((libraryWord) => {
         if (libraryWord === similarWord) {
           wordMatch = libraryWord;

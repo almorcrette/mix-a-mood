@@ -1,7 +1,15 @@
 const { JestEnvironment } = require('@jest/environment');
 const MoodModel = require('./MoodModel')
 
-const model = new MoodModel;
+const mockedThesaurusApi = {};
+
+mockedThesaurusApi.isSimilarTo = jest.fn()
+mockedThesaurusApi.isSimilarTo.mockReturnValue([
+  "tired",
+  "drained"
+])
+
+const model = new MoodModel(mockedThesaurusApi);
 
 describe('MoodModel', () => {
   describe('.getMood', () => {
@@ -31,16 +39,20 @@ describe('MoodModel', () => {
         });
       });
     });
-    // describe('if emotion passed as parameter is not a mood in the moodLibrary', () => {
-    //   describe('looks up similar words using thesaurus for one in the moodLibrary', () => {
-    //     describe('if finds a similar word that is in the moodLibrary, sets that as the mood', () => {
-    //       it("sets mood to 'tired' when 'exhausted' is passed as parameter", () => {
-    //         model.setMoodReferencingLibrary('exhausted');
-    //         expect(model.getMood()).toEqual('tired');
-    //       })
-    //     })
-    //   })
-    // })
+    describe('if emotion passed as parameter is not a mood in the moodLibrary', () => {
+      describe('looks up similar words using thesaurus for one in the moodLibrary', () => {
+        it('calls .isSimilarTo on the thesaurusApi', () => {
+          model.setMoodReferencingLibrary('exhausted');
+          expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith('exhausted');
+        })
+        describe('if finds a similar word that is in the moodLibrary, sets that as the mood', () => {
+          it("sets mood to 'tired' when 'exhausted' is passed as parameter", () => {
+            model.setMoodReferencingLibrary('exhausted');
+            expect(model.getMood()).toEqual('tired');
+          })
+        })
+      })
+    })
   });
   describe('.setRandomMood', () => {
     it('sets the mood to one of the stored emotions', () => {
