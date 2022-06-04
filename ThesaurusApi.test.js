@@ -13,7 +13,7 @@ describe('ThesaurusApi', () => {
             "drained"
           ]
         }))
-        thesaurusApi.findSimiarTo('exhausted', (res) => {
+        thesaurusApi.findSimilarTo('exhausted', (res) => {
           expect(res).toEqual({
             "word": "exhausted",
             "simmilarTo": [

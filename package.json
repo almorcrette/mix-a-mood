@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/almorcrette/mix-a-mood#readme",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "esbuild": "^0.14.42",
     "jest": "^28.1.0",
     "jest-fetch-mock": "^3.0.3"

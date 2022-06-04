@@ -22,7 +22,6 @@ describe('MoodModel', () => {
     it('sets the mood to one of the stored emotions', () => {
       model.setMood();
       model.setRandomMood();
-      console.log(model.getMood());
       expect(model.emotions).toContain(model.getMood());
     })
   })
