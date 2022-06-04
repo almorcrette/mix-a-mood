@@ -3,11 +3,14 @@ const MoodModel = require('./MoodModel')
 
 const mockedThesaurusApi = {};
 
-mockedThesaurusApi.isSimilarTo = jest.fn()
-mockedThesaurusApi.isSimilarTo.mockReturnValue([
-  "tired",
-  "drained"
-])
+mockedThesaurusApi.findSimilarTo = jest.fn()
+mockedThesaurusApi.findSimilarTo.mockReturnValue({
+  "word": "exhausted",
+  "similarTo": [
+    "tired",
+    "drained"
+  ]
+})
 
 const model = new MoodModel(mockedThesaurusApi);
 
@@ -41,9 +44,9 @@ describe('MoodModel', () => {
     });
     describe('if emotion passed as parameter is not a mood in the moodLibrary', () => {
       describe('looks up similar words using thesaurus for one in the moodLibrary', () => {
-        it('calls .isSimilarTo on the thesaurusApi', () => {
+        it('calls .findSimilarTo on the thesaurusApi', () => {
           model.setMoodReferencingLibrary('exhausted');
-          expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith('exhausted');
+          expect(mockedThesaurusApi.findSimilarTo).toHaveBeenCalledWith(expect.arrayContaining(['exhausted']));
         })
         describe('if finds a similar word that is in the moodLibrary, sets that as the mood', () => {
           it("sets mood to 'tired' when 'exhausted' is passed as parameter", () => {

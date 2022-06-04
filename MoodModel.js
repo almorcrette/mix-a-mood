@@ -19,13 +19,17 @@ class MoodModel {
     this._moodLibrary.some((mood) => {
       if (emotion === mood) {
         this.mood = emotion;
-        return 'emotion matches a mood in the library';
+        return;
       }
     })
     if (this.mood != null) {
       return
     } else {
-      this.mood = this._matchInLibrary(this.thesaurusApi.isSimilarTo(emotion));
+      this.thesaurusApi.findSimilarTo(
+        emotion,
+        (data) => { return this.mood = this.matchInLibrary(data, this._moodLibrary) },
+        (err) => {console.log(err)}
+      )
     }
   }
 
@@ -37,22 +41,18 @@ class MoodModel {
     return this._moodLibrary;
   }
 
-  _matchInLibrary(data) {
+  matchInLibrary(data) {
     let wordMatch = null;
-    data.some((similarWord) => {
+    data.similarTo.some((similarWord) => {
       this._moodLibrary.some((libraryWord) => {
         if (libraryWord === similarWord) {
           wordMatch = libraryWord;
-        }
+        };
         return wordMatch != null;
       })
       return wordMatch != null;
     })
-    return wordMatch;
-  }
-
-  errorCB(err) {
-    console.error('error:' + err)
+    return wordMatch
   }
 
 }
