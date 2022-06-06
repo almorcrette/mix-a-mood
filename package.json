@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "esbuild index.js --bundle  --outfile=bundle.js --watch",
-    "start": "node app.js",
+    "start": "esbuild index.js --bundle  --outfile=bundle.js; node app.js",
     "app": "nodemon app.js"
   },
   "repository": {
