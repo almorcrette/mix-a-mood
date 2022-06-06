@@ -55,8 +55,9 @@ describe('MoodModel', () => {
         // this test fails because it doesn't wait for .setMoodReferencingLibrary to complete
         describe('if finds a similar word that is in the moodLibrary, sets that as the mood', () => {
           it("sets mood to 'tired' when 'exhausted' is passed as parameter", () => {
-            model.setMoodReferencingLibrary('exhausted')
-            expect(setTimeout(model.getMood())).toEqual('tired');
+            model.setMoodReferencingLibrary('exhausted', (res) => {
+              expect(setTimeout(model.getMood())).toEqual('tired')
+            })
           })
         })
       })

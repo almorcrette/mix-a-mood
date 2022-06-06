@@ -14,7 +14,7 @@ class MoodModel {
     this.mood = this._moodLibrary[Math.floor(Math.random()*this._moodLibrary.length)]
   }
 
-  setMoodReferencingLibrary(emotion) {
+  setMoodReferencingLibrary(emotion, cb) {
     this.mood = null;
     this._moodLibrary.some((mood) => {
       if (emotion === mood) {
@@ -26,7 +26,7 @@ class MoodModel {
       return this.mood
     } else {
       this.thesaurusApi.isSimilarTo(emotion, (data) => {
-        return this.setMood(this.matchInLibrary(data))
+        cb(this.setMood(this.matchInLibrary(data)))
       })
     }
   }
