@@ -14,6 +14,7 @@ class View {
     
 
     document.querySelector("#generate").addEventListener('click', () => {
+      console.log('generate button pressed');
       this.emotionSelectorEls.forEach((emotion) => {
         if (emotion.checked == true) {
           this.generateMood(emotion.value);
@@ -33,10 +34,24 @@ class View {
       this.reset();
     })
 
+    document.querySelector("generate-with-text").addEventListener('click', () => {
+      console.log('generate with text button pressed')
+      this.generateMoodReferencingLibrary(
+        document.querySelector('#emotion-text').textContent,
+        (res) => {
+          this.displayMood();
+          this.displayPlayAgainButton();
+        });
+      
+    })
   }
 
   generateMood(emotion) {
     this.moodModel.setMood(emotion);
+  }
+
+  generateMoodReferencingLibrary(emotion, cb) {
+    this.moodModel.setMoodReferencingLibrary(emotion, cb);
   }
 
   randomiseMood() {
