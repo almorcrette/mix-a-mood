@@ -34,10 +34,11 @@ class View {
       this.reset();
     })
 
-    document.querySelector("generate-with-text").addEventListener('click', () => {
-      console.log('generate with text button pressed')
+    document.querySelector("#generate-with-text").addEventListener('click', () => {
+      console.log('generate with text button pressed');
+      console.log('is it picking up the emotion text?: ', document.querySelector('#emotion-text').value);
       this.generateMoodReferencingLibrary(
-        document.querySelector('#emotion-text').textContent,
+        document.querySelector('#emotion-text').value,
         (res) => {
           this.displayMood();
           this.displayPlayAgainButton();

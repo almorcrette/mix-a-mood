@@ -1,4 +1,4 @@
-require('dotenv').config()
+const ENV = require('./.env');
 
 class ThesaurusApi {
 
@@ -12,7 +12,7 @@ class ThesaurusApi {
       method: 'GET',
       headers: {
         'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
-        'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY
+        'X-RapidAPI-Key': ENV.X_RAPIDAPI_KEY
       }
     };
     fetch(url, options)

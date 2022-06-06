@@ -213,7 +213,7 @@ describe('View', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         const view = new View(mockedHappyMoodModel);
         const textBoxEl = document.querySelector('#emotion-text');
-        textBoxEl.textContent = 'happy';
+        textBoxEl.value = 'happy';
         const generateWithTextButtonEl = document.querySelector('#generate-with-text');        
         generateWithTextButtonEl.click();
         expect(view.moodModel.setMoodReferencingLibrary).toHaveBeenCalledWith("happy");
@@ -223,7 +223,7 @@ describe('View', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         const view = new View(mockedSadMoodModel);
         const textBoxEl = document.querySelector('#emotion-text');
-        textBoxEl.textContent = 'sad';
+        textBoxEl.value = 'sad';
         const generateWithTextButtonEl = document.querySelector('#generate-with-text');        
         generateWithTextButtonEl.click();
         expect(view.moodModel.setMoodReferencingLibrary).toHaveBeenCalledWith("sad");

@@ -1,4 +1,3 @@
-const { JestEnvironment } = require('@jest/environment');
 const MoodModel = require('./MoodModel')
 
 const mockedThesaurusApi = {};

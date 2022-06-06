@@ -23,6 +23,7 @@ class MoodModel {
       }
     })
     if (this.mood != null) {
+      cb();
       return this.mood
     } else {
       this.thesaurusApi.isSimilarTo(emotion, (data) => {
