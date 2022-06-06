@@ -12,4 +12,6 @@ app.get('/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, './bundle.js'))
 })
 
+app.use('/static', express.static('public'))
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
