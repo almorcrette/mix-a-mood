@@ -2,8 +2,8 @@ require('dotenv').config()
 
 class ThesaurusApi {
 
-  isSimilarTo(word, CB) {
-    this.findSimilarTo(word, CB, this.standardErrorCB)
+  isSimilarTo(word, callback) {
+    this.findSimilarTo(word, (data) => { callback(data.similarTo) }, this.standardErrorCB)
   }
 
   findSimilarTo(word, successCB, errorCB) {
@@ -19,10 +19,6 @@ class ThesaurusApi {
       .then(res => res.json())
       .then(json => successCB(json))
       .catch(err => errorCB(err))
-  }
-
-  standardSuccessCB(data) {
-    console.log('successfully retrieve data including similarTo: ', data.similarTo);
   }
 
   standardErrorCB(err) {

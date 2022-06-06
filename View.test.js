@@ -79,7 +79,7 @@ describe('View', () => {
         expect(document.querySelectorAll('img.mood-display').length).toBe(1);
         expect(document.querySelector('img.mood-display').alt).toEqual('happy face');
         expect(document.querySelector('img.mood-display').id).toEqual('happy-img');
-        expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/assets/happy-full.jpg');
+        expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/static/images/happy-full.jpg');
       })
       it('e.g. sad mood', () => {      
         document.body.innerHTML = fs.readFileSync('./index.HTML');
@@ -88,7 +88,7 @@ describe('View', () => {
         expect(document.querySelectorAll('img.mood-display').length).toBe(1);
         expect(document.querySelector('img.mood-display').alt).toEqual('sad face');
         expect(document.querySelector('img.mood-display').id).toEqual('sad-img');
-        expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/assets/sad-full.jpg');
+        expect(document.querySelector('img.mood-display').src).toEqual('http://localhost/static/images/sad-full.jpg');
 
       })
     })
