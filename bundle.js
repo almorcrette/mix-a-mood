@@ -73,7 +73,7 @@
           moodDisplayEl.classList.add("mood-display");
           moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
           moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
-          moodDisplayEl.src = `./assets/${this.moodModel.getMood()}-full.jpg`;
+          moodDisplayEl.src = `/static/images/${this.moodModel.getMood()}-full.jpg`;
           document.querySelector("#mood-result-container").append(moodTextDisplayEl);
           document.querySelector("#mood-result-container").append(moodDisplayEl);
         }
