@@ -9,6 +9,10 @@ class View {
     this.randomiseButtonEl = document.querySelector('button#randomise');
     this.playAgainButtonEl = document.querySelector('button#play-again');
 
+    this.emotionSelectionContainerEl = document.querySelector('.emotion-selection');
+    this.moodDisplayContainerEl = document.querySelector("#mood-result-container")
+
+
     this.generateButtonEl.addEventListener('click', () => {
       this.moodModel.processUserEmotion(
         this.emotionInputEl.value,
@@ -46,14 +50,14 @@ class View {
     moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
     moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
     moodDisplayEl.src = `static/images/${this.moodModel.getMood()}-full.jpg`;
-    document.querySelector("#mood-result-container").append(moodDisplayEl);
+    this.moodDisplayContainerEl.append(moodDisplayEl);
   }
 
   displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
     moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
     moodTextDisplayEl.classList.add('mood-display');
-    document.querySelector("#mood-result-container").append(moodTextDisplayEl);
+    this.moodDisplayContainerEl.append(moodTextDisplayEl);
   }
 
   displayPlayAgainButton() {
@@ -68,7 +72,7 @@ class View {
   }
 
   reset() {
-    document.querySelector('.emotion-selection').hidden = false;
+    this.emotionSelectionContainerEl.hidden = false;
     document.querySelectorAll('.mood-display').forEach((element) => {
       element.remove();
     });
