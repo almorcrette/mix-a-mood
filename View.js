@@ -4,18 +4,16 @@ class View {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel;
 
+    this.emotionSelectionContainerEl = document.querySelector('#emotion-selection-container');
+    this.moodDisplayContainerEl = document.querySelector("#mood-result-container")
+
     this.emotionInputEl = document.querySelector('input#emotion-input');
     this.generateButtonEl = document.querySelector("button#generate");
     this.randomiseButtonEl = document.querySelector('button#randomise');
     this.playAgainButtonEl = document.querySelector('button#play-again');
 
-    this.emotionSelectionContainerEl = document.querySelector('#emotion-selection');
-    this.moodDisplayContainerEl = document.querySelector("#mood-result-container")
-
-
     this.generateButtonEl.addEventListener('click', () => {
-      this.moodModel.processUserEmotion(
-        this.emotionInputEl.value,
+      this.moodModel.processUserEmotion(this.emotionInputEl.value,
         (res) => {
           this.hideEmotionSelection();
           this.displayMood();
@@ -35,8 +33,12 @@ class View {
     })
 
     this.playAgainButtonEl.addEventListener('click', () => {
-      this.reset();
+      this.resetDisplay();
     })
+  }
+
+  hideEmotionSelection() {
+    this.emotionSelectionContainerEl.hidden = true;
   }
 
   displayMood() {
@@ -61,14 +63,10 @@ class View {
   }
 
   displayPlayAgainButton() {
-    document.querySelector('#play-again').hidden = false;
+    this.playAgainButtonEl.hidden = false;
   }
 
-  hideEmotionSelection() {
-    this.emotionSelectionContainerEl.hidden = true;
-  }
-
-  reset() {
+  resetDisplay() {
     this.emotionSelectionContainerEl.hidden = false;
     document.querySelectorAll('.mood-display').forEach((element) => {
       element.remove();
