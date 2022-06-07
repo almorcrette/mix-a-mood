@@ -136,16 +136,22 @@
         }
         displayMood() {
           this.removeEmotionSelection();
-          let moodTextDisplayEl = document.createElement("h3");
-          moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
-          moodTextDisplayEl.classList.add("mood-display");
+          this.displayMoodImage();
+          this.displayMoodComment();
+        }
+        displayMoodImage() {
           let moodDisplayEl = document.createElement("img");
           moodDisplayEl.classList.add("mood-display");
           moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
           moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
           moodDisplayEl.src = `static/images/${this.moodModel.getMood()}-full.jpg`;
-          document.querySelector("#mood-result-container").append(moodTextDisplayEl);
           document.querySelector("#mood-result-container").append(moodDisplayEl);
+        }
+        displayMoodComment() {
+          let moodTextDisplayEl = document.createElement("h3");
+          moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+          moodTextDisplayEl.classList.add("mood-display");
+          document.querySelector("#mood-result-container").append(moodTextDisplayEl);
         }
         displayPlayAgainButton() {
           document.querySelector("#play-again").hidden = false;
