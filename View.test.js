@@ -212,9 +212,9 @@ describe('View', () => {
         jest.resetAllMocks();
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         const view = new View(mockedHappyMoodModel);
-        const textBoxEl = document.querySelector('#emotion-text');
+        const textBoxEl = document.querySelector('#emotion-input');
         textBoxEl.value = 'happy';
-        const generateWithTextButtonEl = document.querySelector('#generate-with-text');        
+        const generateWithTextButtonEl = document.querySelector('#generate');        
         generateWithTextButtonEl.click();
         expect(view.moodModel.setMoodReferencingLibrary).toHaveBeenCalledWith("happy");
       })
@@ -222,9 +222,9 @@ describe('View', () => {
         jest.resetAllMocks();
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         const view = new View(mockedSadMoodModel);
-        const textBoxEl = document.querySelector('#emotion-text');
+        const textBoxEl = document.querySelector('#emotion-input');
         textBoxEl.value = 'sad';
-        const generateWithTextButtonEl = document.querySelector('#generate-with-text');        
+        const generateWithTextButtonEl = document.querySelector('#generate');        
         generateWithTextButtonEl.click();
         expect(view.moodModel.setMoodReferencingLibrary).toHaveBeenCalledWith("sad");
       })

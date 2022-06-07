@@ -112,16 +112,6 @@
             document.querySelector("#sad"),
             document.querySelector("#tired")
           ];
-          document.querySelector("#generate").addEventListener("click", () => {
-            console.log("generate button pressed");
-            this.emotionSelectorEls.forEach((emotion) => {
-              if (emotion.checked == true) {
-                this.generateMood(emotion.value);
-              }
-            });
-            this.displayMood();
-            this.displayPlayAgainButton();
-          });
           document.querySelector("button#randomise").addEventListener("click", () => {
             this.randomiseMood();
             this.displayMood();
@@ -130,17 +120,12 @@
           document.querySelector("#play-again").addEventListener("click", () => {
             this.reset();
           });
-          document.querySelector("#generate-with-text").addEventListener("click", () => {
-            console.log("generate with text button pressed");
-            console.log("is it picking up the emotion text?: ", document.querySelector("#emotion-text").value);
-            this.generateMoodReferencingLibrary(document.querySelector("#emotion-text").value, (res) => {
+          document.querySelector("#generate").addEventListener("click", () => {
+            this.generateMoodReferencingLibrary(document.querySelector("#emotion-input").value, (res) => {
               this.displayMood();
               this.displayPlayAgainButton();
             });
           });
-        }
-        generateMood(emotion) {
-          this.moodModel.setMood(emotion);
         }
         generateMoodReferencingLibrary(emotion, cb) {
           this.moodModel.setMoodReferencingLibrary(emotion, cb);
