@@ -9,10 +9,7 @@ class View {
       document.querySelector('#sad'),
       document.querySelector('#tired')
     ]
-    // this.emotionSubmitEl = document.querySelector("#generate")
-    // this.moodResultContainerEl = document.querySelector("#mood-result-container")
     
-
     document.querySelector("#generate").addEventListener('click', () => {
       console.log('generate button pressed');
       this.emotionSelectorEls.forEach((emotion) => {
