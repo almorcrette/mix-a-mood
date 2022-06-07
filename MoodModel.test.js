@@ -35,11 +35,11 @@ describe('MoodModel', () => {
     describe('if emotion passed as parameter is a mood in the moodLibrary', () => {
       describe('sets the mood to the emotion passed as paramater', () => {
         it('sets mood to happy when happy is passed as parameter', () => {
-          model.setMoodReferencingLibrary('happy');
+          model.setMoodReferencingLibrary('happy', () => { return model.mood });
           expect(model.getMood()).toEqual('happy');
         });
         it('sets mood to happy when sad is passed as parameter', () => {
-          model.setMoodReferencingLibrary('sad');
+          model.setMoodReferencingLibrary('sad', () => { return model.mood });
           expect(model.getMood()).toEqual('sad');
         });
       });
