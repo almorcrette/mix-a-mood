@@ -112,7 +112,7 @@
           this.generateButtonEl = document.querySelector("button#generate");
           this.randomiseButtonEl = document.querySelector("button#randomise");
           this.playAgainButtonEl = document.querySelector("button#play-again");
-          this.emotionSelectionContainerEl = document.querySelector(".emotion-selection");
+          this.emotionSelectionContainerEl = document.querySelector("#emotion-selection");
           this.moodDisplayContainerEl = document.querySelector("#mood-result-container");
           this.generateButtonEl.addEventListener("click", () => {
             this.moodModel.processUserEmotion(this.emotionInputEl.value, (res) => {
@@ -154,10 +154,7 @@
           document.querySelector("#play-again").hidden = false;
         }
         hideEmotionSelection() {
-          const emotionSelectionEls = document.querySelectorAll(".emotion-selection");
-          emotionSelectionEls.forEach((element) => {
-            element.hidden = true;
-          });
+          this.emotionSelectionContainerEl.hidden = true;
         }
         reset() {
           this.emotionSelectionContainerEl.hidden = false;

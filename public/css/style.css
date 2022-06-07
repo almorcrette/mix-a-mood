@@ -14,7 +14,7 @@ body {
   color: rgb(95, 95, 102);
 }
 
-.emotion-selection {
+#emotion-selection {
   padding:20px;
   margin: auto;
   min-width:400px;

@@ -9,7 +9,7 @@ class View {
     this.randomiseButtonEl = document.querySelector('button#randomise');
     this.playAgainButtonEl = document.querySelector('button#play-again');
 
-    this.emotionSelectionContainerEl = document.querySelector('.emotion-selection');
+    this.emotionSelectionContainerEl = document.querySelector('#emotion-selection');
     this.moodDisplayContainerEl = document.querySelector("#mood-result-container")
 
 
@@ -65,10 +65,7 @@ class View {
   }
 
   hideEmotionSelection() {
-    const emotionSelectionEls = document.querySelectorAll('.emotion-selection')
-    emotionSelectionEls.forEach((element) => {
-      element.hidden = true;
-    })
+    this.emotionSelectionContainerEl.hidden = true;
   }
 
   reset() {
