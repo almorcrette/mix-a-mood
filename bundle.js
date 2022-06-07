@@ -113,14 +113,14 @@
           this.randomiseButtonEl = document.querySelector("button#randomise");
           this.playAgainButtonEl = document.querySelector("button#play-again");
           this.generateButtonEl.addEventListener("click", () => {
-            this.generateMood(this.emotionInputEl.value, (res) => {
+            this.moodModel.processUserEmotion(this.emotionInputEl.value, (res) => {
               this.hideEmotionSelection();
               this.displayMood();
               this.displayPlayAgainButton();
             });
           });
           this.randomiseButtonEl.addEventListener("click", () => {
-            this.randomiseMood((res) => {
+            this.moodModel.setRandomMood((res) => {
               this.hideEmotionSelection();
               this.displayMood();
               this.displayPlayAgainButton();
@@ -129,12 +129,6 @@
           this.playAgainButtonEl.addEventListener("click", () => {
             this.reset();
           });
-        }
-        generateMood(emotion, cb) {
-          this.moodModel.processUserEmotion(emotion, cb);
-        }
-        randomiseMood(cb) {
-          this.moodModel.setRandomMood(cb);
         }
         displayMood() {
           this.displayMoodImage();

@@ -10,7 +10,7 @@ class View {
     this.playAgainButtonEl = document.querySelector('button#play-again');
 
     this.generateButtonEl.addEventListener('click', () => {
-      this.generateMood(
+      this.moodModel.processUserEmotion(
         this.emotionInputEl.value,
         (res) => {
           this.hideEmotionSelection();
@@ -21,7 +21,7 @@ class View {
     })
 
     this.randomiseButtonEl.addEventListener('click', () => {
-      this.randomiseMood(
+      this.moodModel.setRandomMood(
         (res) => {
           this.hideEmotionSelection();
           this.displayMood();
@@ -33,14 +33,6 @@ class View {
     this.playAgainButtonEl.addEventListener('click', () => {
       this.reset();
     })
-  }
-
-  generateMood(emotion, cb) {
-    this.moodModel.processUserEmotion(emotion, cb);
-  }
-
-  randomiseMood(cb) {
-    this.moodModel.setRandomMood(cb);
   }
 
   displayMood() {
