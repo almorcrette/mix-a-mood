@@ -4,10 +4,10 @@ class View {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel;
 
-    this.emotionInputEl = document.querySelector('#emotion-input');
-    this.generateButtonEl = document.querySelector("#generate");
+    this.emotionInputEl = document.querySelector('input#emotion-input');
+    this.generateButtonEl = document.querySelector("button#generate");
     this.randomiseButtonEl = document.querySelector('button#randomise');
-    this.playAgainButtonEl = document.querySelector('#play-again');
+    this.playAgainButtonEl = document.querySelector('button#play-again');
 
     this.generateButtonEl.addEventListener('click', () => {
       this.generateMood(
