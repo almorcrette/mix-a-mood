@@ -13,6 +13,7 @@ class View {
       this.generateMood(
         this.emotionInputEl.value,
         (res) => {
+          this.hideEmotionSelection();
           this.displayMood();
           this.displayPlayAgainButton();
         }
@@ -22,6 +23,7 @@ class View {
     this.randomiseButtonEl.addEventListener('click', () => {
       this.randomiseMood(
         (res) => {
+          this.hideEmotionSelection();
           this.displayMood();
           this.displayPlayAgainButton();
         }
@@ -42,7 +44,6 @@ class View {
   }
 
   displayMood() {
-    this.removeEmotionSelection();
     this.displayMoodImage();
     this.displayMoodComment();
   }
@@ -67,7 +68,7 @@ class View {
     document.querySelector('#play-again').hidden = false;
   }
 
-  removeEmotionSelection() {
+  hideEmotionSelection() {
     const emotionSelectionEls = document.querySelectorAll('.emotion-selection')
     emotionSelectionEls.forEach((element) => {
       element.hidden = true;
