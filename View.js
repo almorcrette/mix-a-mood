@@ -2,43 +2,43 @@ const MoodModel = require('./MoodModel')
 
 class View {
   constructor(moodModel = new MoodModel) {
-    this.moodModel = moodModel
+    this.moodModel = moodModel;
 
-    this.emotionSelectorEls = [
-      document.querySelector('#happy'),
-      document.querySelector('#sad'),
-      document.querySelector('#tired')
-    ]
-    // this.emotionSubmitEl = document.querySelector("#generate")
-    // this.moodResultContainerEl = document.querySelector("#mood-result-container")
+    this.emotionInputEl = document.querySelector('#emotion-input');
+    this.generateButtonEl = document.querySelector("#generate");
+    this.randomiseButtonEl = document.querySelector('button#randomise');
+    this.playAgainButtonEl = document.querySelector('#play-again');
 
-    document.querySelector('button#randomise').addEventListener('click', () => {
-      this.randomiseMood();
-      this.displayMood();
-      this.displayPlayAgainButton();
-    })
-
-    document.querySelector('#play-again').addEventListener('click', () => {
-      this.reset();
-    })
-
-    document.querySelector("#generate").addEventListener('click', () => {
-      this.generateMoodReferencingLibrary(
-        document.querySelector('#emotion-input').value,
+    this.generateButtonEl.addEventListener('click', () => {
+      this.generateMood(
+        this.emotionInputEl.value,
         (res) => {
           this.displayMood();
           this.displayPlayAgainButton();
-        });
-      
+        }
+      ); 
+    })
+
+    this.randomiseButtonEl.addEventListener('click', () => {
+      this.randomiseMood(
+        (res) => {
+          this.displayMood();
+          this.displayPlayAgainButton();
+        }
+      );
+    })
+
+    this.playAgainButtonEl.addEventListener('click', () => {
+      this.reset();
     })
   }
 
-  generateMoodReferencingLibrary(emotion, cb) {
-    this.moodModel.setMoodReferencingLibrary(emotion, cb);
+  generateMood(emotion, cb) {
+    this.moodModel.processUserEmotion(emotion, cb);
   }
 
-  randomiseMood() {
-    this.moodModel.setRandomMood();
+  randomiseMood(cb) {
+    this.moodModel.setRandomMood(cb);
   }
 
   displayMood() {

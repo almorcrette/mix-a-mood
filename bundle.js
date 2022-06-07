@@ -55,10 +55,11 @@
         setMood(emotion) {
           this.mood = emotion;
         }
-        setRandomMood() {
+        setRandomMood(cb) {
           this.mood = this._moodLibrary[Math.floor(Math.random() * this._moodLibrary.length)];
+          cb();
         }
-        setMoodReferencingLibrary(emotion, cb) {
+        processUserEmotion(emotion, cb) {
           this.mood = null;
           this._moodLibrary.some((mood) => {
             if (emotion === mood) {
@@ -107,31 +108,31 @@
       var View2 = class {
         constructor(moodModel = new MoodModel2()) {
           this.moodModel = moodModel;
-          this.emotionSelectorEls = [
-            document.querySelector("#happy"),
-            document.querySelector("#sad"),
-            document.querySelector("#tired")
-          ];
-          document.querySelector("button#randomise").addEventListener("click", () => {
-            this.randomiseMood();
-            this.displayMood();
-            this.displayPlayAgainButton();
-          });
-          document.querySelector("#play-again").addEventListener("click", () => {
-            this.reset();
-          });
-          document.querySelector("#generate").addEventListener("click", () => {
-            this.generateMoodReferencingLibrary(document.querySelector("#emotion-input").value, (res) => {
+          this.emotionInputEl = document.querySelector("#emotion-input");
+          this.generateButtonEl = document.querySelector("#generate");
+          this.randomiseButtonEl = document.querySelector("button#randomise");
+          this.playAgainButtonEl = document.querySelector("#play-again");
+          this.generateButtonEl.addEventListener("click", () => {
+            this.generateMood(this.emotionInputEl.value, (res) => {
               this.displayMood();
               this.displayPlayAgainButton();
             });
           });
+          this.randomiseButtonEl.addEventListener("click", () => {
+            this.randomiseMood((res) => {
+              this.displayMood();
+              this.displayPlayAgainButton();
+            });
+          });
+          this.playAgainButtonEl.addEventListener("click", () => {
+            this.reset();
+          });
         }
-        generateMoodReferencingLibrary(emotion, cb) {
-          this.moodModel.setMoodReferencingLibrary(emotion, cb);
+        generateMood(emotion, cb) {
+          this.moodModel.processUserEmotion(emotion, cb);
         }
-        randomiseMood() {
-          this.moodModel.setRandomMood();
+        randomiseMood(cb) {
+          this.moodModel.setRandomMood(cb);
         }
         displayMood() {
           this.removeEmotionSelection();
