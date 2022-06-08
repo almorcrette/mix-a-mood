@@ -4,10 +4,15 @@ class MoodModel {
   constructor(thesaurusApi = new ThesaurusApi()) {
     this.thesaurusApi = thesaurusApi;
     this._moodLibrary = ["happy", "sad", "curious", "tired"];
+    this.mood = null;
   }
 
   setMood(emotion) {
     this.mood = emotion;
+  }
+
+  getMood() {
+    return this.mood;
   }
 
   setRandomMood(cb) {
@@ -33,9 +38,7 @@ class MoodModel {
     }
   }
 
-  getMood() {
-    return this.mood;
-  }
+
 
   get emotions() {
     return this._moodLibrary;

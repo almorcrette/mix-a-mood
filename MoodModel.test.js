@@ -14,23 +14,32 @@ mockedThesaurusApi.findSimilarTo.mockReturnValue({
 mockedThesaurusApi.isSimilarTo = jest.fn()
 mockedThesaurusApi.isSimilarTo.mockReturnValue(["tired", "drained"])
 
-const model = new MoodModel(mockedThesaurusApi);
+const moodModel = new MoodModel(mockedThesaurusApi);
 
 describe('MoodModel', () => {
-  describe('.getMood', () => {
-    it("returns the model's mood variable", () => {
-      model.setMood('happy')
-      expect(model.getMood()).toEqual('happy')
-    })
-  })
-  describe('.setMood', () =>{
-    describe('sets the mood to the emotions passed as parameters', () => {
-      it("sets mood to happy when happy is passed as parameter", () => {
-        model.setMood('happy')
-        expect(model.getMood()).toEqual('happy')
+  describe('.prototype', () => {
+    describe('.setMood', () =>{
+      it("sets the mood to emotion (e.g. 'dummy-mood') passed as parameter", () => {
+        moodModel.setMood('dummy-mood');
+        expect(moodModel.mood).toEqual('dummy-mood');
+      });
+      it("sets the mood to emotion (e.g. 'another-dummy-mood') passed as parameter", () => {
+        moodModel.setMood('another-dummy-mood');
+        expect(moodModel.mood).toEqual('another-dummy-mood');
+      });
+    });
+    describe('.getMood', () => {
+      it("returns the model's mood variable (e.g. 'dummy-mood')", () => {
+        moodModel.mood = 'dummy-mood';
+        expect(moodModel.getMood()).toEqual('dummy-mood');
+      });
+      it("returns the model's mood variable (e.g. 'another-dummy-mood'", () => {
+        moodModel.mood = 'another-dummy-mood';
+        expect(moodModel.getMood()).toEqual('another-dummy-mood');
       });
     });
   });
+
   describe('.setMoodReferencingLibrary', () => {
     describe('if emotion passed as parameter is a mood in the moodLibrary', () => {
       describe('sets the mood to the emotion passed as paramater', () => {
