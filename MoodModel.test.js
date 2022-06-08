@@ -14,59 +14,60 @@ mockedThesaurusApi.findSimilarTo.mockReturnValue({
 mockedThesaurusApi.isSimilarTo = jest.fn()
 mockedThesaurusApi.isSimilarTo.mockReturnValue(["tired", "drained"])
 
-const model = new MoodModel(mockedThesaurusApi);
+const moodModel = new MoodModel(mockedThesaurusApi);
 
 describe('MoodModel', () => {
-  describe('.getMood', () => {
-    it("returns the model's mood variable", () => {
-      model.setMood('happy')
-      expect(model.getMood()).toEqual('happy')
-    })
-  })
-  describe('.setMood', () =>{
-    describe('sets the mood to the emotions passed as parameters', () => {
-      it("sets mood to happy when happy is passed as parameter", () => {
-        model.setMood('happy')
-        expect(model.getMood()).toEqual('happy')
+  describe('.prototype', () => {
+    // describe('.setMood', () =>{
+    //   it("sets the mood to emotion (e.g. 'dummy-mood') passed as parameter", () => {
+    //     moodModel.setMood('dummy-mood');
+    //     expect(moodModel.mood).toEqual('dummy-mood');
+    //   });
+    //   it("sets the mood to emotion (e.g. 'another-dummy-mood') passed as parameter", () => {
+    //     moodModel.setMood('another-dummy-mood');
+    //     expect(moodModel.mood).toEqual('another-dummy-mood');
+    //   });
+    // });
+    describe('.getMood', () => {
+      it("returns the model's mood variable (e.g. 'dummy-mood')", () => {
+        moodModel.mood = 'dummy-mood';
+        expect(moodModel.getMood()).toEqual('dummy-mood');
+      });
+      it("returns the model's mood variable (e.g. 'another-dummy-mood'", () => {
+        moodModel.mood = 'another-dummy-mood';
+        expect(moodModel.getMood()).toEqual('another-dummy-mood');
       });
     });
-  });
-  describe('.setMoodReferencingLibrary', () => {
-    describe('if emotion passed as parameter is a mood in the moodLibrary', () => {
-      describe('sets the mood to the emotion passed as paramater', () => {
-        it('sets mood to happy when happy is passed as parameter', () => {
-          model.setMoodReferencingLibrary('happy', () => { return model.mood });
-          expect(model.getMood()).toEqual('happy');
+    describe('.setRandomMood', () => {
+      it('sets the mood to a random emotion from the emotion libary', () => {
+        moodModel.setRandomMood((res) => {
+          expect(moodModel.getMood()).not.toBe(null);
         });
-        it('sets mood to happy when sad is passed as parameter', () => {
-          model.setMoodReferencingLibrary('sad', () => { return model.mood });
-          expect(model.getMood()).toEqual('sad');
-        });
-      });
-    });
-    describe('if emotion passed as parameter is not a mood in the moodLibrary', () => {
-      describe('looks up similar words using thesaurus for one in the moodLibrary', () => {
-        it('calls .findSimilarTo on the thesaurusApi', () => {
-          model.setMoodReferencingLibrary('exhausted');
-          expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalled(); // ideally test with parameter 'exhausted'
-        })
-
-        // this test fails because it doesn't wait for .setMoodReferencingLibrary to complete
-        describe('if finds a similar word that is in the moodLibrary, sets that as the mood', () => {
-          it("sets mood to 'tired' when 'exhausted' is passed as parameter", () => {
-            model.setMoodReferencingLibrary('exhausted', (res) => {
-              expect(setTimeout(model.getMood())).toEqual('tired')
-            })
-          })
-        })
       })
     })
+    describe('.processUserEmotion', () => {
+      describe('when the emotion passed as parameter IS in the emotion library', () => {
+        it('sets the mood to this emotion', () => {
+          moodModel.processUserEmotion('happy', (res) => {
+            expect(moodModel.getMood()).toEqual('happy');
+          });
+        });
+      });
+      describe('when the emotion passed as parameter IS NOT in the emotion library', () => {
+        describe('searches the thesaurus for a similar word that is in the emotion library', () => {
+          describe('if it finds a thesaurus match in the emotion library', () => {
+            it('sets the mood to the thesaurus-library match', () => {
+              moodModel.processUserEmotion('exhausted', (res) => {
+                expect(moodModel.getMood()).toEqual('tired')
+              });
+              expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalled();
+            });
+          });
+          describe('if it does NOT find a thesaurus match in the emotion library', () => {
+
+          });
+        });
+      });
+    });
   });
-  describe('.setRandomMood', () => {
-    it('sets the mood to one of the stored emotions', () => {
-      model.setMood();
-      model.setRandomMood();
-      expect(model.emotions).toContain(model.getMood());
-    })
-  })
 });

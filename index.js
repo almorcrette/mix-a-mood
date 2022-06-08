@@ -1,5 +1,5 @@
 const MoodModel = require('./MoodModel')
-const View = require('./View.js');
+const HomeViewModel = require('./HomeViewModel.js');
 
 const model = new MoodModel();
-const view = new View(model);
+const homeView = new HomeViewModel(model);

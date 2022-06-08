@@ -7,7 +7,8 @@
     "test": "jest",
     "build": "esbuild index.js --bundle --outfile=bundle.js --watch",
     "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js",
-    "app": "nodemon app.js"
+    "app": "nodemon app.js",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "cypress": "^10.0.3",
     "dotenv-webpack": "^7.1.0",
     "eslint": "^8.16.0",
     "fs": "^0.0.1-security",

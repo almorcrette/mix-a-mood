@@ -50,42 +50,49 @@
       var MoodModel2 = class {
         constructor(thesaurusApi = new ThesaurusApi()) {
           this.thesaurusApi = thesaurusApi;
-          this._moodLibrary = ["happy", "sad", "curious", "tired"];
+          this.emotionLibrary = ["happy", "sad", "curious", "tired"];
+          this.mood = null;
         }
-        setMood(emotion) {
-          this.mood = emotion;
+        getMood() {
+          return this.mood;
         }
         setRandomMood(cb) {
-          this.mood = this._moodLibrary[Math.floor(Math.random() * this._moodLibrary.length)];
-          cb();
+          cb(this._setMood(this._selectRandomMood()));
         }
         processUserEmotion(emotion, cb) {
           this.mood = null;
-          this._moodLibrary.some((mood) => {
-            if (emotion === mood) {
-              this.mood = emotion;
-              return this.mood;
-            }
+          this.emotionLibrary.some((mood) => {
+            this._attemptUserLibraryMatch(emotion);
           });
           if (this.mood != null) {
             cb();
             return this.mood;
           } else {
-            this.thesaurusApi.isSimilarTo(emotion, (data) => {
-              cb(this.setMood(this.matchInLibrary(data)));
-            });
+            this._setMoodToUserThesaurusLibraryMatch(emotion, cb);
           }
+          ;
         }
-        getMood() {
-          return this.mood;
+        _attemptUserLibraryMatch(emotion) {
+          this.emotionLibrary.some((mood) => {
+            if (emotion === mood) {
+              this._setMood(emotion);
+              return this.mood;
+            }
+            ;
+          });
         }
-        get emotions() {
-          return this._moodLibrary;
+        _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
+          this.thesaurusApi.isSimilarTo(emotion, (data) => {
+            cb(this._setMood(this._matchInLibrary(data)));
+          });
         }
-        matchInLibrary(data) {
+        _selectRandomMood() {
+          return this.emotionLibrary[Math.floor(Math.random() * this.emotionLibrary.length)];
+        }
+        _matchInLibrary(data) {
           let wordMatch = null;
           data.some((similarWord) => {
-            this._moodLibrary.some((libraryWord) => {
+            this.emotionLibrary.some((libraryWord) => {
               if (libraryWord === similarWord) {
                 wordMatch = libraryWord;
               }
@@ -96,16 +103,19 @@
           });
           return wordMatch;
         }
+        _setMood(emotion) {
+          return this.mood = emotion;
+        }
       };
       module.exports = MoodModel2;
     }
   });
 
-  // View.js
-  var require_View = __commonJS({
-    "View.js"(exports, module) {
+  // HomeViewModel.js
+  var require_HomeViewModel = __commonJS({
+    "HomeViewModel.js"(exports, module) {
       var MoodModel2 = require_MoodModel();
-      var View2 = class {
+      var HomeViewModel2 = class {
         constructor(moodModel = new MoodModel2()) {
           this.moodModel = moodModel;
           this.emotionSelectionContainerEl = document.querySelector("#emotion-selection-container");
@@ -136,10 +146,10 @@
           this.emotionSelectionContainerEl.hidden = true;
         }
         displayMood() {
-          this.displayMoodImage();
-          this.displayMoodComment();
+          this._displayMoodImage();
+          this._displayMoodComment();
         }
-        displayMoodImage() {
+        _displayMoodImage() {
           let moodDisplayEl = document.createElement("img");
           moodDisplayEl.classList.add("mood-display");
           moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
@@ -147,7 +157,7 @@
           moodDisplayEl.src = `static/images/${this.moodModel.getMood()}-full.jpg`;
           this.moodDisplayContainerEl.append(moodDisplayEl);
         }
-        displayMoodComment() {
+        _displayMoodComment() {
           let moodTextDisplayEl = document.createElement("h3");
           moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
           moodTextDisplayEl.classList.add("mood-display");
@@ -158,19 +168,20 @@
         }
         resetDisplay() {
           this.emotionSelectionContainerEl.hidden = false;
+          this.emotionInputEl.value = null;
           document.querySelectorAll(".mood-display").forEach((element) => {
             element.remove();
           });
           document.querySelector("#play-again").hidden = true;
         }
       };
-      module.exports = View2;
+      module.exports = HomeViewModel2;
     }
   });
 
   // index.js
   var MoodModel = require_MoodModel();
-  var View = require_View();
+  var HomeViewModel = require_HomeViewModel();
   var model = new MoodModel();
-  var view = new View(model);
+  var homeView = new HomeViewModel(model);
 })();

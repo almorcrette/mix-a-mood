@@ -1,6 +1,6 @@
 const MoodModel = require('./MoodModel')
 
-class View {
+class HomeViewModel {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel;
 
@@ -21,7 +21,6 @@ class View {
         }
       ); 
     })
-
     this.randomiseButtonEl.addEventListener('click', () => {
       this.moodModel.setRandomMood(
         (res) => {
@@ -31,7 +30,6 @@ class View {
         }
       );
     })
-
     this.playAgainButtonEl.addEventListener('click', () => {
       this.resetDisplay();
     })
@@ -42,11 +40,11 @@ class View {
   }
 
   displayMood() {
-    this.displayMoodImage();
-    this.displayMoodComment();
+    this._displayMoodImage();
+    this._displayMoodComment();
   }
 
-  displayMoodImage() {
+  _displayMoodImage() {
     let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
     moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
@@ -55,7 +53,7 @@ class View {
     this.moodDisplayContainerEl.append(moodDisplayEl);
   }
 
-  displayMoodComment() {
+  _displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
     moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
     moodTextDisplayEl.classList.add('mood-display');
@@ -68,6 +66,7 @@ class View {
 
   resetDisplay() {
     this.emotionSelectionContainerEl.hidden = false;
+    this.emotionInputEl.value = null;
     document.querySelectorAll('.mood-display').forEach((element) => {
       element.remove();
     });
@@ -75,4 +74,4 @@ class View {
   }
 }
 
-module.exports = View;
+module.exports = HomeViewModel;
