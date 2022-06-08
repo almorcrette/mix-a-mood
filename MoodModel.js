@@ -3,12 +3,8 @@ const ThesaurusApi = require('./ThesaurusApi');
 class MoodModel {
   constructor(thesaurusApi = new ThesaurusApi()) {
     this.thesaurusApi = thesaurusApi;
-    this._moodLibrary = ["happy", "sad", "curious", "tired"];
+    this.emotionLibrary = ["happy", "sad", "curious", "tired"];
     this.mood = null;
-  }
-
-  setMood(emotion) {
-    return this.mood = emotion;
   }
 
   getMood() {
@@ -16,18 +12,14 @@ class MoodModel {
   }
 
   setRandomMood(cb) {
-    cb(
-      this.setMood(
-        this._moodLibrary[Math.floor(Math.random()*this._moodLibrary.length)]
-      )
-    )
+    cb(this._setMood(this._selectRandomMood()))
   }
 
   processUserEmotion(emotion, cb) {
     this.mood = null;
-    this._moodLibrary.some((mood) => {
+    this.emotionLibrary.some((mood) => {
       if (emotion === mood) {
-        this.setMood(emotion);
+        this._setMood(emotion);
         return this.mood;
       }
     })
@@ -36,21 +28,19 @@ class MoodModel {
       return this.mood
     } else {
       this.thesaurusApi.isSimilarTo(emotion, (data) => {
-        cb(this.setMood(this.matchInLibrary(data)))
+        cb(this._setMood(this._matchInLibrary(data)))
       })
     }
   }
 
-
-
-  get emotions() {
-    return this._moodLibrary;
+  _selectRandomMood() {
+    return this.emotionLibrary[Math.floor(Math.random()*this.emotionLibrary.length)]
   }
 
-  matchInLibrary(data) {
+  _matchInLibrary(data) {
     let wordMatch = null;
     data.some((similarWord) => {
-      this._moodLibrary.some((libraryWord) => {
+      this.emotionLibrary.some((libraryWord) => {
         if (libraryWord === similarWord) {
           wordMatch = libraryWord;
         };
@@ -59,6 +49,10 @@ class MoodModel {
       return wordMatch != null;
     })
     return wordMatch
+  }
+
+  _setMood(emotion) {
+    return this.mood = emotion;
   }
 
 }
