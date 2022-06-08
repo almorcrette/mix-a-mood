@@ -158,6 +158,7 @@
         }
         resetDisplay() {
           this.emotionSelectionContainerEl.hidden = false;
+          this.emotionInputEl.value = null;
           document.querySelectorAll(".mood-display").forEach((element) => {
             element.remove();
           });
