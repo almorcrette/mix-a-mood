@@ -62,24 +62,26 @@
         processUserEmotion(emotion, cb) {
           this.mood = null;
           this.emotionLibrary.some((mood) => {
-            this._setMoodToUserLibraryMatch(emotion);
+            this._attemptUserLibraryMatch(emotion);
           });
           if (this.mood != null) {
             cb();
             return this.mood;
           } else {
-            this._attemptUserThesaurusLibraryMatch(emotion, cb);
+            this._setMoodToUserThesaurusLibraryMatch(emotion, cb);
           }
+          ;
         }
-        _setMoodToUserLibraryMatch(emotion) {
+        _attemptUserLibraryMatch(emotion) {
           this.emotionLibrary.some((mood) => {
             if (emotion === mood) {
               this._setMood(emotion);
               return this.mood;
             }
+            ;
           });
         }
-        _attemptUserThesaurusLibraryMatch(emotion, cb) {
+        _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
           this.thesaurusApi.isSimilarTo(emotion, (data) => {
             cb(this._setMood(this._matchInLibrary(data)));
           });
