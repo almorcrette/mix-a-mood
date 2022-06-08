@@ -18,19 +18,36 @@ class MoodModel {
   processUserEmotion(emotion, cb) {
     this.mood = null;
     this.emotionLibrary.some((mood) => {
-      if (emotion === mood) {
-        this._setMood(emotion);
-        return this.mood;
-      }
+      this._setMoodToUserLibraryMatch(emotion)
+      // if (emotion === mood) {
+      //   this._setMood(emotion);
+      //   return this.mood;
+      // }
     })
     if (this.mood != null) {
       cb();
       return this.mood
     } else {
-      this.thesaurusApi.isSimilarTo(emotion, (data) => {
-        cb(this._setMood(this._matchInLibrary(data)))
-      })
+      this._attemptUserThesaurusLibraryMatch(emotion, cb)
+      // this.thesaurusApi.isSimilarTo(emotion, (data) => {
+      //   cb(this._setMood(this._matchInLibrary(data)))
+      // })
     }
+  }
+
+  _setMoodToUserLibraryMatch(emotion) {
+    this.emotionLibrary.some((mood) => {
+      if (emotion === mood) {
+        this._setMood(emotion);
+        return this.mood;
+      }
+    })
+  }
+
+  _attemptUserThesaurusLibraryMatch(emotion, cb) {
+    this.thesaurusApi.isSimilarTo(emotion, (data) => {
+      cb(this._setMood(this._matchInLibrary(data)))
+    })
   }
 
   _selectRandomMood() {
