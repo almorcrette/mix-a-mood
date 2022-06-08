@@ -29,12 +29,23 @@ describe('HomeViewModel', () => {
         expect(document.querySelector("img.mood-display").alt).toEqual('dummy-mood face');
         expect(document.querySelector("img.mood-display").id).toEqual('dummy-mood-img');
         expect(document.querySelector("img.mood-display").src).toEqual('http://localhost/static/images/dummy-mood-full.jpg');
-      })
+      });
       it('displays the mood comment', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);
         homeView.displayMood();
         expect(document.querySelector("h3.mood-display").innerText).toEqual('You are feeling dummy-mood');
+      });
+    });
+    describe('.displayPlayAgainButton', () => {
+      it("reveals the 'play again' button", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        homeView = new HomeViewModel(mockedMoodModel);
+        const playAgainButtonEl = document.querySelector('button#play-again');
+        playAgainButtonEl.hidden = true;
+        homeView.displayPlayAgainButton();
+        expect(playAgainButtonEl.hidden).toBe(false);
+
       })
     })
   });

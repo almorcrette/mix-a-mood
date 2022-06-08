@@ -40,11 +40,11 @@ class HomeViewModel {
   }
 
   displayMood() {
-    this.displayMoodImage();
-    this.displayMoodComment();
+    this._displayMoodImage();
+    this._displayMoodComment();
   }
 
-  displayMoodImage() {
+  _displayMoodImage() {
     let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
     moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
@@ -53,7 +53,7 @@ class HomeViewModel {
     this.moodDisplayContainerEl.append(moodDisplayEl);
   }
 
-  displayMoodComment() {
+  _displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
     moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
     moodTextDisplayEl.classList.add('mood-display');
