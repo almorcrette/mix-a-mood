@@ -10,11 +10,15 @@ const mockedHappyMoodModel = {}
 mockedHappyMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
 mockedHappyMoodModel.getMood = jest.fn().mockReturnValue('happy')
 mockedHappyMoodModel.setRandomMood = jest.fn();
+mockedHappyMoodModel.setMoodReferencingLibrary = jest.fn()
+
 
 const mockedSadMoodModel = {}
 
 mockedSadMoodModel.setMood = jest.fn().mockReturnValue("setMood has been called")
 mockedSadMoodModel.getMood = jest.fn().mockReturnValue('sad')
+mockedSadMoodModel.setMoodReferencingLibrary = jest.fn()
+
 
 
 describe('View', () => {
@@ -197,5 +201,33 @@ describe('View', () => {
     })
 
 
+  })
+  describe('.generateMoodFromText', () => {
+
+    it("is called when 'Generate from text' submit button is clicked", () => {
+    })
+
+    describe("calls setMood on the moodModel using as emotion parameter the text in the text box", () => {
+      it("calls with parameter 'happy' when 'happy' is typed into the text box", () => {
+        jest.resetAllMocks();
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        const view = new View(mockedHappyMoodModel);
+        const textBoxEl = document.querySelector('#emotion-input');
+        textBoxEl.value = 'happy';
+        const generateWithTextButtonEl = document.querySelector('#generate');        
+        generateWithTextButtonEl.click();
+        expect(view.moodModel.setMoodReferencingLibrary).toHaveBeenCalledWith("happy");
+      })
+      it("calls with parameter 'sad' when 'sad' radio button selected", () => {
+        jest.resetAllMocks();
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        const view = new View(mockedSadMoodModel);
+        const textBoxEl = document.querySelector('#emotion-input');
+        textBoxEl.value = 'sad';
+        const generateWithTextButtonEl = document.querySelector('#generate');        
+        generateWithTextButtonEl.click();
+        expect(view.moodModel.setMoodReferencingLibrary).toHaveBeenCalledWith("sad");
+      })
+    })
   })
 })

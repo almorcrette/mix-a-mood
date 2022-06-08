@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "esbuild index.js --bundle  --outfile=bundle.js --watch",
-    "start": "esbuild index.js --bundle  --outfile=bundle.js; node app.js",
+    "build": "esbuild index.js --bundle --outfile=bundle.js --watch",
+    "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js",
     "app": "nodemon app.js"
   },
   "repository": {
@@ -25,14 +25,15 @@
     "dotenv": "^16.0.1",
     "esbuild": "^0.14.42",
     "express": "^4.18.1",
-    "fs": "^0.0.1-security",
     "jest": "^28.1.0",
     "jest-fetch-mock": "^3.0.3",
     "os": "^0.1.2",
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "dotenv-webpack": "^7.1.0",
     "eslint": "^8.16.0",
+    "fs": "^0.0.1-security",
     "jest-environment-jsdom": "^28.1.0",
     "nodemon": "^2.0.16"
   },

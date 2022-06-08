@@ -10,11 +10,12 @@ class MoodModel {
     this.mood = emotion;
   }
 
-  setRandomMood() {
-    this.mood = this._moodLibrary[Math.floor(Math.random()*this._moodLibrary.length)]
+  setRandomMood(cb) {
+    this.mood = this._moodLibrary[Math.floor(Math.random()*this._moodLibrary.length)];
+    cb();
   }
 
-  setMoodReferencingLibrary(emotion, cb) {
+  processUserEmotion(emotion, cb) {
     this.mood = null;
     this._moodLibrary.some((mood) => {
       if (emotion === mood) {
@@ -23,6 +24,7 @@ class MoodModel {
       }
     })
     if (this.mood != null) {
+      cb();
       return this.mood
     } else {
       this.thesaurusApi.isSimilarTo(emotion, (data) => {
