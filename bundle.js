@@ -54,20 +54,19 @@
           this.mood = null;
         }
         setMood(emotion) {
-          this.mood = emotion;
+          return this.mood = emotion;
         }
         getMood() {
           return this.mood;
         }
         setRandomMood(cb) {
-          this.mood = this._moodLibrary[Math.floor(Math.random() * this._moodLibrary.length)];
-          cb();
+          cb(this.setMood(this._moodLibrary[Math.floor(Math.random() * this._moodLibrary.length)]));
         }
         processUserEmotion(emotion, cb) {
           this.mood = null;
           this._moodLibrary.some((mood) => {
             if (emotion === mood) {
-              this.mood = emotion;
+              this.setMood(emotion);
               return this.mood;
             }
           });

@@ -38,6 +38,16 @@ describe('MoodModel', () => {
         expect(moodModel.getMood()).toEqual('another-dummy-mood');
       });
     });
+    describe('.setRandomMood', () => {
+      it('sets the mood to a random emotion from the emotion libary', () => {
+        moodModel.setRandomMood((res) => {
+          expect(moodModel.getMood()).not.toBe(null);
+        });
+      })
+    })
+    // describe('.processUserEmotion', () => {
+    //   it('sets the mood')
+    // });
   });
 
   describe('.setMoodReferencingLibrary', () => {
