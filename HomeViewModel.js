@@ -1,6 +1,6 @@
 const MoodModel = require('./MoodModel')
 
-class View {
+class HomeViewModel {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel;
 
@@ -21,7 +21,6 @@ class View {
         }
       ); 
     })
-
     this.randomiseButtonEl.addEventListener('click', () => {
       this.moodModel.setRandomMood(
         (res) => {
@@ -31,7 +30,6 @@ class View {
         }
       );
     })
-
     this.playAgainButtonEl.addEventListener('click', () => {
       this.resetDisplay();
     })
@@ -76,4 +74,4 @@ class View {
   }
 }
 
-module.exports = View;
+module.exports = HomeViewModel;
