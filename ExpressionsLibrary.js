@@ -18,18 +18,28 @@ class ExpressionsLibrary {
     return boolean;
   }
 
+  retrieveExpression(emotion) {
+    let record = null;
+    this.expressions.some((expression) => {
+      if (expression.getName() === emotion) {
+        record = expression;
+      }
+    })
+    return record;
+  }
+
   firstMatchToExpression(arr) {
-    let wordMatch = null;
+    let expressionMatch = null;
     arr.some((similarWord) => {
       this.expressions.some((expression) => {
         if (expression.getName() === similarWord) {
-          wordMatch = expression.getName();
+          expressionMatch = expression;
         };
-        return wordMatch != null;
+        return expressionMatch != null;
       });
-      return wordMatch != null;
+      return expressionMatch != null;
     });
-    return wordMatch;
+    return expressionMatch;
   }
 
 }

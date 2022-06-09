@@ -1,5 +1,6 @@
 const ThesaurusApi = require('./ThesaurusApi');
 const ExpressionsLibrary = require('./ExpressionsLibrary');
+// const Expression = require('./Expression');
 
 class MoodModel {
   constructor(
@@ -8,17 +9,18 @@ class MoodModel {
     ) {
     this.thesaurusApi = thesaurusApi;
     this.expressionsLibrary = expressionsLibrary;
-    this.emotionLibrary = ["happy", "sad", "curious", "tired"];
-    this.mood = null;
+    this.moodExpression = null;
   }
 
-  getMood() {
-    return this.mood;
+  getMoodExpression() {
+    return this.moodExpression;
   }
 
   setRandomMood(cb) {
+    // console.log('expressionsLibrary: ', this.expressionsLibrary)
+    // console.log('expressionsLibrary.expressions: ', this.expressionsLibrary.expressions)
     cb(
-      this._setMood(
+      this._setMoodExpression(
         this.expressionsLibrary.selectRandomExpression()
       )
     )
@@ -26,22 +28,22 @@ class MoodModel {
 
   processUserEmotion(emotion, cb) {
     if (this.expressionsLibrary.isExpression(emotion)) {
-      this._setMood(emotion);
+      this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
       cb();
-      return this.mood;
+      return this.moodExpression;
     } else {
       this._setMoodToUserThesaurusLibraryMatch(emotion, cb)
     };
   }
 
   _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
-    this.thesaurusApi.isSimilarTo(emotion, (data) => {
-      cb(this._setMood(this.expressionsLibrary.firstMatchToExpression(data)))
+    this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
+      cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)))
     });
   }
 
-  _setMood(emotion) {
-    return this.mood = emotion;
+  _setMoodExpression(expression) {
+    return this.moodExpression = expression;
   }
 
 }

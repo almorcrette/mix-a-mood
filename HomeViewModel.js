@@ -54,15 +54,15 @@ class HomeViewModel {
   _displayMoodImage() {
     let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
-    moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
-    moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
-    moodDisplayEl.src = `static/images/${this.moodModel.getMood()}-full.jpg`;
+    moodDisplayEl.alt = `${this.moodModel.getMoodExpression().getName()} face`;
+    moodDisplayEl.id = `${this.moodModel.getMoodExpression().getName()}-img`;
+    moodDisplayEl.src = this.moodModel.getMoodExpression().getImgSrc();
     this.moodDisplayContainerEl.append(moodDisplayEl);
   }
 
   _displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
-    moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+    moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMoodExpression().getName()}`;
     moodTextDisplayEl.classList.add('mood-display');
     this.moodDisplayContainerEl.append(moodTextDisplayEl);
   }

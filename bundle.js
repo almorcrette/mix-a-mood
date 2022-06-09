@@ -4,6 +4,73 @@
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
+  // Expression.js
+  var require_Expression = __commonJS({
+    "Expression.js"(exports, module) {
+      var Expression2 = class {
+        constructor(name) {
+          this.name = name;
+        }
+        getName() {
+          return this.name;
+        }
+        getImgSrc() {
+          return `static/images/${this.name}.jpg`;
+        }
+      };
+      module.exports = Expression2;
+    }
+  });
+
+  // ExpressionsLibrary.js
+  var require_ExpressionsLibrary = __commonJS({
+    "ExpressionsLibrary.js"(exports, module) {
+      var ExpressionsLibrary2 = class {
+        constructor(...expressions) {
+          this.expressions = expressions;
+        }
+        selectRandomExpression() {
+          return this.expressions[Math.floor(Math.random() * this.expressions.length)];
+        }
+        isExpression(emotion) {
+          let boolean = false;
+          this.expressions.some((expression) => {
+            if (emotion === expression.getName()) {
+              boolean = true;
+              return;
+            }
+            ;
+          });
+          return boolean;
+        }
+        retrieveExpression(emotion) {
+          let record = null;
+          this.expressions.some((expression) => {
+            if (expression.getName() === emotion) {
+              record = expression;
+            }
+          });
+          return record;
+        }
+        firstMatchToExpression(arr) {
+          let expressionMatch = null;
+          arr.some((similarWord) => {
+            this.expressions.some((expression) => {
+              if (expression.getName() === similarWord) {
+                expressionMatch = expression;
+              }
+              ;
+              return expressionMatch != null;
+            });
+            return expressionMatch != null;
+          });
+          return expressionMatch;
+        }
+      };
+      module.exports = ExpressionsLibrary2;
+    }
+  });
+
   // .env.js
   var require_env = __commonJS({
     ".env.js"(exports, module) {
@@ -18,7 +85,7 @@
   var require_ThesaurusApi = __commonJS({
     "ThesaurusApi.js"(exports, module) {
       var ENV = require_env();
-      var ThesaurusApi = class {
+      var ThesaurusApi2 = class {
         isSimilarTo(word, callback) {
           this.findSimilarTo(word, (data) => {
             callback(data.similarTo);
@@ -39,85 +106,44 @@
           console.log("error:" + err);
         }
       };
-      module.exports = ThesaurusApi;
-    }
-  });
-
-  // ExpressionsLibrary.js
-  var require_ExpressionsLibrary = __commonJS({
-    "ExpressionsLibrary.js"(exports, module) {
-      var ExpressionsLibrary = class {
-        constructor(...expressions) {
-          this.expressions = expressions;
-        }
-        selectRandomExpression() {
-          return this.expressions[Math.floor(Math.random() * this.expressions.length)];
-        }
-        isExpression(emotion) {
-          let boolean = false;
-          this.expressions.some((expression) => {
-            if (emotion === expression.getName()) {
-              boolean = true;
-              return;
-            }
-            ;
-          });
-          return boolean;
-        }
-        firstMatchToExpression(arr) {
-          let wordMatch = null;
-          arr.some((similarWord) => {
-            this.expressions.some((expression) => {
-              if (expression.getName() === similarWord) {
-                wordMatch = expression.getName();
-              }
-              ;
-              return wordMatch != null;
-            });
-            return wordMatch != null;
-          });
-          return wordMatch;
-        }
-      };
-      module.exports = ExpressionsLibrary;
+      module.exports = ThesaurusApi2;
     }
   });
 
   // MoodModel.js
   var require_MoodModel = __commonJS({
     "MoodModel.js"(exports, module) {
-      var ThesaurusApi = require_ThesaurusApi();
-      var ExpressionsLibrary = require_ExpressionsLibrary();
+      var ThesaurusApi2 = require_ThesaurusApi();
+      var ExpressionsLibrary2 = require_ExpressionsLibrary();
       var MoodModel2 = class {
-        constructor(thesaurusApi = new ThesaurusApi(), expressionsLibrary = new ExpressionsLibrary()) {
-          this.thesaurusApi = thesaurusApi;
-          this.expressionsLibrary = expressionsLibrary;
-          this.emotionLibrary = ["happy", "sad", "curious", "tired"];
-          this.mood = null;
+        constructor(thesaurusApi2 = new ThesaurusApi2(), expressionsLibrary2 = new ExpressionsLibrary2()) {
+          this.thesaurusApi = thesaurusApi2;
+          this.expressionsLibrary = expressionsLibrary2;
+          this.moodExpression = null;
         }
-        getMood() {
-          return this.mood;
+        getMoodExpression() {
+          return this.moodExpression;
         }
         setRandomMood(cb) {
-          cb(this._setMood(this.expressionsLibrary.selectRandomExpression()));
+          cb(this._setMoodExpression(this.expressionsLibrary.selectRandomExpression()));
         }
         processUserEmotion(emotion, cb) {
           if (this.expressionsLibrary.isExpression(emotion)) {
-            this._setMood(emotion);
+            this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
             cb();
-            return this.mood;
+            return this.moodExpression;
           } else {
             this._setMoodToUserThesaurusLibraryMatch(emotion, cb);
           }
           ;
         }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
-          this.thesaurusApi.isSimilarTo(emotion, (data) => {
-            cb(this._setMood(this.expressionsLibrary.firstMatchToExpression(data)));
+          this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
+            cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
           });
         }
-        _setMood(emotion) {
-          return this.mood = emotion;
+        _setMoodExpression(expression) {
+          return this.moodExpression = expression;
         }
       };
       module.exports = MoodModel2;
@@ -165,14 +191,14 @@
         _displayMoodImage() {
           let moodDisplayEl = document.createElement("img");
           moodDisplayEl.classList.add("mood-display");
-          moodDisplayEl.alt = `${this.moodModel.getMood()} face`;
-          moodDisplayEl.id = `${this.moodModel.getMood()}-img`;
-          moodDisplayEl.src = `static/images/${this.moodModel.getMood()}-full.jpg`;
+          moodDisplayEl.alt = `${this.moodModel.getMoodExpression().getName()} face`;
+          moodDisplayEl.id = `${this.moodModel.getMoodExpression().getName()}-img`;
+          moodDisplayEl.src = this.moodModel.getMoodExpression().getImgSrc();
           this.moodDisplayContainerEl.append(moodDisplayEl);
         }
         _displayMoodComment() {
           let moodTextDisplayEl = document.createElement("h3");
-          moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+          moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMoodExpression().getName()}`;
           moodTextDisplayEl.classList.add("mood-display");
           this.moodDisplayContainerEl.append(moodTextDisplayEl);
         }
@@ -193,8 +219,13 @@
   });
 
   // index.js
+  var Expression = require_Expression();
+  var ExpressionsLibrary = require_ExpressionsLibrary();
+  var ThesaurusApi = require_ThesaurusApi();
   var MoodModel = require_MoodModel();
   var HomeViewModel = require_HomeViewModel();
-  var model = new MoodModel();
+  var expressionsLibrary = new ExpressionsLibrary(new Expression("happy"), new Expression("sad"), new Expression("tired"));
+  var thesaurusApi = new ThesaurusApi();
+  var model = new MoodModel(thesaurusApi, expressionsLibrary);
   var homeView = new HomeViewModel(model);
 })();

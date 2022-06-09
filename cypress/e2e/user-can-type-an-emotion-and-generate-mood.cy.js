@@ -17,7 +17,7 @@ describe('Homepage', () => {
         });
         it('Typed mood is displayed', () => {
           cy.get('img.mood-display')
-            .should('have.attr', 'src', 'static/images/happy-full.jpg')
+            .should('have.attr', 'src', 'static/images/happy.jpg')
           cy.get('h3.mood-display')
             .should('contain', 'You are feeling happy')
         });
@@ -42,7 +42,7 @@ describe('Homepage', () => {
         });
         it('Typed mood is displayed', () => {
           cy.get('img.mood-display')
-            .should('have.attr', 'src', 'static/images/tired-full.jpg')
+            .should('have.attr', 'src', 'static/images/tired.jpg')
           cy.get('h3.mood-display')
             .should('contain', 'You are feeling tired')
         });
