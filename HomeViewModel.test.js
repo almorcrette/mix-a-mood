@@ -7,10 +7,35 @@ const HomeViewModel = require('./HomeViewModel.js')
 
 const mockedMoodModel = {};
 mockedMoodModel.getMood = jest.fn().mockReturnValue('dummy-mood');
+mockedMoodModel.processUserEmotion = jest.fn()
 
 
 describe('HomeViewModel', () => {
   describe('.prototype', () => {
+    describe('variables include', () => {
+      describe("event listener for click of 'generate' button", () => {
+        it('calls moodModel to process the user emotion', () => {
+          document.body.innerHTML = fs.readFileSync('./index.HTML')
+          homeView = new HomeViewModel(mockedMoodModel);
+          homeView.generateButtonEl = document.querySelector("button#generate");
+          homeView.emotionInputEl = document.querySelector('input#emotion-input');
+          homeView.generateButtonEl.click();
+          expect(mockedMoodModel.processUserEmotion).toHaveBeenCalledWith(
+            homeView.emotionInputEl.value,
+            expect.anything()
+          )
+        })
+        // it('call backs to hide the emotion selection section, once moodModel has prcessed user emotion', () => {
+        //   document.body.innerHTML = fs.readFileSync('./index.HTML')
+        //   homeView = new HomeViewModel(mockedMoodModel);
+        //   homeView.generateButtonEl = document.querySelector("button#generate");
+        //   homeView.emotionInputEl = document.querySelector('input#emotion-input');
+        //   homeView.generateButtonEl.click();
+        // })
+      })
+    })
+
+
     describe('.hideEmotionSelection', () => {
       it('hides the emotion selection section in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')

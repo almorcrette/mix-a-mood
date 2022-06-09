@@ -43,58 +43,33 @@
     }
   });
 
-  // MoodModel.js
-  var require_MoodModel = __commonJS({
-    "MoodModel.js"(exports, module) {
-      var ThesaurusApi = require_ThesaurusApi();
-      var MoodModel2 = class {
-        constructor(thesaurusApi = new ThesaurusApi()) {
-          this.thesaurusApi = thesaurusApi;
-          this.emotionLibrary = ["happy", "sad", "curious", "tired"];
-          this.mood = null;
+  // ExpressionsLibrary.js
+  var require_ExpressionsLibrary = __commonJS({
+    "ExpressionsLibrary.js"(exports, module) {
+      var ExpressionsLibrary = class {
+        constructor(...args) {
+          this.expressions = args;
         }
-        getMood() {
-          return this.mood;
+        selectRandomExpression() {
+          return this.expressions[Math.floor(Math.random() * this.expressions.length)];
         }
-        setRandomMood(cb) {
-          cb(this._setMood(this._selectRandomMood()));
-        }
-        processUserEmotion(emotion, cb) {
-          this.mood = null;
-          this.emotionLibrary.some((mood) => {
-            this._attemptUserLibraryMatch(emotion);
-          });
-          if (this.mood != null) {
-            cb();
-            return this.mood;
-          } else {
-            this._setMoodToUserThesaurusLibraryMatch(emotion, cb);
-          }
-          ;
-        }
-        _attemptUserLibraryMatch(emotion) {
-          this.emotionLibrary.some((mood) => {
-            if (emotion === mood) {
-              this._setMood(emotion);
-              return this.mood;
+        isExpression(emotion) {
+          let boolean = false;
+          this.expressions.some((expression) => {
+            if (emotion === expression) {
+              boolean = true;
+              return;
             }
             ;
           });
+          return boolean;
         }
-        _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
-          this.thesaurusApi.isSimilarTo(emotion, (data) => {
-            cb(this._setMood(this._matchInLibrary(data)));
-          });
-        }
-        _selectRandomMood() {
-          return this.emotionLibrary[Math.floor(Math.random() * this.emotionLibrary.length)];
-        }
-        _matchInLibrary(data) {
+        firstMatchToExpression(arr) {
           let wordMatch = null;
-          data.some((similarWord) => {
-            this.emotionLibrary.some((libraryWord) => {
-              if (libraryWord === similarWord) {
-                wordMatch = libraryWord;
+          arr.some((similarWord) => {
+            this.expressions.some((expression) => {
+              if (expression === similarWord) {
+                wordMatch = expression;
               }
               ;
               return wordMatch != null;
@@ -102,6 +77,44 @@
             return wordMatch != null;
           });
           return wordMatch;
+        }
+      };
+      module.exports = ExpressionsLibrary;
+    }
+  });
+
+  // MoodModel.js
+  var require_MoodModel = __commonJS({
+    "MoodModel.js"(exports, module) {
+      var ThesaurusApi = require_ThesaurusApi();
+      var ExpressionsLibrary = require_ExpressionsLibrary();
+      var MoodModel2 = class {
+        constructor(thesaurusApi = new ThesaurusApi(), expressionsLibrary = new ExpressionsLibrary()) {
+          this.thesaurusApi = thesaurusApi;
+          this.expressionsLibrary = expressionsLibrary;
+          this.emotionLibrary = ["happy", "sad", "curious", "tired"];
+          this.mood = null;
+        }
+        getMood() {
+          return this.mood;
+        }
+        setRandomMood(cb) {
+          cb(this._setMood(this.expressionsLibrary.selectRandomExpression()));
+        }
+        processUserEmotion(emotion, cb) {
+          if (this.expressionsLibrary.isExpression(emotion)) {
+            this._setMood(emotion);
+            cb();
+            return this.mood;
+          } else {
+            this._setMoodToUserThesaurusLibraryMatch(emotion, cb);
+          }
+          ;
+        }
+        _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
+          this.thesaurusApi.isSimilarTo(emotion, (data) => {
+            cb(this._setMood(this.expressionsLibrary.firstMatchToExpression(data)));
+          });
         }
         _setMood(emotion) {
           return this.mood = emotion;
