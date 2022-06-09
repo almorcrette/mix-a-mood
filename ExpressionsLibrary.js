@@ -1,4 +1,4 @@
-class ExpressionsLibraryModel {
+class ExpressionsLibrary {
   constructor(...args) {
     this.expressions = args; 
   }
@@ -18,7 +18,7 @@ class ExpressionsLibraryModel {
     return boolean;
   }
 
-  matchToExpression(arr) {
+  firstMatchToExpression(arr) {
     let wordMatch = null;
     arr.some((similarWord) => {
       this.expressions.some((expression) => {
@@ -34,4 +34,4 @@ class ExpressionsLibraryModel {
 
 }
 
-module.exports = ExpressionsLibraryModel;
+module.exports = ExpressionsLibrary;

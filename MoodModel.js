@@ -1,8 +1,13 @@
 const ThesaurusApi = require('./ThesaurusApi');
+const ExpressionsLibrary = require('./ExpressionsLibrary');
 
 class MoodModel {
-  constructor(thesaurusApi = new ThesaurusApi()) {
+  constructor(
+    thesaurusApi = new ThesaurusApi(),
+    expressionsLibrary = new ExpressionsLibrary()
+    ) {
     this.thesaurusApi = thesaurusApi;
+    this.expressionsLibrary = expressionsLibrary;
     this.emotionLibrary = ["happy", "sad", "curious", "tired"];
     this.mood = null;
   }
@@ -12,16 +17,16 @@ class MoodModel {
   }
 
   setRandomMood(cb) {
-    cb(this._setMood(this._selectRandomMood()))
+    cb(
+      this._setMood(
+        this.expressionsLibrary.selectRandomExpression()
+      )
+    )
   }
 
   processUserEmotion(emotion, cb) {
-    this.mood = null;
-    this.emotionLibrary.some((mood) => {
-      this._attemptUserLibraryMatch(emotion)
-
-    });
-    if (this.mood != null) {
+    if (this.expressionsLibrary.isExpression(emotion)) {
+      this._setMood(emotion);
       cb();
       return this.mood;
     } else {
@@ -29,37 +34,10 @@ class MoodModel {
     };
   }
 
-  _attemptUserLibraryMatch(emotion) {
-    this.emotionLibrary.some((mood) => {
-      if (emotion === mood) {
-        this._setMood(emotion);
-        return this.mood;
-      };
-    });
-  }
-
   _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
     this.thesaurusApi.isSimilarTo(emotion, (data) => {
-      cb(this._setMood(this._matchInLibrary(data)))
+      cb(this._setMood(this.expressionsLibrary.firstMatchToExpression(data)))
     });
-  }
-
-  _selectRandomMood() {
-    return this.emotionLibrary[Math.floor(Math.random()*this.emotionLibrary.length)]
-  }
-
-  _matchInLibrary(data) {
-    let wordMatch = null;
-    data.some((similarWord) => {
-      this.emotionLibrary.some((libraryWord) => {
-        if (libraryWord === similarWord) {
-          wordMatch = libraryWord;
-        };
-        return wordMatch != null;
-      });
-      return wordMatch != null;
-    });
-    return wordMatch;
   }
 
   _setMood(emotion) {

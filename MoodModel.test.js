@@ -1,4 +1,4 @@
-const MoodModel = require('./MoodModel')
+const MoodModel = require('./MoodModel');
 
 const mockedThesaurusApi = {};
 
@@ -14,7 +14,16 @@ mockedThesaurusApi.findSimilarTo.mockReturnValue({
 mockedThesaurusApi.isSimilarTo = jest.fn()
 mockedThesaurusApi.isSimilarTo.mockReturnValue(["tired", "drained"])
 
-const moodModel = new MoodModel(mockedThesaurusApi);
+const mockedExpressionsLibrary = {}
+
+mockedExpressionsLibrary.selectRandomExpression = jest.fn();
+
+mockedExpressionsLibrary.isExpression = jest.fn();
+mockedExpressionsLibrary.isExpression.mockReturnValueOnce(true).mockReturnValue(false);
+
+mockedExpressionsLibrary.firstMatchToExpression = jest.fn();
+
+const moodModel = new MoodModel(mockedThesaurusApi, mockedExpressionsLibrary);
 
 describe('MoodModel', () => {
 
