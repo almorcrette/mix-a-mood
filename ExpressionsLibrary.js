@@ -1,6 +1,6 @@
 class ExpressionsLibrary {
-  constructor(...args) {
-    this.expressions = args; 
+  constructor(...expressions) {
+    this.expressions = expressions; 
   }
 
   selectRandomExpression() {
@@ -10,7 +10,7 @@ class ExpressionsLibrary {
   isExpression(emotion) {
     let boolean = false;
     this.expressions.some((expression) => {
-      if (emotion === expression) {
+      if (emotion === expression.getName()) {
         boolean = true;
         return;
       };
@@ -18,18 +18,28 @@ class ExpressionsLibrary {
     return boolean;
   }
 
+  retrieveExpression(emotion) {
+    let record = null;
+    this.expressions.some((expression) => {
+      if (expression.getName() === emotion) {
+        record = expression;
+      }
+    })
+    return record;
+  }
+
   firstMatchToExpression(arr) {
-    let wordMatch = null;
+    let expressionMatch = null;
     arr.some((similarWord) => {
       this.expressions.some((expression) => {
-        if (expression === similarWord) {
-          wordMatch = expression;
+        if (expression.getName() === similarWord) {
+          expressionMatch = expression;
         };
-        return wordMatch != null;
+        return expressionMatch != null;
       });
-      return wordMatch != null;
+      return expressionMatch != null;
     });
-    return wordMatch;
+    return expressionMatch;
   }
 
 }

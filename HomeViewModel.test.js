@@ -5,8 +5,12 @@
 const fs = require('fs');
 const HomeViewModel = require('./HomeViewModel.js')
 
+const mockExpression = {};
+mockExpression.getName = jest.fn().mockReturnValue('dummy-mood');
+mockExpression.getImgSrc = jest.fn().mockReturnValue('static/images/dummy-mood.jpg');
+
 const mockedMoodModel = {};
-mockedMoodModel.getMood = jest.fn().mockReturnValue('dummy-mood');
+mockedMoodModel.getMoodExpression = jest.fn().mockReturnValue(mockExpression);
 mockedMoodModel.processUserEmotion = jest.fn()
 
 
@@ -53,7 +57,7 @@ describe('HomeViewModel', () => {
         homeView.displayMood();
         expect(document.querySelector("img.mood-display").alt).toEqual('dummy-mood face');
         expect(document.querySelector("img.mood-display").id).toEqual('dummy-mood-img');
-        expect(document.querySelector("img.mood-display").src).toEqual('http://localhost/static/images/dummy-mood-full.jpg');
+        expect(document.querySelector("img.mood-display").src).toEqual('http://localhost/static/images/dummy-mood.jpg');
       });
       it('displays the mood comment', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
