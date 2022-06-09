@@ -47,8 +47,8 @@
   var require_ExpressionsLibrary = __commonJS({
     "ExpressionsLibrary.js"(exports, module) {
       var ExpressionsLibrary = class {
-        constructor(...args) {
-          this.expressions = args;
+        constructor(...expressions) {
+          this.expressions = expressions;
         }
         selectRandomExpression() {
           return this.expressions[Math.floor(Math.random() * this.expressions.length)];
@@ -56,7 +56,7 @@
         isExpression(emotion) {
           let boolean = false;
           this.expressions.some((expression) => {
-            if (emotion === expression) {
+            if (emotion === expression.getName()) {
               boolean = true;
               return;
             }
@@ -68,8 +68,8 @@
           let wordMatch = null;
           arr.some((similarWord) => {
             this.expressions.some((expression) => {
-              if (expression === similarWord) {
-                wordMatch = expression;
+              if (expression.getName() === similarWord) {
+                wordMatch = expression.getName();
               }
               ;
               return wordMatch != null;

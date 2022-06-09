@@ -1,6 +1,6 @@
 class ExpressionsLibrary {
-  constructor(...args) {
-    this.expressions = args; 
+  constructor(...expressions) {
+    this.expressions = expressions; 
   }
 
   selectRandomExpression() {
@@ -10,7 +10,7 @@ class ExpressionsLibrary {
   isExpression(emotion) {
     let boolean = false;
     this.expressions.some((expression) => {
-      if (emotion === expression) {
+      if (emotion === expression.getName()) {
         boolean = true;
         return;
       };
@@ -22,8 +22,8 @@ class ExpressionsLibrary {
     let wordMatch = null;
     arr.some((similarWord) => {
       this.expressions.some((expression) => {
-        if (expression === similarWord) {
-          wordMatch = expression;
+        if (expression.getName() === similarWord) {
+          wordMatch = expression.getName();
         };
         return wordMatch != null;
       });
