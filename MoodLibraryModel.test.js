@@ -4,7 +4,17 @@ const moodLibrary = new MoodLibraryModel('happy', 'sad');
 
 describe('MoodLibraryModel', () => {
   describe('.prototype', () => {
-    describe('.attemptUserLibraryMatch', () => {
+    describe('.isCoreExpression', () => {
+      describe('passes an emotion (string), returns true/false depending on match with core expression', () => {
+        it("returns 'true' if passed 'happy' and 'happy' is a core expression", () => {
+          const moodLibrary = new MoodLibraryModel('happy');
+          expect(moodLibrary.isCoreExpression('happy')).toBe(true);
+        })
+        it("returns 'false' if passed 'happy' and 'happy' IS NOT a core expression", () => {
+          const moodLibrary = new MoodLibraryModel();
+          expect(moodLibrary.isCoreExpression('happy')).toBe(false);
+        })
+      })
 
     })
     describe('.setMoodToUserThesaurusLibraryMatch', () => {

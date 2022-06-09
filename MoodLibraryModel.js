@@ -6,6 +6,17 @@ class MoodLibraryModel {
     return this.coreExpressions[Math.floor(Math.random()*this.coreExpressions.length)]
   }
 
+  isCoreExpression(emotion) {
+    let boolean = false;
+    this.coreExpressions.some((expression) => {
+      if (emotion === expression) {
+        boolean = true;
+        return;
+      };
+    });
+    return boolean;
+  }
+
   matchInLibrary(arr) {
     let wordMatch = null;
     arr.some((similarWord) => {
