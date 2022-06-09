@@ -23,6 +23,7 @@ class HomeViewModel {
     })
     this.randomiseButtonEl.addEventListener('click', () => {
       this.moodModel.setRandomMood(
+        // this.displayResult
         (res) => {
           this.hideEmotionSelection();
           this.displayMood();
@@ -34,6 +35,12 @@ class HomeViewModel {
       this.resetDisplay();
     })
   }
+
+  // displayResult(res) {
+  //   this.hideEmotionSelection();
+  //   this.displayMood();
+  //   this.displayPlayAgainButton();
+  // }
 
   hideEmotionSelection() {
     this.emotionSelectionContainerEl.hidden = true;
