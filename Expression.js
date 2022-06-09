@@ -6,6 +6,10 @@ class Expression {
   getName() {
     return this.name;
   }
+
+  getImgSrc() {
+    return `static/images/${this.name}.jpg`
+  }
 }
 
 module.exports = Expression;
