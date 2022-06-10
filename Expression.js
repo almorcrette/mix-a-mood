@@ -8,7 +8,7 @@ class Expression {
   }
 
   getImgSrc() {
-    return `static/images/${this.name}.jpg`
+    return `static/images/${this.name}.png`
   }
 }
 

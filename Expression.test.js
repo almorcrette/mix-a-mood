@@ -18,11 +18,11 @@ describe('Expression', () => {
       describe("returns the url of the expression's image", () => {
         it("returns 'static/images/name.jpg' for an expression initiated with 'name' as parameter", () => {
           expression = new Expression('name');
-          expect(expression.getImgSrc()).toEqual('static/images/name.jpg');
+          expect(expression.getImgSrc()).toEqual('static/images/name.png');
         });
         it("returns 'static/images/anotherName.jpg' for an expression initiated with 'anotherName' as parameter", () => {
           expression = new Expression('anotherName');
-          expect(expression.getImgSrc()).toEqual('static/images/anotherName.jpg');
+          expect(expression.getImgSrc()).toEqual('static/images/anotherName.png');
         });
       });
     });
