@@ -21,6 +21,11 @@ const expressionsLibrary = new ExpressionsLibrary(
   new Expression('joyous'),
   new Expression('lustful'),
   new Expression('unimpressed'),
+  new Expression('content'),
+  new Expression('thoughtful'),
+  new Expression('worried'),
+  new Expression('disgusted'),
+  new Expression('fearful')
 )
 
 const thesaurusApi = new ThesaurusApi();

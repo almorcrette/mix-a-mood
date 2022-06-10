@@ -27,7 +27,7 @@ describe('Homepage', () => {
         cy.get('#emotion-selection-container')
         .should('not.be.visible')
         cy.get('img.mood-display')
-          .should('have.attr', 'src', 'static/images/sad.jpg')
+          .should('have.attr', 'src', 'static/images/sad.png')
         cy.get('h3.mood-display')
           .should('contain', 'You are feeling sad')
         cy.get('#play-again')

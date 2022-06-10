@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "unit:test": "jest",
     "build": "esbuild index.js --bundle --outfile=bundle.js --watch",
     "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js",
     "app": "nodemon app.js",
-    "cypress:open": "cypress open"
+    "e2e:test": "cypress run"
   },
   "repository": {
     "type": "git",
