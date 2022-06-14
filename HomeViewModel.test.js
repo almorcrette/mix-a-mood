@@ -44,10 +44,14 @@ describe('HomeViewModel', () => {
       it('hides the emotion selection section in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);
-        const emotionSelectionContainerEl = document.querySelector('#emotion-selection-container');
-        emotionSelectionContainerEl.hidden = false;
+        const emotionSelectionEls = document.querySelectorAll('.emotion-selection');
+        emotionSelectionEls.forEach((element) => {
+          element.hidden = false;
+        });
         homeView.hideEmotionSelection();
-        expect(emotionSelectionContainerEl.hidden).toBe(true);
+        emotionSelectionEls.forEach((element) => {
+          expect(element.hidden).toBe(true);
+        });
       });
     });
     describe('.displayMood', () => {
@@ -86,10 +90,14 @@ describe('HomeViewModel', () => {
       it('reveals the emotion selection section in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);
-        const emotionSelectionContainerEl = document.querySelector('#emotion-selection-container');
-        emotionSelectionContainerEl.hidden = true;
+        const emotionSelectionEls = document.querySelectorAll('.emotion-selection');
+        emotionSelectionEls.forEach((element) => {
+          element.hidden = true;
+        });
         homeView.resetDisplay();
-        expect(emotionSelectionContainerEl.hidden).toBe(false);
+        emotionSelectionEls.forEach((element) => {
+          expect(element.hidden).toBe(false);
+        });
       });
       it('reveals the prototype expression', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')

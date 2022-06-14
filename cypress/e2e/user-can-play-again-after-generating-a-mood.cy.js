@@ -12,7 +12,7 @@ describe('Homepage', () => {
         cy.get('#play-again').click()
       });
       it('Emotion selection UI reappears', () => {
-        cy.get('#emotion-selection-container')
+        cy.get('.emotion-selection')
         .should('be.visible')
       });
       it('Prototype expression reappears', () => {
@@ -28,7 +28,7 @@ describe('Homepage', () => {
           .type('sad')
         cy.get('[id="generate"]').click()
 
-        cy.get('#emotion-selection-container')
+        cy.get('.emotion-selection')
         .should('not.be.visible')
         it('Prototype expression reappears', () => {
           cy.get('#prototype-expression')

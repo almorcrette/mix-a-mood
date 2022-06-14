@@ -17,18 +17,21 @@
     <div class="flex-container">
 
       <div class="flex-child" id="dialogue-container">
-        <div id="emotion-selection-container">
-          <span id="question">How do you feel today?</span>
-          <br>
-          <input type="text" id="emotion-input" placeholder="happy">
-          <br>
-          <button type="button" id="generate">Generate</button>
-          <button type="button" id="randomise">Randomise</button>
-        </div>
+        <span class="emotion-selection" id="question">How do you feel today?</span>
+        <br>
+        <input type="text" class="emotion-selection" id="emotion-input" placeholder="happy">
+        <br>
+        <button type="button" class="emotion-selection" id="generate">Generate</button>
+        <button type="button" class="emotion-selection" id="randomise">Randomise</button>
+        <br>
+        <section id="mood-dialogue-result-container">
+
+        </section>
+        <br>
         <button type="button" id="play-again" hidden="true">Play again</button>
       </div>
 
-      <div class="flex-child" id="mood-result-container">
+      <div class="flex-child" id="expression-container">
         <img class="expression" id="prototype-expression" src="static/images/prototype.png">
         <br>
       </div>

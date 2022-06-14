@@ -7,7 +7,7 @@ describe('Homepage', () => {
         cy.get('[id="randomise"]').click()
       });
       it('Emotion selection UI disappears', () => {
-        cy.get('#emotion-selection-container')
+        cy.get('.emotion-selection')
         .should('not.be.visible')
       });
       it('Prototype expression disapears', () => {

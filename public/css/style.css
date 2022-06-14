@@ -40,16 +40,22 @@ html {
 #dialogue-container {
   /* border: 2px solid blue; */
   display: flex;
+  max-width: 300px;
+  min-width: 300px;
+  flex:1;
   justify-content: center;
   align-items: center;
+  margin-right: 40px;
   background: url("../images/dialogue-container.png") no-repeat center center;
   background-size: contain;
-  
-
 }
 
-#emotion-selection-container {
+#expression-container {
   /* border: 2px solid yellow; */
+  display: flex;
+  max-width: 300px;
+  min-width: 300px;
+  flex:1;
   width: 80%;
 }
 
