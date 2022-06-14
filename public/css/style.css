@@ -48,6 +48,7 @@ html {
   margin-right: 40px;
   background: url("../images/dialogue-container.png") no-repeat center center;
   background-size: contain;
+  flex-direction: column;
 }
 
 #expression-container {
@@ -60,13 +61,9 @@ html {
 }
 
 
-#mood-result-container {
-  /* background-color: red; */
-}
-
-
 #question {
   font-size: 20px;
+  width:80%;
 }
 
 #prototype-expression {
@@ -78,12 +75,6 @@ input {
   margin-bottom: 10px;
 }
 
-
-
-label {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
 
 button {
   padding: 5px;
@@ -100,3 +91,22 @@ button {
 img.mood-display {
   max-width:300px;
 }
+
+.mood-display {
+  font-size: 20px;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width:80%;
+  font-weight:normal;
+}
+
+br {
+  content: '\A';
+  display: contents;
+  white-space: pre;
+}z
