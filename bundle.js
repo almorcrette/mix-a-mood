@@ -185,6 +185,7 @@
           this.emotionSelectionContainerEl.hidden = true;
         }
         displayMood() {
+          document.querySelector("#prototype-expression").hidden = true;
           this._displayMoodImage();
           this._displayMoodComment();
         }
@@ -212,6 +213,7 @@
             element.remove();
           });
           document.querySelector("#play-again").hidden = true;
+          document.querySelector("#prototype-expression").hidden = false;
         }
       };
       module.exports = HomeViewModel2;

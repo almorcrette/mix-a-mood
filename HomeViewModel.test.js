@@ -51,6 +51,12 @@ describe('HomeViewModel', () => {
       });
     });
     describe('.displayMood', () => {
+      it('hides the prototype expression', () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        homeView = new HomeViewModel(mockedMoodModel);
+        homeView.displayMood();
+        expect(document.querySelector("img#prototype-expression").hidden).toBe(true)
+      });
       it('displays the mood image in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);
@@ -85,6 +91,13 @@ describe('HomeViewModel', () => {
         homeView.resetDisplay();
         expect(emotionSelectionContainerEl.hidden).toBe(false);
       });
+      it('reveals the prototype expression', () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        homeView = new HomeViewModel(mockedMoodModel);
+        document.querySelector("img#prototype-expression").hidden = true;
+        homeView.resetDisplay();
+        expect(document.querySelector("img#prototype-expression").hidden).toBe(false);
+      })
       it('removes mood display elements from the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);

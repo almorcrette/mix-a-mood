@@ -10,6 +10,10 @@ describe('Homepage', () => {
         cy.get('#emotion-selection-container')
         .should('not.be.visible')
       });
+      it('Prototype expression disapears', () => {
+        cy.get('#prototype-expression')
+          .should('not.be.visible')
+      })
       it('Random mood is displayed', () => {
         cy.get('img.mood-display')
           .should('exist')

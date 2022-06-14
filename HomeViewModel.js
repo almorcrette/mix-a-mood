@@ -47,6 +47,7 @@ class HomeViewModel {
   }
 
   displayMood() {
+    document.querySelector('#prototype-expression').hidden = true;
     this._displayMoodImage();
     this._displayMoodComment();
   }
@@ -78,6 +79,7 @@ class HomeViewModel {
       element.remove();
     });
     document.querySelector('#play-again').hidden = true;
+    document.querySelector('#prototype-expression').hidden = false;
   }
 }
 

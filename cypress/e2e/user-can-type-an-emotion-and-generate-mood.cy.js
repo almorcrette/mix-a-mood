@@ -15,6 +15,10 @@ describe('Homepage', () => {
           cy.get('#emotion-selection-container')
           .should('not.be.visible')
         });
+        it('Prototype expression disapears', () => {
+          cy.get('#prototype-expression')
+            .should('not.be.visible')
+        })
         it('Typed mood is displayed', () => {
           cy.get('img.mood-display')
             .should('have.attr', 'src', 'static/images/happy.png')
@@ -39,6 +43,10 @@ describe('Homepage', () => {
         it('Emotion selection UI disappears', () => {
           cy.get('#emotion-selection-container')
           .should('not.be.visible')
+        });
+        it('Prototype expression disapears', () => {
+          cy.get('#prototype-expression')
+            .should('not.be.visible')
         });
         it('Typed mood is displayed', () => {
           cy.get('img.mood-display')

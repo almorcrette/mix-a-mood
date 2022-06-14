@@ -15,6 +15,10 @@ describe('Homepage', () => {
         cy.get('#emotion-selection-container')
         .should('be.visible')
       });
+      it('Prototype expression reappears', () => {
+        cy.get('#prototype-expression')
+          .should('be.visible')
+      })
       it('Previous mood result disappears', () => {
         cy.get('.mood-display')
           .should('not.exist')
@@ -26,6 +30,10 @@ describe('Homepage', () => {
 
         cy.get('#emotion-selection-container')
         .should('not.be.visible')
+        it('Prototype expression reappears', () => {
+          cy.get('#prototype-expression')
+            .should('not.be.visible')
+        })
         cy.get('img.mood-display')
           .should('have.attr', 'src', 'static/images/sad.png')
         cy.get('h3.mood-display')
