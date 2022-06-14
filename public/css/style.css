@@ -1,53 +1,112 @@
-body {
+html {
   font-family:'Courier New', Courier, monospace;
   margin: auto;
   text-align: center;
+  background: url("../images/background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#logo {
+  max-width:300px;
 }
 
 .header {
-  background-color: azure;
   text-align: left;
-  text-indent: 10px;
-  font-size: 50px;
-  letter-spacing: 3px;
-  padding: 30px;
-  color: rgb(95, 95, 102);
+  padding: 5px;
 }
 
-#emotion-selection-container {
-  padding:20px;
-  margin: auto;
-  min-width:400px;
-  width: 50%;
-  background-color: lightgray;
+.flex-container {
+  /* border: 3px solid #fff; */
+  padding: 20px;
+  margin: center;
+  display:flex;
+  justify-content:center;
 }
+
+.flex-child {
+  /* border: 2px solid orange; */
+  max-width: 300px;
+  min-width: 300px;
+  flex:1;
+}
+
+.flex-child:first-child {
+  margin-right: 40px
+}
+
+#dialogue-container {
+  /* border: 2px solid blue; */
+  display: flex;
+  max-width: 300px;
+  min-width: 300px;
+  flex:1;
+  justify-content: center;
+  align-items: center;
+  margin-right: 40px;
+  background: url("../images/dialogue-container.png") no-repeat center center;
+  background-size: contain;
+  flex-direction: column;
+}
+
+#expression-container {
+  /* border: 2px solid yellow; */
+  display: flex;
+  max-width: 300px;
+  min-width: 300px;
+  flex:1;
+  width: 80%;
+}
+
 
 #question {
-  font-size: 25px;
-  font-style: italic;
+  font-size: 20px;
+  width:80%;
+}
 
+#prototype-expression {
+  max-width:300px;
 }
 
 input {
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-
-
-label {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
 
 button {
   padding: 5px;
   font-family:'Courier New', Courier, monospace;
-  background-color: orange;
-  border-color: darkorange;
+  background-color: #4090a3;
+  border-color: #224e58;
+}
 
+#generate {
+  background-color: #c3b901;
+  border-color: #8b8400;
 }
 
 img.mood-display {
   max-width:300px;
 }
+
+.mood-display {
+  font-size: 20px;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width:80%;
+  font-weight:normal;
+}
+
+br {
+  content: '\A';
+  display: contents;
+  white-space: pre;
+}z

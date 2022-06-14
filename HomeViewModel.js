@@ -4,8 +4,11 @@ class HomeViewModel {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel;
 
-    this.emotionSelectionContainerEl = document.querySelector('#emotion-selection-container');
-    this.moodDisplayContainerEl = document.querySelector("#mood-result-container")
+    // this.emotionSelectionContainerEl = document.querySelector('#emotion-selection-container');
+    this.dialogueContainerEl = document.querySelector("#dialogue-container");
+    this.expressionContainerEl = document.querySelector("#expression-container");
+
+    this.emotionSelectionEls = document.querySelectorAll('.emotion-selection');
 
     this.emotionInputEl = document.querySelector('input#emotion-input');
     this.generateButtonEl = document.querySelector("button#generate");
@@ -43,10 +46,13 @@ class HomeViewModel {
   // }
 
   hideEmotionSelection() {
-    this.emotionSelectionContainerEl.hidden = true;
+    this.emotionSelectionEls.forEach((element) => {
+      element.hidden = true;
+    })
   }
 
   displayMood() {
+    document.querySelector('#prototype-expression').hidden = true;
     this._displayMoodImage();
     this._displayMoodComment();
   }
@@ -57,14 +63,14 @@ class HomeViewModel {
     moodDisplayEl.alt = `${this.moodModel.getMoodExpression().getName()} face`;
     moodDisplayEl.id = `${this.moodModel.getMoodExpression().getName()}-img`;
     moodDisplayEl.src = this.moodModel.getMoodExpression().getImgSrc();
-    this.moodDisplayContainerEl.append(moodDisplayEl);
+    this.expressionContainerEl.append(moodDisplayEl);
   }
 
   _displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
     moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMoodExpression().getName()}`;
     moodTextDisplayEl.classList.add('mood-display');
-    this.moodDisplayContainerEl.append(moodTextDisplayEl);
+    document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
   }
 
   displayPlayAgainButton() {
@@ -72,12 +78,15 @@ class HomeViewModel {
   }
 
   resetDisplay() {
-    this.emotionSelectionContainerEl.hidden = false;
+    this.emotionSelectionEls.forEach((element) => {
+      element.hidden = false;
+    })
     this.emotionInputEl.value = null;
     document.querySelectorAll('.mood-display').forEach((element) => {
       element.remove();
     });
     document.querySelector('#play-again').hidden = true;
+    document.querySelector('#prototype-expression').hidden = false;
   }
 }
 

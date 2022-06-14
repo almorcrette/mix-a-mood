@@ -12,9 +12,13 @@ describe('Homepage', () => {
         cy.get('#play-again').click()
       });
       it('Emotion selection UI reappears', () => {
-        cy.get('#emotion-selection-container')
+        cy.get('.emotion-selection')
         .should('be.visible')
       });
+      it('Prototype expression reappears', () => {
+        cy.get('#prototype-expression')
+          .should('be.visible')
+      })
       it('Previous mood result disappears', () => {
         cy.get('.mood-display')
           .should('not.exist')
@@ -24,8 +28,12 @@ describe('Homepage', () => {
           .type('sad')
         cy.get('[id="generate"]').click()
 
-        cy.get('#emotion-selection-container')
+        cy.get('.emotion-selection')
         .should('not.be.visible')
+        it('Prototype expression reappears', () => {
+          cy.get('#prototype-expression')
+            .should('not.be.visible')
+        })
         cy.get('img.mood-display')
           .should('have.attr', 'src', 'static/images/sad.png')
         cy.get('h3.mood-display')

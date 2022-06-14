@@ -11,22 +11,37 @@
 
   <body>
     <nav class="header">
-      <span class="logo">Mix-A-Mood</span>
+      <img id="logo" src="static/images/logo.png">
     </nav>
 
-    <section id="emotion-selection-container">
-      <span id="question">How do you feel today?</span>
-      <br>
-      <input type="text" id="emotion-input" placeholder="happy">
-      <button type="button" id="generate">Generate</button>
-      <button type="button" id="randomise">Randomise</button>
-    </section>
+    <div class="flex-container">
 
-    <div id="mood-result-container">
-      <button type="button" id="play-again" hidden="true">Play again</button>
-      <br>
+      <div class="flex-child" id="dialogue-container">
+        <span class="emotion-selection" id="question">How do you feel today?</span><br>
+        <br>
+        <input type="text" class="emotion-selection" id="emotion-input" placeholder="happy">
+        <br>
+        <div id="emotion-selection-buttons">
+          <button type="button" class="emotion-selection" id="generate">Generate</button>
+          <button type="button" class="emotion-selection" id="randomise">Randomise</button>
+        </div>
+        
+        <br>
+        <section id="mood-dialogue-result-container">
+
+        </section>
+        <br>
+        <button type="button" id="play-again" hidden="true">Play again</button>
+      </div>
+
+      <div class="flex-child" id="expression-container">
+        <img class="expression" id="prototype-expression" src="static/images/prototype.png">
+        <br>
+      </div>
 
     </div>
+
+  </div>
 
     <script type="text/javascript" src="bundle.js"></script>
   </body>
