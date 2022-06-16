@@ -1,5 +1,8 @@
 # mix-a-mood
 
+![](/public/images/logo.png)
+
+
 A light-hearted web app to bring a smile to your day.
 
 A personal sofware engineering project completed in the final weeks of the Makers Academy course, using Node.js and Express. Also using some product design skills learned on Udacity's Product Manager Nanodegree, and some inspiration from Mattias Adolfsson's course on Domestika, The Art of Sketching: Transform Your Doodles into Art.
@@ -39,4 +42,4 @@ The concept draws on 'check-in' routines that are common in team-working environ
 
 I drew on what I've learned about product design from Udacity's Product Manager nanodegree to develop the concept for the app, using the triple diamond design approach, as follows
 
-[](/public/images/triple-diamond-product-design.excalidraw.png)
+![](/public/images/triple-diamond-product-design.excalidraw.png)
