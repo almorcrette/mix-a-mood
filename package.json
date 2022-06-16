@@ -7,7 +7,7 @@
     "unit:test": "jest",
     "build": "esbuild index.js --bundle --outfile=bundle.js --watch",
     "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js",
-    "app": "nodemon app.js",
+    "dev-app": "nodemon app.js",
     "e2e:test": "cypress run"
   },
   "repository": {
