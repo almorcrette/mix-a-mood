@@ -34,18 +34,19 @@ class MoodModel {
   }
 
   processUserEmotion(emotion, cb) {
-    console.log('user input emotion', emotion)
+    console.log('user input: ', emotion)
     const downCaseEmotion = this.lowerCase(emotion);
-    console.log('down case emotion', downCaseEmotion)
-    console.log('library expression: ', this.expressionsLibrary.isExpression(downCaseEmotion))
+    console.log('input in lower case: ', downCaseEmotion)
+    console.log('matching library expression?: ', this.expressionsLibrary.isExpression(downCaseEmotion))
     if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
+      console.log('Using the expression from the library')
       this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
       this._setMood(downCaseEmotion);
       cb();
       return this.moodExpression;
     } else {
+      console.log('Searching the thesaurus...');
       this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
-        console.log('set mood to user thesaurus library match res: ', res)
         if (res === null) {
           this._setMood(undefined);
         } else {
@@ -58,10 +59,12 @@ class MoodModel {
 
   _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
     this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-      console.log('similarWords: ', similarWords)
+      console.log('Similar words found by the thesaurus: ', similarWords)
       if (similarWords.length === 0) {
+        console.log('No similar words. Setting mood expression to null')
         cb(this._setMoodExpression(null));
       } else {
+        console.log('Setting the expression to the first similar word thats a match to the similar words in the thesaurus...')
         cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));        
       }
     });
