@@ -31,12 +31,13 @@ class MoodModel {
   }
 
   processUserEmotion(emotion, cb) {
-    if (this.expressionsLibrary.isExpression(emotion)) {
-      this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
+    const downCaseEmotion = this.lowerCase(emotion);
+    if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
+      this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
       cb();
       return this.moodExpression;
     } else {
-      this._setMoodToUserThesaurusLibraryMatch(emotion, cb)
+      this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb)
     };
   }
 
