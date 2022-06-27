@@ -11,6 +11,7 @@ mockExpression.getImgSrc = jest.fn().mockReturnValue('static/images/dummy-mood.j
 
 const mockedMoodModel = {};
 mockedMoodModel.getMoodExpression = jest.fn().mockReturnValue(mockExpression);
+mockedMoodModel.getMood = jest.fn().mockReturnValue('user-input-emotion-downcase');
 mockedMoodModel.processUserEmotion = jest.fn()
 
 
@@ -73,7 +74,7 @@ describe('HomeViewModel', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);
         homeView.displayMood();
-        expect(document.querySelector("h3.mood-display").innerText).toEqual('You are feeling dummy-mood');
+        expect(document.querySelector("h3.mood-display").innerText).toEqual('You are feeling user-input-emotion-downcase');
       });
     });
     describe('.displayPlayAgainButton', () => {

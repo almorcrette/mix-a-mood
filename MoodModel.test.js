@@ -62,15 +62,17 @@ describe('MoodModel', () => {
           moodModel._setMoodExpression(mockHappyExpression);
           moodModel.processUserEmotion('happy', (data) => { return data});
           expect(moodModel.getMoodExpression().getName()).toEqual('happy');
+          expect(moodModel.getMood()).toEqual('happy');
         });
       });
 
       describe('when the emotion passed as parameter IS NOT in the emotion library', () => {
         describe('searches the thesaurus for a similar word that is in the emotion library', () => {
           describe('if it finds a thesaurus match in the emotion library', () => {
-            it('sets the mood to the thesaurus-library match', () => {
+            it('sets the mood expression to the thesaurus-library match', () => {
               moodModel.processUserEmotion('exhausted', (res) => {
-                expect(moodModel.getMoodExpression().getName()).toEqual('tired')
+                expect(moodModel.getMoodExpression().getName()).toEqual('tired'); // doesn't work
+                expect(moodModel.getMood()).toEqual('exhausted'); // doesn't work
               });
               expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
                 'exhausted',
