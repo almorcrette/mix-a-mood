@@ -140,14 +140,27 @@
             cb();
             return this.moodExpression;
           } else {
-            this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb);
-            this._setMood(downCaseEmotion);
+            console.log("test for processUserEmtion with not-an-emotion. reached the else clause with: ", emotion);
+            this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
+              if (this._getMoodExpression === void 0) {
+                this._setMood(void 0);
+              } else {
+                this._setMood(downCaseEmotion);
+              }
+              cb();
+            });
           }
           ;
         }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
+          console.log("test for processUserEmtion with not-an-emotion. reached inside setMoodToUserThesaurusLibraryMatch with: ", emotion);
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-            cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
+            console.log("test for processUserEmtion with not-an-emotion. reached callback for thesaurus search with: ", similarWords);
+            if (similarWords.length === 0) {
+              cb(this._setMoodExpression(void 0));
+            } else {
+              cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
+            }
           });
         }
         _setMoodExpression(expression) {
@@ -178,7 +191,11 @@
           this.generateButtonEl.addEventListener("click", () => {
             this.moodModel.processUserEmotion(this.emotionInputEl.value, (res) => {
               this.hideEmotionSelection();
-              this.displayMood();
+              if (this.moodModel.getMood() === void 0) {
+                this.displayNotFound();
+              } else {
+                this.displayMood();
+              }
               this.displayPlayAgainButton();
             });
           });
@@ -214,6 +231,19 @@
         _displayMoodComment() {
           let moodTextDisplayEl = document.createElement("h3");
           moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+          moodTextDisplayEl.classList.add("mood-display");
+          document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
+        }
+        displayNotFound() {
+          document.querySelector("#prototype-expression").hidden = true;
+          let moodDisplayEl = document.createElement("img");
+          moodDisplayEl.classList.add("mood-display");
+          moodDisplayEl.alt = `mood not found`;
+          moodDisplayEl.id = `not-found-img`;
+          moodDisplayEl.src = `static/images/not-found.png`;
+          this.expressionContainerEl.append(moodDisplayEl);
+          let moodTextDisplayEl = document.createElement("h3");
+          moodTextDisplayEl.innerText = `I don't recognise that mood`;
           moodTextDisplayEl.classList.add("mood-display");
           document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
         }

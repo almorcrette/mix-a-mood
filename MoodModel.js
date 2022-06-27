@@ -22,8 +22,6 @@ class MoodModel {
   }
 
   setRandomMood(cb) {
-    // console.log('expressionsLibrary: ', this.expressionsLibrary)
-    // console.log('expressionsLibrary.expressions: ', this.expressionsLibrary.expressions)
     cb(
       this._setMoodExpression(
         this.expressionsLibrary.selectRandomExpression()
@@ -43,14 +41,29 @@ class MoodModel {
       cb();
       return this.moodExpression;
     } else {
-      this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb);
-      this._setMood(downCaseEmotion);
+      console.log('test for processUserEmtion with not-an-emotion. reached the else clause with: ', emotion)
+      this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
+        if (this._getMoodExpression === undefined) {
+          this._setMood(undefined);
+        } else {
+          this._setMood(downCaseEmotion);
+        }
+        cb();
+      });
+       // add condition so that if if the moodExpression is undefined, then mood is set to undefined
     };
   }
 
   _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
+    console.log('test for processUserEmtion with not-an-emotion. reached inside setMoodToUserThesaurusLibraryMatch with: ', emotion)
     this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-      cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)))
+      console.log('test for processUserEmtion with not-an-emotion. reached callback for thesaurus search with: ', similarWords)
+      if (similarWords.length === 0) {
+        cb(this._setMoodExpression(undefined));
+      } else {
+        cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)))
+      }
+        // add an escape clause which sets moodExpression
     });
   }
 
