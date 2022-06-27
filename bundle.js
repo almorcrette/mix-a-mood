@@ -74,9 +74,7 @@
   // .env.js
   var require_env = __commonJS({
     ".env.js"(exports, module) {
-      var ENV = {
-        "X_RAPIDAPI_KEY": "efe97aba09msh85fb162e606845fp1ab198jsn2161044b71ed"
-      };
+      var ENV = { "X_RapidAPI_Key": "efe97aba09msh85fb162e606845fp1ab198jsn2161044b71ed" };
       module.exports = ENV;
     }
   });
@@ -97,7 +95,7 @@
             method: "GET",
             headers: {
               "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
-              "X-RapidAPI-Key": ENV.X_RAPIDAPI_KEY
+              "X-RapidAPI-Key": ENV.X_RapidAPI_Key
             }
           };
           fetch(url, options).then((res) => res.json()).then((json) => successCB(json)).catch((err) => errorCB(err));
