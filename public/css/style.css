@@ -15,7 +15,7 @@ html {
 
 .header {
   text-align: left;
-  padding: 5px;
+  padding-top: 5px;
 }
 
 .flex-container {
@@ -122,9 +122,11 @@ br {
   border-style: solid;
   border-color: #0d0d0e;
   border-radius:  10px;
+  opacity: 0.9;
 }
 
 p {
+  opacity: 1;
   margin-top: 2px;
   margin-bottom: 2px;
   margin-left: 10px;
