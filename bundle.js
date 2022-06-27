@@ -125,13 +125,17 @@
         setRandomMood(cb) {
           cb(this._setMoodExpression(this.expressionsLibrary.selectRandomExpression()));
         }
+        lowerCase(emotion) {
+          return emotion.toLowerCase(emotion);
+        }
         processUserEmotion(emotion, cb) {
-          if (this.expressionsLibrary.isExpression(emotion)) {
-            this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
+          const downCaseEmotion = this.lowerCase(emotion);
+          if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
+            this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
             cb();
             return this.moodExpression;
           } else {
-            this._setMoodToUserThesaurusLibraryMatch(emotion, cb);
+            this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb);
           }
           ;
         }
