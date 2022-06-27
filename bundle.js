@@ -140,9 +140,8 @@
             cb();
             return this.moodExpression;
           } else {
-            console.log("test for processUserEmtion with not-an-emotion. reached the else clause with: ", emotion);
             this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
-              if (this._getMoodExpression === void 0) {
+              if (res === null) {
                 this._setMood(void 0);
               } else {
                 this._setMood(downCaseEmotion);
@@ -153,9 +152,7 @@
           ;
         }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
-          console.log("test for processUserEmtion with not-an-emotion. reached inside setMoodToUserThesaurusLibraryMatch with: ", emotion);
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-            console.log("test for processUserEmtion with not-an-emotion. reached callback for thesaurus search with: ", similarWords);
             if (similarWords.length === 0) {
               cb(this._setMoodExpression(void 0));
             } else {

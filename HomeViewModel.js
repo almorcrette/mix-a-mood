@@ -23,7 +23,6 @@ class HomeViewModel {
           } else {
             this.displayMood();
           }
-          // add condition so that if the moodExpression / mood is undefined, something else happens.
           this.displayPlayAgainButton();
         }
       ); 
