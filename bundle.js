@@ -125,6 +125,9 @@
         setRandomMood(cb) {
           cb(this._setMoodExpression(this.expressionsLibrary.selectRandomExpression()));
         }
+        lowerCase(emotion) {
+          return emotion.toLowerCase(emotion);
+        }
         processUserEmotion(emotion, cb) {
           if (this.expressionsLibrary.isExpression(emotion)) {
             this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));

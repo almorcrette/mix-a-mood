@@ -42,6 +42,20 @@ describe('MoodModel', () => {
       })
     })
 
+    describe('.lowerCase', () => {
+      describe('returns argument in lower case', () => {
+        it("returns 'happy' when passed 'HaPpY'", () => {
+          expect(moodModel.lowerCase('HaPpY')).toEqual('happy');
+        });
+        it("returns 'happy' when passed 'ExHaUsTeD'", () => {
+          expect(moodModel.lowerCase('ExHaUsTeD')).toEqual('exhausted');
+        });
+        it("returns 'happy' when passed 'sAd'", () => {
+          expect(moodModel.lowerCase('sAd')).toEqual('sad');
+        });
+      })
+    })
+
     describe('.processUserEmotion', () => {
       describe('when the emotion passed as parameter IS in the emotion library', () => {
         it('sets the mood to this emotion', () => {

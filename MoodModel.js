@@ -26,6 +26,10 @@ class MoodModel {
     )
   }
 
+  lowerCase(emotion) {
+    return emotion.toLowerCase(emotion);
+  }
+
   processUserEmotion(emotion, cb) {
     if (this.expressionsLibrary.isExpression(emotion)) {
       this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
