@@ -4,7 +4,6 @@ class HomeViewModel {
   constructor(moodModel = new MoodModel) {
     this.moodModel = moodModel;
 
-    // this.emotionSelectionContainerEl = document.querySelector('#emotion-selection-container');
     this.dialogueContainerEl = document.querySelector("#dialogue-container");
     this.expressionContainerEl = document.querySelector("#expression-container");
 
@@ -19,14 +18,18 @@ class HomeViewModel {
       this.moodModel.processUserEmotion(this.emotionInputEl.value,
         (res) => {
           this.hideEmotionSelection();
-          this.displayMood();
+          if (this.moodModel.getMood() === undefined) {
+            console.log('None of the similar words, if there were any, matched any of the expressions in the library')
+            this.displayNotFound();
+          } else {
+            this.displayMood();
+          }
           this.displayPlayAgainButton();
         }
       ); 
     })
     this.randomiseButtonEl.addEventListener('click', () => {
       this.moodModel.setRandomMood(
-        // this.displayResult
         (res) => {
           this.hideEmotionSelection();
           this.displayMood();
@@ -38,12 +41,6 @@ class HomeViewModel {
       this.resetDisplay();
     })
   }
-
-  // displayResult(res) {
-  //   this.hideEmotionSelection();
-  //   this.displayMood();
-  //   this.displayPlayAgainButton();
-  // }
 
   hideEmotionSelection() {
     this.emotionSelectionEls.forEach((element) => {
@@ -69,6 +66,20 @@ class HomeViewModel {
   _displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
     moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+    moodTextDisplayEl.classList.add('mood-display');
+    document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
+  }
+
+  displayNotFound() {
+    document.querySelector('#prototype-expression').hidden = true;
+    let moodDisplayEl = document.createElement('img');
+    moodDisplayEl.classList.add('mood-display');
+    moodDisplayEl.alt = `mood not found`;
+    moodDisplayEl.id = `not-found-img`;
+    moodDisplayEl.src = `static/images/not-found.png`;
+    this.expressionContainerEl.append(moodDisplayEl);
+    let moodTextDisplayEl = document.createElement('h3');
+    moodTextDisplayEl.innerText = `I don't recognise that mood`;
     moodTextDisplayEl.classList.add('mood-display');
     document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
   }

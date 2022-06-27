@@ -133,21 +133,40 @@
           return emotion.toLowerCase(emotion);
         }
         processUserEmotion(emotion, cb) {
+          console.log("user input: ", emotion);
           const downCaseEmotion = this.lowerCase(emotion);
+          console.log("input in lower case: ", downCaseEmotion);
+          console.log("matching library expression?: ", this.expressionsLibrary.isExpression(downCaseEmotion));
           if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
+            console.log("Using the expression from the library");
             this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
             this._setMood(downCaseEmotion);
             cb();
             return this.moodExpression;
           } else {
-            this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb);
-            this._setMood(downCaseEmotion);
+            console.log("Searching the thesaurus...");
+            this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
+              if (res === null) {
+                this._setMood(void 0);
+              } else {
+                this._setMood(downCaseEmotion);
+              }
+              ;
+              cb();
+            });
           }
           ;
         }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-            cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
+            console.log("Similar words found by the thesaurus: ", similarWords);
+            if (similarWords.length === 0) {
+              console.log("No similar words. Setting mood expression to null");
+              cb(this._setMoodExpression(null));
+            } else {
+              console.log("Setting the expression to the first similar word thats a match to the similar words in the thesaurus...");
+              cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
+            }
           });
         }
         _setMoodExpression(expression) {
@@ -178,7 +197,12 @@
           this.generateButtonEl.addEventListener("click", () => {
             this.moodModel.processUserEmotion(this.emotionInputEl.value, (res) => {
               this.hideEmotionSelection();
-              this.displayMood();
+              if (this.moodModel.getMood() === void 0) {
+                console.log("None of the similar words, if there were any, matched any of the expressions in the library");
+                this.displayNotFound();
+              } else {
+                this.displayMood();
+              }
               this.displayPlayAgainButton();
             });
           });
@@ -214,6 +238,19 @@
         _displayMoodComment() {
           let moodTextDisplayEl = document.createElement("h3");
           moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+          moodTextDisplayEl.classList.add("mood-display");
+          document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
+        }
+        displayNotFound() {
+          document.querySelector("#prototype-expression").hidden = true;
+          let moodDisplayEl = document.createElement("img");
+          moodDisplayEl.classList.add("mood-display");
+          moodDisplayEl.alt = `mood not found`;
+          moodDisplayEl.id = `not-found-img`;
+          moodDisplayEl.src = `static/images/not-found.png`;
+          this.expressionContainerEl.append(moodDisplayEl);
+          let moodTextDisplayEl = document.createElement("h3");
+          moodTextDisplayEl.innerText = `I don't recognise that mood`;
           moodTextDisplayEl.classList.add("mood-display");
           document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
         }
