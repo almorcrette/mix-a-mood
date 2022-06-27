@@ -213,7 +213,7 @@
         }
         _displayMoodComment() {
           let moodTextDisplayEl = document.createElement("h3");
-          moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMoodExpression().getName()}`;
+          moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
           moodTextDisplayEl.classList.add("mood-display");
           document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
         }
