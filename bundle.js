@@ -117,7 +117,11 @@
         constructor(thesaurusApi2 = new ThesaurusApi2(), expressionsLibrary2 = new ExpressionsLibrary2()) {
           this.thesaurusApi = thesaurusApi2;
           this.expressionsLibrary = expressionsLibrary2;
+          this.mood = null;
           this.moodExpression = null;
+        }
+        getMood() {
+          return this.mood;
         }
         getMoodExpression() {
           return this.moodExpression;
@@ -132,10 +136,12 @@
           const downCaseEmotion = this.lowerCase(emotion);
           if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
             this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
+            this._setMood(downCaseEmotion);
             cb();
             return this.moodExpression;
           } else {
             this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb);
+            this._setMood(downCaseEmotion);
           }
           ;
         }
@@ -146,6 +152,9 @@
         }
         _setMoodExpression(expression) {
           return this.moodExpression = expression;
+        }
+        _setMood(emotion) {
+          return this.mood = emotion;
         }
       };
       module.exports = MoodModel2;

@@ -9,7 +9,12 @@ class MoodModel {
     ) {
     this.thesaurusApi = thesaurusApi;
     this.expressionsLibrary = expressionsLibrary;
+    this.mood = null;
     this.moodExpression = null;
+  }
+
+  getMood() {
+    return this.mood;
   }
 
   getMoodExpression() {
@@ -34,10 +39,12 @@ class MoodModel {
     const downCaseEmotion = this.lowerCase(emotion);
     if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
       this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
+      this._setMood(downCaseEmotion);
       cb();
       return this.moodExpression;
     } else {
-      this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb)
+      this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, cb);
+      this._setMood(downCaseEmotion);
     };
   }
 
@@ -49,6 +56,10 @@ class MoodModel {
 
   _setMoodExpression(expression) {
     return this.moodExpression = expression;
+  }
+
+  _setMood(emotion) {
+    return this.mood = emotion; 
   }
 
 }

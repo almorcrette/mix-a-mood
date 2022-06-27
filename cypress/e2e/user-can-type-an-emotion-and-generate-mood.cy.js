@@ -84,7 +84,7 @@ describe('Homepage', () => {
             cy.get('img.mood-display')
               .should('have.attr', 'src', 'static/images/tired.png')
             cy.get('h3.mood-display')
-              .should('contain', 'You are feeling tired')
+              .should('contain', 'You are feeling exhausted')
           });
           it("'Play again' button appears", () => {
             cy.get('#play-again')
@@ -113,7 +113,7 @@ describe('Homepage', () => {
             cy.get('img.mood-display')
               .should('have.attr', 'src', 'static/images/tired.png')
             cy.get('h3.mood-display')
-              .should('contain', 'You are feeling tired')
+              .should('contain', 'You are feeling exhausted')
           });
           it("'Play again' button appears", () => {
             cy.get('#play-again')
