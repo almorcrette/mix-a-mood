@@ -109,4 +109,24 @@ br {
   content: '\A';
   display: contents;
   white-space: pre;
-}z
+}
+
+.console {
+  margin:auto;
+  background-color: #eef0f1;
+  height: 100px;
+  overflow-y:auto;
+  max-width: 480px;
+  text-align: left;
+  padding: 10px;
+  border-style: solid;
+  border-color: #0d0d0e;
+  border-radius:  10px;
+}
+
+p {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
