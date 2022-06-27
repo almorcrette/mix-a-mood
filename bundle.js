@@ -151,6 +151,7 @@
               } else {
                 this._setMood(downCaseEmotion);
               }
+              ;
               cb();
             });
           }

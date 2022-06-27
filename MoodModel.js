@@ -51,7 +51,7 @@ class MoodModel {
           this._setMood(undefined);
         } else {
           this._setMood(downCaseEmotion);
-        }
+        };
         cb();
       });
     };

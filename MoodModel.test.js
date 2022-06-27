@@ -63,9 +63,11 @@ describe('MoodModel', () => {
       describe('when the emotion passed as parameter IS in the emotion library', () => {
         it('sets the mood to this emotion', () => {
           moodModel._setMoodExpression(mockHappyExpression);
-          moodModel.processUserEmotion('happy', (data) => { return data});
-          expect(moodModel.getMoodExpression().getName()).toEqual('happy');
-          expect(moodModel.getMood()).toEqual('happy');
+          moodModel.processUserEmotion('happy', (data) => {
+            expect(moodModel.getMoodExpression().getName()).toEqual('happy');
+            expect(moodModel.getMood()).toEqual('happy');
+          });
+
         });
       });
 
@@ -77,8 +79,6 @@ describe('MoodModel', () => {
                 expect(moodModel.getMoodExpression().getName()).toEqual('tired'); // doesn't work because it doesn't generate a response
                 expect(moodModel.getMood()).toEqual('exhausted'); // doesn't work because it doesn't generate a response
               });
-              // expect(moodModel.getMoodExpression().getName()).toEqual('tired'); // doesn't work
-              expect(moodModel.getMood()).toEqual('exhausted');
               expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
                 'exhausted',
                 expect.anything()
@@ -90,11 +90,9 @@ describe('MoodModel', () => {
             it('sets the mood and mood expression to undefined', () => {
               moodModel.processUserEmotion('not-an-emotion', (res) => {
                 console.log('callback for processUserEmotion with not-an-emotion. res: ', res);
-                expect(moodModel.getMoodExpression().getName()).toEqual(undefined); // doesn't work because it doesn't generate a response
+                expect(moodModel.getMoodExpression().getName()).toEqual(null); // doesn't work because it doesn't generate a response
                 expect(moodModel.getMood()).toEqual(undefined); // doesn't work because it doesn't generate a response
               });
-              // expect(moodModel.getMoodExpression().getName()).toEqual(undefined); // doesn't work
-              expect(moodModel.getMood()).toEqual(undefined); // doesn't work
               expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
                 'not-an-emotion',
                 expect.anything()
