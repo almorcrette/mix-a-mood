@@ -133,7 +133,10 @@
           return emotion.toLowerCase(emotion);
         }
         processUserEmotion(emotion, cb) {
+          console.log("user input emotion", emotion);
           const downCaseEmotion = this.lowerCase(emotion);
+          console.log("down case emotion", downCaseEmotion);
+          console.log("library expression: ", this.expressionsLibrary.isExpression(downCaseEmotion));
           if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
             this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
             this._setMood(downCaseEmotion);
@@ -141,6 +144,7 @@
             return this.moodExpression;
           } else {
             this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
+              console.log("set mood to user thesaurus library match res: ", res);
               if (res === null) {
                 this._setMood(void 0);
               } else {
@@ -153,8 +157,9 @@
         }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
+            console.log("similarWords: ", similarWords);
             if (similarWords.length === 0) {
-              cb(this._setMoodExpression(void 0));
+              cb(this._setMoodExpression(null));
             } else {
               cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
             }
