@@ -79,12 +79,22 @@ class MoodModel {
         this.logToConsole('no similar words found')
         cb(this._setMoodExpression(null));
       } else {
-        this.logToConsole(`similar words found by the thesaurus: ${similarWords}`)
+        let stringifiedSimilarWords = this._stringifyWordsArray(similarWords)
+        this.logToConsole(`similar words found by the thesaurus: ${stringifiedSimilarWords}`)
         this.logToConsole('looking for match with expressions in library...')
         cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
 
       }
     });
+  }
+
+  _stringifyWordsArray(array) {
+    let stringifiedWords = '';
+    array.forEach((word) => {
+      stringifiedWords = stringifiedWords.concat(word + ', ');
+    })
+    stringifiedWords = stringifiedWords.slice(0, -2);
+    return stringifiedWords;
   }
 
   _setMoodExpression(expression) {
