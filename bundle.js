@@ -166,6 +166,9 @@
         getConsole() {
           return this.console;
         }
+        clearConsole() {
+          return this.console = [];
+        }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
             if (similarWords.length === 0) {
