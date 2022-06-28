@@ -279,6 +279,9 @@
           this.playAgainButtonEl.hidden = false;
         }
         resetDisplay() {
+          document.querySelectorAll(".console-message").forEach((message) => {
+            message.remove();
+          });
           this.moodModel.clearConsole();
           this.emotionSelectionEls.forEach((element) => {
             element.hidden = false;

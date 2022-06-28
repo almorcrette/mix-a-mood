@@ -136,12 +136,23 @@ describe('HomeViewModel', () => {
         homeView.resetDisplay();
         expect(playAgainButtonEl.hidden).toBe(true);
       });
-      it("clears the console", () => {
-        mockedMoodModel.clearConsole.mockReset();
-        document.body.innerHTML = fs.readFileSync('./index.HTML')
+      describe("clears the console", () => {
+        it('calls clearConsole on moodModel', () => {
+          mockedMoodModel.clearConsole.mockReset();
+          document.body.innerHTML = fs.readFileSync('./index.HTML')
+          homeView = new HomeViewModel(mockedMoodModel);
+          homeView.resetDisplay();
+          expect(homeView.moodModel.clearConsole).toHaveBeenCalledTimes(1);
+        })
+        it('removes displayed console messages', () => {
+          document.body.innerHTML = fs.readFileSync('./index.HTML')
         homeView = new HomeViewModel(mockedMoodModel);
+        homeView.displayConsole();
         homeView.resetDisplay();
-        expect(homeView.moodModel.clearConsole).toHaveBeenCalledTimes(1);
+        const consoleMessageEls = document.querySelectorAll('.console-message')
+        expect(consoleMessageEls.length).toEqual(0);
+        })
+
       })
     })
   });
