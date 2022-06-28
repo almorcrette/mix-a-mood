@@ -69,6 +69,15 @@ class HomeViewModel {
     document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
   }
 
+  displayConsole() {
+    this.moodModel.getConsole().forEach((message) => {
+      let consoleMessageEl = document.createElement('p');
+      consoleMessageEl.classList.add('console-message')
+      consoleMessageEl.innerText = message;
+      document.querySelector('.console').append(consoleMessageEl);
+    })
+  }
+
   displayNotFound() {
     document.querySelector('#prototype-expression').hidden = true;
     let moodDisplayEl = document.createElement('img');

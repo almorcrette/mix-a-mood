@@ -118,6 +118,9 @@ describe('MoodModel', () => {
           moodModel.logToConsole('Searching the thesaurus...');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('Searching the thesaurus...');
         })
+        it('keeps previous entries in the console when a new one is added', () => {
+          expect(moodModel.console.length).toEqual(3);
+        })
       })
     })
   });
