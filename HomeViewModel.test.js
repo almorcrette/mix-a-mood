@@ -13,6 +13,11 @@ const mockedMoodModel = {};
 mockedMoodModel.getMoodExpression = jest.fn().mockReturnValue(mockExpression);
 mockedMoodModel.getMood = jest.fn().mockReturnValue('user-input-emotion-downcase');
 mockedMoodModel.processUserEmotion = jest.fn()
+mockedMoodModel.getConsole = jest.fn().mockReturnValue([
+  'A first console message',
+  'Another console message which is longer than the first one...',
+  'A third console message'
+])
 
 
 describe('HomeViewModel', () => {
@@ -85,6 +90,15 @@ describe('HomeViewModel', () => {
         playAgainButtonEl.hidden = true;
         homeView.displayPlayAgainButton();
         expect(playAgainButtonEl.hidden).toBe(false);
+      })
+    })
+    describe('.displayConsole', () => {
+      it("reveals the console with commentary about the algorithm in the view", () => {
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        homeView = new HomeViewModel(mockedMoodModel);
+        homeView.displayConsole();
+        const consoleMessageEls = document.querySelectorAll('.console-message')
+        expect(consoleMessageEls.length).toEqual(3);
       })
     })
     describe('.resetDisplay', () => {

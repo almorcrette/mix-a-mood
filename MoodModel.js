@@ -11,6 +11,7 @@ class MoodModel {
     this.expressionsLibrary = expressionsLibrary;
     this.mood = null;
     this.moodExpression = null;
+    this.console = [];
   }
 
   getMood() {
@@ -34,38 +35,50 @@ class MoodModel {
   }
 
   processUserEmotion(emotion, cb) {
-    console.log('user input: ', emotion)
+    this.logToConsole(`user input: ${emotion}`);
     const downCaseEmotion = this.lowerCase(emotion);
-    console.log('input in lower case: ', downCaseEmotion)
-    console.log('matching library expression?: ', this.expressionsLibrary.isExpression(downCaseEmotion))
+    this.logToConsole(`input in lower case: ${downCaseEmotion}`);
+    this.logToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
     if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
-      console.log('Using the expression from the library')
+      this.logToConsole('using the expression from the library');
       this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
       this._setMood(downCaseEmotion);
       cb();
-      return this.moodExpression;
+      return this;
     } else {
-      console.log('Searching the thesaurus...');
+      this.logToConsole('Searching the thesaurus...');
       this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
         if (res === null) {
+          this.logToConsole('no match to the expressions in the library')
           this._setMood(undefined);
         } else {
+          this.logToConsole(`match found: ${downCaseEmotion} is similar to ${res.getName()} which is in the library`)
           this._setMood(downCaseEmotion);
         };
         cb();
       });
     };
+  };
+
+  logToConsole(statement) {
+    this.console.push(statement)
   }
+
+  getConsole() {
+    return this.console
+  }
+
 
   _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
     this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-      console.log('Similar words found by the thesaurus: ', similarWords)
       if (similarWords.length === 0) {
-        console.log('No similar words. Setting mood expression to null')
+        this.logToConsole('no similar words found')
         cb(this._setMoodExpression(null));
       } else {
-        console.log('Setting the expression to the first similar word thats a match to the similar words in the thesaurus...')
-        cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));        
+        this.logToConsole(`similar words found by the thesaurus: ${similarWords}`)
+        this.logToConsole('looking for match with expressions in library...')
+        cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
+
       }
     });
   }

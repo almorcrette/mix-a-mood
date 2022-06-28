@@ -119,6 +119,7 @@
           this.expressionsLibrary = expressionsLibrary2;
           this.mood = null;
           this.moodExpression = null;
+          this.console = [];
         }
         getMood() {
           return this.mood;
@@ -133,22 +134,24 @@
           return emotion.toLowerCase(emotion);
         }
         processUserEmotion(emotion, cb) {
-          console.log("user input: ", emotion);
+          this.logToConsole(`user input: ${emotion}`);
           const downCaseEmotion = this.lowerCase(emotion);
-          console.log("input in lower case: ", downCaseEmotion);
-          console.log("matching library expression?: ", this.expressionsLibrary.isExpression(downCaseEmotion));
+          this.logToConsole(`input in lower case: ${downCaseEmotion}`);
+          this.logToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
           if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
-            console.log("Using the expression from the library");
+            this.logToConsole("using the expression from the library");
             this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
             this._setMood(downCaseEmotion);
             cb();
-            return this.moodExpression;
+            return this;
           } else {
-            console.log("Searching the thesaurus...");
+            this.logToConsole("Searching the thesaurus...");
             this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
               if (res === null) {
+                this.logToConsole("no match to the expressions in the library");
                 this._setMood(void 0);
               } else {
+                this.logToConsole(`match found: ${downCaseEmotion} is similar to ${res.getName()} which is in the library`);
                 this._setMood(downCaseEmotion);
               }
               ;
@@ -157,14 +160,20 @@
           }
           ;
         }
+        logToConsole(statement) {
+          this.console.push(statement);
+        }
+        getConsole() {
+          return this.console;
+        }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-            console.log("Similar words found by the thesaurus: ", similarWords);
             if (similarWords.length === 0) {
-              console.log("No similar words. Setting mood expression to null");
+              this.logToConsole("no similar words found");
               cb(this._setMoodExpression(null));
             } else {
-              console.log("Setting the expression to the first similar word thats a match to the similar words in the thesaurus...");
+              this.logToConsole(`similar words found by the thesaurus: ${similarWords}`);
+              this.logToConsole("looking for match with expressions in library...");
               cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
             }
           });
@@ -198,12 +207,12 @@
             this.moodModel.processUserEmotion(this.emotionInputEl.value, (res) => {
               this.hideEmotionSelection();
               if (this.moodModel.getMood() === void 0) {
-                console.log("None of the similar words, if there were any, matched any of the expressions in the library");
                 this.displayNotFound();
               } else {
                 this.displayMood();
               }
               this.displayPlayAgainButton();
+              this.displayConsole();
             });
           });
           this.randomiseButtonEl.addEventListener("click", () => {
@@ -211,6 +220,7 @@
               this.hideEmotionSelection();
               this.displayMood();
               this.displayPlayAgainButton();
+              this.displayConsole();
             });
           });
           this.playAgainButtonEl.addEventListener("click", () => {
@@ -240,6 +250,14 @@
           moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
           moodTextDisplayEl.classList.add("mood-display");
           document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
+        }
+        displayConsole() {
+          this.moodModel.getConsole().forEach((message) => {
+            let consoleMessageEl = document.createElement("li");
+            consoleMessageEl.classList.add("console-message");
+            consoleMessageEl.innerText = message;
+            document.querySelector("#console-list").append(consoleMessageEl);
+          });
         }
         displayNotFound() {
           document.querySelector("#prototype-expression").hidden = true;

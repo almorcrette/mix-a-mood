@@ -19,12 +19,12 @@ class HomeViewModel {
         (res) => {
           this.hideEmotionSelection();
           if (this.moodModel.getMood() === undefined) {
-            console.log('None of the similar words, if there were any, matched any of the expressions in the library')
             this.displayNotFound();
           } else {
             this.displayMood();
           }
           this.displayPlayAgainButton();
+          this.displayConsole();
         }
       ); 
     })
@@ -34,6 +34,7 @@ class HomeViewModel {
           this.hideEmotionSelection();
           this.displayMood();
           this.displayPlayAgainButton();
+          this.displayConsole();
         }
       );
     })
@@ -68,6 +69,15 @@ class HomeViewModel {
     moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
     moodTextDisplayEl.classList.add('mood-display');
     document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
+  }
+
+  displayConsole() {
+    this.moodModel.getConsole().forEach((message) => {
+      let consoleMessageEl = document.createElement('li');
+      consoleMessageEl.classList.add('console-message')
+      consoleMessageEl.innerText = message;
+      document.querySelector('#console-list').append(consoleMessageEl);
+    })
   }
 
   displayNotFound() {
