@@ -18,6 +18,7 @@ mockedMoodModel.getConsole = jest.fn().mockReturnValue([
   'Another console message which is longer than the first one...',
   'A third console message'
 ])
+mockedMoodModel.clearConsole = jest.fn().mockReturnValue([]);
 
 
 describe('HomeViewModel', () => {
@@ -135,6 +136,13 @@ describe('HomeViewModel', () => {
         homeView.resetDisplay();
         expect(playAgainButtonEl.hidden).toBe(true);
       });
+      it("clears the console", () => {
+        mockedMoodModel.clearConsole.mockReset();
+        document.body.innerHTML = fs.readFileSync('./index.HTML')
+        homeView = new HomeViewModel(mockedMoodModel);
+        homeView.resetDisplay();
+        expect(homeView.moodModel.clearConsole).toHaveBeenCalledTimes(1);
+      })
     })
   });
 })

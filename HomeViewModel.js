@@ -99,6 +99,7 @@ class HomeViewModel {
   }
 
   resetDisplay() {
+    this.moodModel.clearConsole();
     this.emotionSelectionEls.forEach((element) => {
       element.hidden = false;
     })
