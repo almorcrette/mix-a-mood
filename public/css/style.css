@@ -115,7 +115,6 @@ br {
   margin:auto;
   background-color: #eef0f1;
   height: 100px;
-  overflow-y:auto;
   max-width: 480px;
   text-align: left;
   padding: 5px;
@@ -123,6 +122,12 @@ br {
   border-color: #0d0d0e;
   border-radius:  10px;
   opacity: 0.9;
+}
+
+ol {
+  overflow-y:auto;
+  height: 82.5px;
+
 }
 
 li {
@@ -135,4 +140,11 @@ li {
 
 #console-list {
   margin:0px;
+  
+}
+
+#console-header {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
 }
