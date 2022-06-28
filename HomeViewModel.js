@@ -19,7 +19,6 @@ class HomeViewModel {
         (res) => {
           this.hideEmotionSelection();
           if (this.moodModel.getMood() === undefined) {
-            console.log('None of the similar words, if there were any, matched any of the expressions in the library')
             this.displayNotFound();
           } else {
             this.displayMood();

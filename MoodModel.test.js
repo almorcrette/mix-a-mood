@@ -103,5 +103,22 @@ describe('MoodModel', () => {
         });
       });
     });
+
+    describe('.logToConsole', () => {
+      describe("adds parameter to model's console array", () => {
+        it("adds 'user input: exhausted' to console array when passed it as parameter", () => {
+          moodModel.logToConsole('user input: exhausted');
+          expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('user input: exhausted');
+        })
+        it("adds 'matching library expression?: false' to console array when passed it as parameter", () => {
+          moodModel.logToConsole('matching library expression?: false');
+          expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('matching library expression?: false');
+        })
+        it("adds 'Searching the thesaurus...' to console array when passed it as parameter", () => {
+          moodModel.logToConsole('Searching the thesaurus...');
+          expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('Searching the thesaurus...');
+        })
+      })
+    })
   });
 });

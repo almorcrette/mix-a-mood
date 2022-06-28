@@ -119,6 +119,7 @@
           this.expressionsLibrary = expressionsLibrary2;
           this.mood = null;
           this.moodExpression = null;
+          this.console = [];
         }
         getMood() {
           return this.mood;
@@ -147,6 +148,7 @@
             console.log("Searching the thesaurus...");
             this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
               if (res === null) {
+                console.log("None of the similar words, if there were any, matched any of the expressions in the library");
                 this._setMood(void 0);
               } else {
                 this._setMood(downCaseEmotion);
@@ -156,6 +158,12 @@
             });
           }
           ;
+        }
+        logToConsole(statement) {
+          this.console.push(statement);
+        }
+        getConsole() {
+          return this.console;
         }
         _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
           this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
@@ -198,7 +206,6 @@
             this.moodModel.processUserEmotion(this.emotionInputEl.value, (res) => {
               this.hideEmotionSelection();
               if (this.moodModel.getMood() === void 0) {
-                console.log("None of the similar words, if there were any, matched any of the expressions in the library");
                 this.displayNotFound();
               } else {
                 this.displayMood();
