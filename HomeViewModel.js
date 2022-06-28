@@ -99,9 +99,13 @@ class HomeViewModel {
   }
 
   resetDisplay() {
+    document.querySelectorAll('.console-message').forEach((message) => {
+      message.remove();
+    });
+    this.moodModel.clearConsole();
     this.emotionSelectionEls.forEach((element) => {
       element.hidden = false;
-    })
+    });
     this.emotionInputEl.value = null;
     document.querySelectorAll('.mood-display').forEach((element) => {
       element.remove();

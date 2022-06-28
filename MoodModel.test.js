@@ -132,22 +132,33 @@ describe('MoodModel', () => {
         it("adds 'user input: exhausted' to console array when passed it as parameter", () => {
           moodModel.logToConsole('user input: exhausted');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('user input: exhausted');
-        })
+        });
         it("adds 'matching library expression?: false' to console array when passed it as parameter", () => {
           moodModel.logToConsole('matching library expression?: false');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('matching library expression?: false');
-        })
+        });
         it("adds 'Searching the thesaurus...' to console array when passed it as parameter", () => {
           moodModel.logToConsole('Searching the thesaurus...');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('Searching the thesaurus...');
-        })
+        });
         it('keeps previous entries in the console when a new one is added', () => {
           moodModel.console = [];
           moodModel.logToConsole('user input: exhausted');
           moodModel.logToConsole('matching library expression?: false');
           moodModel.logToConsole('Searching the thesaurus...');
           expect(moodModel.console.length).toEqual(3);
-        })
+        });
+      });
+    });
+
+    describe('.clearConsole', () => {
+      it("empties the model's console", () => {
+        moodModel.console = [];
+          moodModel.logToConsole('user input: exhausted');
+          moodModel.logToConsole('matching library expression?: false');
+          moodModel.logToConsole('Searching the thesaurus...');
+          moodModel.clearConsole();
+          expect(moodModel.console.length).toEqual(0);
       })
     })
   });
