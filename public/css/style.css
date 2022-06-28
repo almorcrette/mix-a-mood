@@ -11,6 +11,8 @@ html {
 
 #logo {
   max-width:300px;
+  opacity: 0.95;
+
 }
 
 .header {
@@ -49,6 +51,8 @@ html {
   background: url("../images/dialogue-container.png") no-repeat center center;
   background-size: contain;
   flex-direction: column;
+  opacity: 0.95;
+
 }
 
 #expression-container {
@@ -68,6 +72,7 @@ html {
 
 #prototype-expression {
   max-width:300px;
+  opacity: 0.95;
 }
 
 input {
@@ -90,6 +95,7 @@ button {
 
 img.mood-display {
   max-width:300px;
+  opacity: 0.95;
 }
 
 .mood-display {
