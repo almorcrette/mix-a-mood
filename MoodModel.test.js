@@ -63,9 +63,16 @@ describe('MoodModel', () => {
       describe('when the emotion passed as parameter IS in the emotion library', () => {
         it('sets the mood to this emotion', () => {
           moodModel._setMoodExpression(mockHappyExpression);
-          moodModel.processUserEmotion('happy', (data) => {
+          moodModel.processUserEmotion('happy', (updatedMoodModel) => {
+            console.log('do I reach here?'); // does not work
             expect(moodModel.getMoodExpression().getName()).toEqual('happy');
             expect(moodModel.getMood()).toEqual('happy');
+            expect(updatedMoodModel.getConsole()).toEqual([
+              'user input: happy',
+              'input in lower case: happy',
+              'match with an expression in the library? true',
+              'using the expression from the library'
+            ])
           });
 
         });
@@ -78,6 +85,15 @@ describe('MoodModel', () => {
               moodModel.processUserEmotion('exhausted', (res) => {
                 expect(moodModel.getMoodExpression().getName()).toEqual('tired'); // doesn't work because it doesn't generate a response
                 expect(moodModel.getMood()).toEqual('exhausted'); // doesn't work because it doesn't generate a response
+                expect(updatedMoodModel.getConsole()).toEqual([
+                  'user input: exhausted',
+                  'input in lower case: exhausted',
+                  'match with an expression in the library? false',
+                  'searching the thesaurus...',
+                  `similar words found: ["tired", "drained"]`,
+                  'looking for match with expressions in library...',
+                  
+                ])
               });
               expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
                 'exhausted',
@@ -92,6 +108,13 @@ describe('MoodModel', () => {
                 console.log('callback for processUserEmotion with not-an-emotion. res: ', res);
                 expect(moodModel.getMoodExpression().getName()).toEqual(null); // doesn't work because it doesn't generate a response
                 expect(moodModel.getMood()).toEqual(undefined); // doesn't work because it doesn't generate a response
+                expect(updatedMoodModel.getConsole()).toEqual([
+                  'user input: not-an-emotion',
+                  'input in lower case: not-an-emotion',
+                  'match with an expression in the library? false',
+                  'searching the thesaurus...',
+                  `no similar words found`,
+                ])
               });
               expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
                 'not-an-emotion',
@@ -119,6 +142,10 @@ describe('MoodModel', () => {
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('Searching the thesaurus...');
         })
         it('keeps previous entries in the console when a new one is added', () => {
+          moodModel.console = [];
+          moodModel.logToConsole('user input: exhausted');
+          moodModel.logToConsole('matching library expression?: false');
+          moodModel.logToConsole('Searching the thesaurus...');
           expect(moodModel.console.length).toEqual(3);
         })
       })

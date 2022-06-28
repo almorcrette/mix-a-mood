@@ -24,6 +24,7 @@ class HomeViewModel {
             this.displayMood();
           }
           this.displayPlayAgainButton();
+          this.displayConsole();
         }
       ); 
     })
@@ -33,6 +34,7 @@ class HomeViewModel {
           this.hideEmotionSelection();
           this.displayMood();
           this.displayPlayAgainButton();
+          this.displayConsole();
         }
       );
     })
@@ -71,10 +73,10 @@ class HomeViewModel {
 
   displayConsole() {
     this.moodModel.getConsole().forEach((message) => {
-      let consoleMessageEl = document.createElement('p');
+      let consoleMessageEl = document.createElement('li');
       consoleMessageEl.classList.add('console-message')
       consoleMessageEl.innerText = message;
-      document.querySelector('.console').append(consoleMessageEl);
+      document.querySelector('#console-list').append(consoleMessageEl);
     })
   }
 
