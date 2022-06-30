@@ -14,14 +14,6 @@ class MoodModel {
     this.console = [];
   }
 
-  getMood() {
-    return this.mood;
-  }
-
-  getMoodExpression() {
-    return this.moodExpression;
-  }
-
   setRandomMood(cb) {
     cb(
       this._setMoodExpression(
@@ -30,37 +22,25 @@ class MoodModel {
     )
   }
 
-  lowerCase(emotion) {
-    return emotion.toLowerCase(emotion);
-  }
-
   processUserEmotion(emotion, cb) {
-    this.logToConsole(`user input: ${emotion}`);
-    const downCaseEmotion = this.lowerCase(emotion);
-    this.logToConsole(`input in lower case: ${downCaseEmotion}`);
-    this.logToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
-    if (this.expressionsLibrary.isExpression(downCaseEmotion)) {
-      this.logToConsole('using the expression from the library');
-      this._setMoodExpression(this.expressionsLibrary.retrieveExpression(downCaseEmotion));
-      this._setMood(downCaseEmotion);
-      cb();
-      return this;
+    this._addMessagesToConsoleAttemptLibraryMatch(emotion);
+    if (this.expressionsLibrary.isExpression(emotion)) {
+      this._useMoodFromLibrary(emotion, cb);
     } else {
-      this.logToConsole('Searching the thesaurus...');
-      this._setMoodToUserThesaurusLibraryMatch(downCaseEmotion, (res) => {
-        if (res === null) {
-          this.logToConsole('no match to the expressions in the library')
-          this._setMood(undefined);
-        } else {
-          this.logToConsole(`match found: ${downCaseEmotion} is similar to ${res.getName()} which is in the library`)
-          this._setMood(downCaseEmotion);
-        };
-        cb();
-      });
+      this._findMoodUsingThesaurus(emotion, cb);
+      
     };
   };
 
-  logToConsole(statement) {
+  getMood() {
+    return this.mood;
+  }
+
+  getMoodExpression() {
+    return this.moodExpression;
+  }
+
+  addMessageToConsole(statement) {
     this.console.push(statement)
   }
 
@@ -72,20 +52,64 @@ class MoodModel {
     return this.console = [];
   }
 
+  _useMoodFromLibrary(emotion, cb) {
+    this.addMessageToConsole('using the expression from the library');
+    this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
+    this._setMood(emotion.toLowerCase());
+    cb();
+    return this;
+  }
 
-  _setMoodToUserThesaurusLibraryMatch(emotion, cb) {
-    this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
-      if (similarWords.length === 0) {
-        this.logToConsole('no similar words found')
-        cb(this._setMoodExpression(null));
-      } else {
-        let stringifiedSimilarWords = this._stringifyWordsArray(similarWords)
-        this.logToConsole(`similar words found by the thesaurus: ${stringifiedSimilarWords}`)
-        this.logToConsole('looking for match with expressions in library...')
-        cb(this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords)));
+  _findMoodUsingThesaurus(emotion, cb) {
+    this.addMessageToConsole('Searching the thesaurus...');
+      this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
+        if (similarWords.length === 0) {
+          this._raiseFoundNoSimilarWords();
+          this._raiseNoMatchInLibrary();
+        } else {
+          this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
+          if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
+            this._useThesaurusMatch(emotion, similarWords);
+          } else {
+            this._raiseNoMatchInLibrary();
+          };
+        };
+        cb();
+      });
+  }
 
-      }
-    });
+  _useThesaurusMatch(emotion, similarWords) {
+    this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords));
+    this.addMessageToConsole(
+      `match found: ${
+        emotion.toLowerCase()
+      } is similar to ${
+        this.getMoodExpression().getName()
+      } which is in the library`);
+    this._setMood(emotion.toLowerCase());
+  }
+
+  _raiseNoMatchInLibrary() {
+    this.addMessageToConsole('no match to the expressions in the library')
+    this._setMood(undefined);
+  }
+
+  _raiseFoundNoSimilarWords() {
+    this.addMessageToConsole('no similar words found')
+    this._setMoodExpression(null);
+  }
+
+  _addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords) {
+    let stringifiedSimilarWords = this._stringifyWordsArray(similarWords)
+    this.addMessageToConsole(`similar words found by the thesaurus: ${stringifiedSimilarWords}`);
+    this.addMessageToConsole('looking for match with expressions in library...');
+  }
+
+  _addMessagesToConsoleAttemptLibraryMatch(emotion) {
+    let downCaseEmotion = emotion.toLowerCase();
+    this.addMessageToConsole(`user input: ${emotion}`);
+    this.addMessageToConsole(`input in lower case: ${downCaseEmotion}`);
+    this.addMessageToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
   }
 
   _stringifyWordsArray(array) {
