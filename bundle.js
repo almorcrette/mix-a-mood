@@ -157,7 +157,7 @@
           return this;
         }
         _findMoodUsingThesaurus(emotion, cb) {
-          this.addMessageToConsole("Searching the thesaurus...");
+          this.addMessageToConsole("Searching the thesaurus (WordsApi)...");
           this.emotionsApi.fetchSimilarWords(emotion, (similarWords) => {
             if (similarWords.length === 0) {
               this._raiseFoundNoSimilarWords();
@@ -190,7 +190,7 @@
         }
         _addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords) {
           let stringifiedSimilarWords = this._stringifyWordsArray(similarWords);
-          this.addMessageToConsole(`similar words found by the thesaurus: ${stringifiedSimilarWords}`);
+          this.addMessageToConsole(`similar words found by the thesaurus`);
           this.addMessageToConsole("looking for match with expressions in library...");
         }
         _addMessagesToConsoleAttemptLibraryMatch(emotion) {
