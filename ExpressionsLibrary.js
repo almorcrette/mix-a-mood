@@ -8,9 +8,10 @@ class ExpressionsLibrary {
   }
 
   isExpression(emotion) {
+    let downCaseEmotion = emotion.toLowerCase();
     let boolean = false;
     this.expressions.some((expression) => {
-      if (emotion === expression.getName()) {
+      if (downCaseEmotion === expression.getName()) {
         boolean = true;
         return;
       };
@@ -19,14 +20,29 @@ class ExpressionsLibrary {
   }
 
   retrieveExpression(emotion) {
+    let downCaseEmotion = emotion.toLowerCase();
     let record = null;
     this.expressions.some((expression) => {
-      if (expression.getName() === emotion) {
+      if (expression.getName() === downCaseEmotion) {
         record = expression;
       }
     })
     return record;
   }
+
+  // hasMatchInLibrary(arr) {
+  //   let boolean = false;
+  //   arr.some((similarWord) => {
+  //     this.expressions.some((expression) => {
+  //       if (expression.getName() = similarWord) {
+  //         boolean = true;
+  //       };
+  //       return boolean === true;
+  //     });
+  //     return boolean === true
+  //   });
+  //   return boolean;
+  // }
 
   firstMatchToExpression(arr) {
     let expressionMatch = null;
