@@ -30,19 +30,19 @@ class ExpressionsLibrary {
     return record;
   }
 
-  // hasMatchInLibrary(arr) {
-  //   let boolean = false;
-  //   arr.some((similarWord) => {
-  //     this.expressions.some((expression) => {
-  //       if (expression.getName() = similarWord) {
-  //         boolean = true;
-  //       };
-  //       return boolean === true;
-  //     });
-  //     return boolean === true
-  //   });
-  //   return boolean;
-  // }
+  hasMatchInLibrary(arr) {
+    let boolean = false;
+    arr.some((similarWord) => {
+      this.expressions.some((expression) => {
+        if (expression.getName() = similarWord) {
+          boolean = true;
+        };
+        return boolean === true;
+      });
+      return boolean === true
+    });
+    return boolean;
+  }
 
   firstMatchToExpression(arr) {
     let expressionMatch = null;

@@ -63,7 +63,12 @@ class MoodModel {
 
   _useThesaurusMatch(emotion, similarWords) {
     this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords));
-    this.addMessageToConsole(`match found: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
+    this.addMessageToConsole(
+      `match found: ${
+        emotion.toLowerCase()
+      } is similar to ${
+        this.getMoodExpression().getName()
+      } which is in the library`);
     this._setMood(emotion.toLowerCase());
   }
 
@@ -79,10 +84,10 @@ class MoodModel {
           this._raiseNoMatchInLibrary();
         } else {
           this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
-          if (this.expressionsLibrary.firstMatchToExpression(similarWords) === null) {
-            this._raiseNoMatchInLibrary();
-          } else {
+          if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
             this._useThesaurusMatch(emotion, similarWords);
+          } else {
+            this._raiseNoMatchInLibrary();
           };
         };
         cb();
@@ -116,11 +121,6 @@ class MoodModel {
   clearConsole() {
     return this.console = [];
   }
-
-
-
-
-  _processSimilarWords(similarWords) {}
 
   _stringifyWordsArray(array) {
     let stringifiedWords = '';
