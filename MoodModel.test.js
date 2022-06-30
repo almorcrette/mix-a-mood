@@ -1,8 +1,8 @@
 const MoodModel = require('./MoodModel');
 
-const mockedThesaurusApi = {};
-mockedThesaurusApi.isSimilarTo = jest.fn()
-mockedThesaurusApi.isSimilarTo.mockReturnValue([]).mockReturnValueOnce(["tired", "drained"])
+const mockedEmotionsApi = {};
+mockedEmotionsApi.fetchSimilarWords = jest.fn()
+mockedEmotionsApi.fetchSimilarWords.mockReturnValue([]).mockReturnValueOnce(["tired", "drained"])
 
 const mockHappyExpression = {};
 mockHappyExpression.getName = jest.fn();
@@ -20,7 +20,7 @@ mockedExpressionsLibrary.retrieveExpression = jest.fn();
 mockedExpressionsLibrary.retrieveExpression.mockReturnValue(mockTiredExpression).mockReturnValueOnce(mockHappyExpression);
 mockedExpressionsLibrary.firstMatchToExpression = jest.fn();
 
-const moodModel = new MoodModel(mockedThesaurusApi, mockedExpressionsLibrary);
+const moodModel = new MoodModel(mockedEmotionsApi, mockedExpressionsLibrary);
 
 describe('MoodModel', () => {
 
@@ -81,7 +81,7 @@ describe('MoodModel', () => {
                   
                 ])
               });
-              expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
+              expect(mockedEmotionsApi.fetchSimilarWords).toHaveBeenCalledWith(
                 'exhausted',
                 expect.anything()
               );
@@ -102,7 +102,7 @@ describe('MoodModel', () => {
                   `no similar words found`,
                 ])
               });
-              expect(mockedThesaurusApi.isSimilarTo).toHaveBeenCalledWith(
+              expect(mockedEmotionsApi.fetchSimilarWords).toHaveBeenCalledWith(
                 'not-an-emotion',
                 expect.anything()
               );
