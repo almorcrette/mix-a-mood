@@ -1,13 +1,12 @@
-const ThesaurusApi = require('./ThesaurusApi');
 const ExpressionsLibrary = require('./ExpressionsLibrary');
-// const Expression = require('./Expression');
+const EmotionsApi = require('./EmotionsApi');
 
 class MoodModel {
   constructor(
-    thesaurusApi = new ThesaurusApi(),
+    emotionsApi = new EmotionsApi(),
     expressionsLibrary = new ExpressionsLibrary()
     ) {
-    this.thesaurusApi = thesaurusApi;
+    this.emotionsApi = emotionsApi;
     this.expressionsLibrary = expressionsLibrary;
     this.mood = null;
     this.moodExpression = null;
@@ -62,7 +61,7 @@ class MoodModel {
 
   _findMoodUsingThesaurus(emotion, cb) {
     this.addMessageToConsole('Searching the thesaurus...');
-      this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
+    this.emotionsApi.fetchSimilarWords(emotion, (similarWords) => {
         if (similarWords.length === 0) {
           this._raiseFoundNoSimilarWords();
           this._raiseNoMatchInLibrary();

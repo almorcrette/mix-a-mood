@@ -1,6 +1,6 @@
 const Expression = require('./Expression');
 const ExpressionsLibrary = require('./ExpressionsLibrary')
-const ThesaurusApi = require('./ThesaurusApi');
+const EmotionsApi = require('./EmotionsApi');
 const MoodModel = require('./MoodModel')
 const HomeViewModel = require('./HomeViewModel.js');
 
@@ -28,8 +28,8 @@ const expressionsLibrary = new ExpressionsLibrary(
   new Expression('fearful')
 )
 
-const thesaurusApi = new ThesaurusApi();
+const emotionsApi = new EmotionsApi();
 
-const model = new MoodModel(thesaurusApi, expressionsLibrary);
+const model = new MoodModel(emotionsApi, expressionsLibrary);
 
 const homeView = new HomeViewModel(model);

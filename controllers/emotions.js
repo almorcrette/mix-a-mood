@@ -1,5 +1,13 @@
-// EmotionsController
+const ThesaurusApi = require('../ThesaurusApi');
 
-// with method
+const EmotionsController = {
 
-// retrieveSimilarWords
+    RetrieveSimilarWords (req, res) {
+        const thesaurusApi = new ThesaurusApi();
+        thesaurusApi.isSimilarTo(req.params.emotion, (similarWords) => {
+            res.send(similarWords)
+        });
+    }
+};
+
+module.exports = EmotionsController;
