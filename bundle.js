@@ -87,51 +87,36 @@
     }
   });
 
-  // .env.js
-  var require_env = __commonJS({
-    ".env.js"(exports, module) {
-      var ENV = { "X_RapidAPI_Key": "efe97aba09msh85fb162e606845fp1ab198jsn2161044b71ed" };
-      module.exports = ENV;
-    }
-  });
-
-  // ThesaurusApi.js
-  var require_ThesaurusApi = __commonJS({
-    "ThesaurusApi.js"(exports, module) {
-      var ENV = require_env();
-      var ThesaurusApi2 = class {
-        isSimilarTo(word, callback) {
-          this.findSimilarTo(word, (data) => {
-            callback(data.similarTo);
-          }, this.standardErrorCB);
+  // EmotionsApi.js
+  var require_EmotionsApi = __commonJS({
+    "EmotionsApi.js"(exports, module) {
+      var EmotionsApi2 = class {
+        constructor() {
         }
-        findSimilarTo(word, successCB, errorCB) {
-          const url = `https://wordsapiv1.p.rapidapi.com/words/${word}/similarTo`;
+        fetchSimilarWords(emotion, cb) {
+          const url = `/emotions/${emotion}`;
           const options = {
-            method: "GET",
-            headers: {
-              "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
-              "X-RapidAPI-Key": ENV.X_RapidAPI_Key
-            }
+            method: "GET"
           };
-          fetch(url, options).then((res) => res.json()).then((json) => successCB(json)).catch((err) => errorCB(err));
-        }
-        standardErrorCB(err) {
-          console.log("error:" + err);
+          fetch(url, options).then((res) => {
+            return res.json();
+          }).then((similarWords) => {
+            cb(similarWords);
+          });
         }
       };
-      module.exports = ThesaurusApi2;
+      module.exports = EmotionsApi2;
     }
   });
 
   // MoodModel.js
   var require_MoodModel = __commonJS({
     "MoodModel.js"(exports, module) {
-      var ThesaurusApi2 = require_ThesaurusApi();
       var ExpressionsLibrary2 = require_ExpressionsLibrary();
+      var EmotionsApi2 = require_EmotionsApi();
       var MoodModel2 = class {
-        constructor(thesaurusApi2 = new ThesaurusApi2(), expressionsLibrary2 = new ExpressionsLibrary2()) {
-          this.thesaurusApi = thesaurusApi2;
+        constructor(emotionsApi2 = new EmotionsApi2(), expressionsLibrary2 = new ExpressionsLibrary2()) {
+          this.emotionsApi = emotionsApi2;
           this.expressionsLibrary = expressionsLibrary2;
           this.mood = null;
           this.moodExpression = null;
@@ -173,7 +158,7 @@
         }
         _findMoodUsingThesaurus(emotion, cb) {
           this.addMessageToConsole("Searching the thesaurus...");
-          this.thesaurusApi.isSimilarTo(emotion, (similarWords) => {
+          this.emotionsApi.fetchSimilarWords(emotion, (similarWords) => {
             if (similarWords.length === 0) {
               this._raiseFoundNoSimilarWords();
               this._raiseNoMatchInLibrary();
@@ -342,11 +327,11 @@
   // index.js
   var Expression = require_Expression();
   var ExpressionsLibrary = require_ExpressionsLibrary();
-  var ThesaurusApi = require_ThesaurusApi();
+  var EmotionsApi = require_EmotionsApi();
   var MoodModel = require_MoodModel();
   var HomeViewModel = require_HomeViewModel();
   var expressionsLibrary = new ExpressionsLibrary(new Expression("happy"), new Expression("grateful"), new Expression("sad"), new Expression("tired"), new Expression("excited"), new Expression("tearful"), new Expression("nervous"), new Expression("curious"), new Expression("angry"), new Expression("amazed"), new Expression("surprised"), new Expression("enthusiastic"), new Expression("bored"), new Expression("joyous"), new Expression("lustful"), new Expression("unimpressed"), new Expression("content"), new Expression("thoughtful"), new Expression("worried"), new Expression("disgusted"), new Expression("fearful"));
-  var thesaurusApi = new ThesaurusApi();
-  var model = new MoodModel(thesaurusApi, expressionsLibrary);
+  var emotionsApi = new EmotionsApi();
+  var model = new MoodModel(emotionsApi, expressionsLibrary);
   var homeView = new HomeViewModel(model);
 })();
