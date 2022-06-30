@@ -45,20 +45,6 @@ describe('MoodModel', () => {
       })
     })
 
-    describe('.lowerCase', () => {
-      describe('returns argument in lower case', () => {
-        it("returns 'happy' when passed 'HaPpY'", () => {
-          expect(moodModel.lowerCase('HaPpY')).toEqual('happy');
-        });
-        it("returns 'happy' when passed 'ExHaUsTeD'", () => {
-          expect(moodModel.lowerCase('ExHaUsTeD')).toEqual('exhausted');
-        });
-        it("returns 'happy' when passed 'sAd'", () => {
-          expect(moodModel.lowerCase('sAd')).toEqual('sad');
-        });
-      })
-    })
-
     describe('.processUserEmotion', () => {
       describe('when the emotion passed as parameter IS in the emotion library', () => {
         it('sets the mood to this emotion', () => {
@@ -127,25 +113,25 @@ describe('MoodModel', () => {
       });
     });
 
-    describe('.logToConsole', () => {
+    describe('.addMessageToConsole', () => {
       describe("adds parameter to model's console array", () => {
         it("adds 'user input: exhausted' to console array when passed it as parameter", () => {
-          moodModel.logToConsole('user input: exhausted');
+          moodModel.addMessageToConsole('user input: exhausted');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('user input: exhausted');
         });
         it("adds 'matching library expression?: false' to console array when passed it as parameter", () => {
-          moodModel.logToConsole('matching library expression?: false');
+          moodModel.addMessageToConsole('matching library expression?: false');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('matching library expression?: false');
         });
         it("adds 'Searching the thesaurus...' to console array when passed it as parameter", () => {
-          moodModel.logToConsole('Searching the thesaurus...');
+          moodModel.addMessageToConsole('Searching the thesaurus...');
           expect(moodModel.getConsole()[moodModel.console.length - 1]).toEqual('Searching the thesaurus...');
         });
         it('keeps previous entries in the console when a new one is added', () => {
           moodModel.console = [];
-          moodModel.logToConsole('user input: exhausted');
-          moodModel.logToConsole('matching library expression?: false');
-          moodModel.logToConsole('Searching the thesaurus...');
+          moodModel.addMessageToConsole('user input: exhausted');
+          moodModel.addMessageToConsole('matching library expression?: false');
+          moodModel.addMessageToConsole('Searching the thesaurus...');
           expect(moodModel.console.length).toEqual(3);
         });
       });
@@ -154,9 +140,9 @@ describe('MoodModel', () => {
     describe('.clearConsole', () => {
       it("empties the model's console", () => {
         moodModel.console = [];
-          moodModel.logToConsole('user input: exhausted');
-          moodModel.logToConsole('matching library expression?: false');
-          moodModel.logToConsole('Searching the thesaurus...');
+          moodModel.addMessageToConsole('user input: exhausted');
+          moodModel.addMessageToConsole('matching library expression?: false');
+          moodModel.addMessageToConsole('Searching the thesaurus...');
           moodModel.clearConsole();
           expect(moodModel.console.length).toEqual(0);
       })

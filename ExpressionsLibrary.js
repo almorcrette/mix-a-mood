@@ -34,7 +34,7 @@ class ExpressionsLibrary {
     let boolean = false;
     arr.some((similarWord) => {
       this.expressions.some((expression) => {
-        if (expression.getName() = similarWord) {
+        if (expression.getName() === similarWord) {
           boolean = true;
         };
         return boolean === true;
