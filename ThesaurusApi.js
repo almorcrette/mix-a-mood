@@ -1,5 +1,3 @@
-// const ENV = require('./.env');
-
 class ThesaurusApi {
 
   isSimilarTo(word, callback) {

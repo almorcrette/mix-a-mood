@@ -10,7 +10,7 @@
     "build": "esbuild index.js --bundle --outfile=bundle.js",
     "build:dev": "esbuild index.js --bundle --outfile=bundle.js --watch",
     "app": "node app.js",
-    "app:dev": "nodemon app.js",
+    "app:dev": "esbuild index.js --bundle --outfile=bundle.js --watch; nodemon app.js",
     "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js"
   },
   "repository": {

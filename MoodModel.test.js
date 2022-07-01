@@ -13,7 +13,7 @@ mockTiredExpression.getName = jest.fn();
 mockTiredExpression.getName.mockReturnValue('tired')
 
 const mockedExpressionsLibrary = {};
-mockedExpressionsLibrary.selectRandomExpression = jest.fn();
+mockedExpressionsLibrary.selectRandomExpression = jest.fn().mockReturnValue(mockHappyExpression)
 mockedExpressionsLibrary.isExpression = jest.fn();
 mockedExpressionsLibrary.isExpression.mockReturnValueOnce(true).mockReturnValue(false);
 mockedExpressionsLibrary.retrieveExpression = jest.fn();

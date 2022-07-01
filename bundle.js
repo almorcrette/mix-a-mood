@@ -126,7 +126,7 @@
           cb(this._selectRandomLibraryExpression());
         }
         _selectRandomLibraryExpression() {
-          this.addMessageToConsole("randomly selecting an expression in the library");
+          this.addMessageToConsole("randomly selecting an expression in the library...");
           let randomExpression = this.expressionsLibrary.selectRandomExpression();
           this.addMessageToConsole(`selected expression: ${randomExpression.getName()}`);
           this._setMoodExpression(randomExpression);
