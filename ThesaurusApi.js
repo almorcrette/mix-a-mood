@@ -1,4 +1,4 @@
-const ENV = require('./.env');
+// const ENV = require('./.env');
 
 class ThesaurusApi {
 
@@ -12,7 +12,7 @@ class ThesaurusApi {
       method: 'GET',
       headers: {
         'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
-        'X-RapidAPI-Key': ENV.X_RapidAPI_Key
+        'X-RapidAPI-Key': process.env.X_RapidAPI_Key
       }
     };
     fetch(url, options)
