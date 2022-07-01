@@ -123,7 +123,12 @@
           this.console = [];
         }
         setRandomMood(cb) {
-          cb(this._setMoodExpression(this.expressionsLibrary.selectRandomExpression()));
+          cb(this._selectRandomLibraryExpression());
+        }
+        _selectRandomLibraryExpression() {
+          let randomExpression = this.expressionsLibrary.selectRandomExpression();
+          this._setMoodExpression(randomExpression);
+          return this._setMood(randomExpression.getName());
         }
         processUserEmotion(emotion, cb) {
           this._addMessagesToConsoleAttemptLibraryMatch(emotion);
