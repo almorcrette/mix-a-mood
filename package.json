@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "unit:test": "jest",
-    "build": "esbuild index.js --bundle --outfile=bundle.js --watch",
-    "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js",
-    "dev-app": "nodemon app.js",
-    "e2e:test": "cypress run"
+    "test": "jest; cypress run",
+    "test:unit": "jest",
+    "test:e2e": "cypress run",
+    "build": "esbuild index.js --bundle --outfile=bundle.js",
+    "build:dev": "esbuild index.js --bundle --outfile=bundle.js --watch",
+    "app": "node app.js",
+    "app:dev": "nodemon app.js",
+    "start": "esbuild index.js --bundle --outfile=bundle.js; node app.js"
   },
   "repository": {
     "type": "git",
