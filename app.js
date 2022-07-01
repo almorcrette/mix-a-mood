@@ -1,5 +1,8 @@
 const express = require('express');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // const EmotionsController = require('./controllers/emotions');
 const emotionsRouter = require('./routes/emotions');

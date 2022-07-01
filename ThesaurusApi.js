@@ -12,7 +12,7 @@ class ThesaurusApi {
       method: 'GET',
       headers: {
         'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
-        'X-RapidAPI-Key': process.env.X_RapidAPI_Key
+        'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY
       }
     };
     fetch(url, options)
