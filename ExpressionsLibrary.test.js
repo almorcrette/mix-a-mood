@@ -8,6 +8,10 @@ const mockSadExpression = {};
 mockSadExpression.getName = jest.fn().mockReturnValue('sad');
 mockSadExpression.isSimilarTo = jest.fn().mockReturnValue(false)
 
+const mockTiredExpression = {};
+mockTiredExpression.getName = jest.fn().mockReturnValue('tired');
+mockTiredExpression.isSimilarTo = jest.fn().mockReturnValue(true)
+
 
 describe('ExpressionsLibrary', () => {
   describe('.prototype', () => {
@@ -41,6 +45,13 @@ describe('ExpressionsLibrary', () => {
           const expressionsLibrary = new ExpressionsLibrary(mockHappyExpression);
           expect(expressionsLibrary.retrieveExpression('happy')).toEqual(mockHappyExpression);
         })
+      })
+    })
+
+    describe('.retrieveSimilarExpression', () => {
+      it('returns the first expression which has a similar word match to the word passed as argument', () => {
+        const expressionsLibrary = new ExpressionsLibrary(mockHappyExpression, mockSadExpression);
+        expect(expressionsLibrary.retrieveSimilarExpression('bright').getName()).toEqual('happy')
       })
     })
   

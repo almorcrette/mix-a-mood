@@ -41,7 +41,16 @@ class ExpressionsLibrary {
     return record;
   }
 
-  //retrieveSimilarExpression
+  retrieveSimilarExpression(emotion) {
+    let matchingExpression = null;
+    this.expressions.forEach((expression) => {
+      if (expression.isSimilarTo(emotion) === true) {
+        matchingExpression = expression;
+        return
+      }
+    })
+    return matchingExpression
+  }
 
 
 
