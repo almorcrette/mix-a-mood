@@ -30,9 +30,15 @@ class MoodModel {
     if (this.expressionsLibrary.isExpression(emotion)) {
       this._useMoodFromLibrary(emotion, cb);
     } else {
-      this._findMoodUsingThesaurus(emotion, cb);
-      
-    };
+      this.addMessageToConsole("no exact match with expressions in library, now checking expressions' banks of similar words...")
+      if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
+        this.addMessageToConsole("found match with one of the library expressions' similar words so using this expression")
+        this._useSimilarMoodFromLibrary(emotion, cb);
+      } else {
+        this.addMessageToConsole("no match with any of the library expressions' similar words")
+        this._findMoodUsingThesaurus(emotion, cb);
+      };
+    } 
   };
 
   getMood() {

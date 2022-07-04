@@ -10,12 +10,26 @@
       var Expression2 = class {
         constructor(name) {
           this.name = name;
+          this.similarTo = [];
         }
         getName() {
           return this.name;
         }
         getImgSrc() {
           return `static/images/${this.name}.png`;
+        }
+        addSimilarTo(emotion) {
+          return this.similarTo.push(emotion);
+        }
+        isSimilarTo(emotion) {
+          let boolean = false;
+          this.similarTo.forEach((similarWord) => {
+            if (emotion === similarWord) {
+              boolean = true;
+              return;
+            }
+          });
+          return boolean;
         }
       };
       module.exports = Expression2;
@@ -53,6 +67,31 @@
             }
           });
           return record;
+        }
+        hasSimilarExpression(emotion) {
+          console.log("inside hasSimilarExpression with: ", emotion);
+          let boolean = false;
+          this.expressions.forEach((expression) => {
+            if (expression.isSimilarTo(emotion) === true) {
+              boolean = true;
+              return;
+            }
+            ;
+          });
+          console.log("hasSimilarExpression returning: ", boolean);
+          return boolean;
+        }
+        retrieveSimilarExpression(emotion) {
+          console.log("inside retrieveSimilarExpression with: ", emotion);
+          let matchingExpression = null;
+          this.expressions.forEach((expression) => {
+            if (expression.isSimilarTo(emotion) === true) {
+              matchingExpression = expression;
+              return;
+            }
+          });
+          console.log("retrieveSimilarExpression returning: ", matchingExpression);
+          return matchingExpression;
         }
         hasMatchInLibrary(arr) {
           let boolean = false;
@@ -137,9 +176,16 @@
           if (this.expressionsLibrary.isExpression(emotion)) {
             this._useMoodFromLibrary(emotion, cb);
           } else {
-            this._findMoodUsingThesaurus(emotion, cb);
+            this.addMessageToConsole("no exact match with expressions in library, now checking expressions' banks of similar words...");
+            if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
+              this.addMessageToConsole("found match with one of the library expressions' similar words so using this expression");
+              this._useSimilarMoodFromLibrary(emotion, cb);
+            } else {
+              this.addMessageToConsole("no match with any of the library expressions' similar words");
+              this._findMoodUsingThesaurus(emotion, cb);
+            }
+            ;
           }
-          ;
         }
         getMood() {
           return this.mood;
@@ -155,6 +201,13 @@
         }
         clearConsole() {
           return this.console = [];
+        }
+        _useSimilarMoodFromLibrary(emotion, cb) {
+          this.addMessageToConsole("using the similar expression from the library");
+          this._setMoodExpression(this.expressionsLibrary.retrieveSimilarExpression(emotion));
+          this._setMood(emotion.toLowerCase());
+          cb();
+          return this;
         }
         _useMoodFromLibrary(emotion, cb) {
           this.addMessageToConsole("using the expression from the library");

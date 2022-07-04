@@ -19,6 +19,7 @@ mockedExpressionsLibrary.isExpression.mockReturnValueOnce(true).mockReturnValue(
 mockedExpressionsLibrary.retrieveExpression = jest.fn();
 mockedExpressionsLibrary.retrieveExpression.mockReturnValue(mockTiredExpression).mockReturnValueOnce(mockHappyExpression);
 mockedExpressionsLibrary.firstMatchToExpression = jest.fn();
+mockedExpressionsLibrary.hasSimilarExpression = jest.fn().mockReturnValueOnce(true).mockReturnValue(false)
 mockedExpressionsLibrary.retrieveSimilarExpression = jest.fn().mockReturnValue(mockHappyExpression)
 
 const moodModel = new MoodModel(mockedEmotionsApi, mockedExpressionsLibrary);
@@ -66,53 +67,71 @@ describe('MoodModel', () => {
       });
 
       describe('when the emotion passed as parameter IS NOT in the emotion library', () => {
-        describe('searches the thesaurus for a similar word that is in the emotion library', () => {
-          describe('if it finds a thesaurus match in the emotion library', () => {
-            it('sets the mood expression to the thesaurus-library match', () => {
-              moodModel.processUserEmotion('exhausted', (res) => {
-                expect(moodModel.getMoodExpression().getName()).toEqual('tired'); // doesn't work because it doesn't generate a response
-                expect(moodModel.getMood()).toEqual('exhausted'); // doesn't work because it doesn't generate a response
-                expect(updatedMoodModel.getConsole()).toEqual([
-                  'user input: exhausted',
-                  'input in lower case: exhausted',
-                  'match with an expression in the library? false',
-                  'searching the thesaurus...',
-                  `similar words found: ["tired", "drained"]`,
-                  'looking for match with expressions in library...',
-                  
-                ])
+        describe('searches the similar words of each expression in the emotion library for a match', () => {
+          describe('if it finds a match from similar words of each expression in the emotion library', () => {
+            describe('sets the mood expression to the expression with the match', () => {
+              it('calls this.expressionLibrary.retrieveSimilarExpression(emotion)', () => {
+                moodModel.processUserEmotion('bright', () => {
+                  expect(mockedExpressionsLibrary.retrieveSimilarExpression).toHaveBeenCalledWith('bright');
+                  expect(moodModel.getMoodExpression().getName()).toEqual('happy');
+                  expect(moodModel.getMood()).toEqual('bright');
+                })
+              })
+            })
+          })
+          describe('if it finds no match from similar words of each expression in the library', () => {
+            describe('searches the thesaurus for a similar word that is in the emotion library', () => {
+              describe('if it finds a thesaurus match in the emotion library', () => {
+                it('sets the mood expression to the thesaurus-library match', () => {
+                  moodModel.processUserEmotion('exhausted', (res) => {
+                    expect(moodModel.getMoodExpression().getName()).toEqual('tired'); // doesn't work because it doesn't generate a response
+                    expect(moodModel.getMood()).toEqual('exhausted'); // doesn't work because it doesn't generate a response
+                    expect(updatedMoodModel.getConsole()).toEqual([
+                      'user input: exhausted',
+                      'input in lower case: exhausted',
+                      'match with an expression in the library? false',
+                      'searching the thesaurus...',
+                      `similar words found: ["tired", "drained"]`,
+                      'looking for match with expressions in library...',
+                      
+                    ])
+                  });
+                  expect(mockedEmotionsApi.fetchSimilarWords).toHaveBeenCalledWith(
+                    'exhausted',
+                    expect.anything()
+                  );
+                });
               });
-              expect(mockedEmotionsApi.fetchSimilarWords).toHaveBeenCalledWith(
-                'exhausted',
-                expect.anything()
-              );
+    
+              describe('if it does NOT find a thesaurus match in the emotion library', () => {
+                it('sets the mood and mood expression to undefined', () => {
+                  moodModel.processUserEmotion('not-an-emotion', (res) => {
+                    console.log('callback for processUserEmotion with not-an-emotion. res: ', res);
+                    expect(moodModel.getMoodExpression().getName()).toEqual(null); // doesn't work because it doesn't generate a response
+                    expect(moodModel.getMood()).toEqual(undefined); // doesn't work because it doesn't generate a response
+                    expect(updatedMoodModel.getConsole()).toEqual([
+                      'user input: not-an-emotion',
+                      'input in lower case: not-an-emotion',
+                      'match with an expression in the library? false',
+                      'searching the thesaurus...',
+                      `no similar words found`,
+                    ])
+                  });
+                  expect(mockedEmotionsApi.fetchSimilarWords).toHaveBeenCalledWith(
+                    'not-an-emotion',
+                    expect.anything()
+                  );
+                });
+              });
             });
           });
-
-          describe('if it does NOT find a thesaurus match in the emotion library', () => {
-            it('sets the mood and mood expression to undefined', () => {
-              moodModel.processUserEmotion('not-an-emotion', (res) => {
-                console.log('callback for processUserEmotion with not-an-emotion. res: ', res);
-                expect(moodModel.getMoodExpression().getName()).toEqual(null); // doesn't work because it doesn't generate a response
-                expect(moodModel.getMood()).toEqual(undefined); // doesn't work because it doesn't generate a response
-                expect(updatedMoodModel.getConsole()).toEqual([
-                  'user input: not-an-emotion',
-                  'input in lower case: not-an-emotion',
-                  'match with an expression in the library? false',
-                  'searching the thesaurus...',
-                  `no similar words found`,
-                ])
-              });
-              expect(mockedEmotionsApi.fetchSimilarWords).toHaveBeenCalledWith(
-                'not-an-emotion',
-                expect.anything()
-              );
-            });
-          });
-
         });
-      });
-    });
+      })
+    })
+
+
+
+        
 
     describe('.addMessageToConsole', () => {
       describe("adds parameter to model's console array", () => {
