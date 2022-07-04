@@ -173,9 +173,12 @@
         }
         processUserEmotion(emotion, cb) {
           this._addMessagesToConsoleAttemptLibraryMatch(emotion);
+          console.log("emotion", emotion, "this.expressionsLibrary.isExpression(emotion)", this.expressionsLibrary.isExpression(emotion));
           if (this.expressionsLibrary.isExpression(emotion)) {
+            console.log("getting here inside true for isExpression?");
             this._useMoodFromLibrary(emotion, cb);
           } else {
+            console.log("getting here?", emotion);
             this.addMessageToConsole("no exact match with expressions in library, now checking expressions' banks of similar words...");
             if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
               this.addMessageToConsole("found match with one of the library expressions' similar words so using this expression");
@@ -235,10 +238,14 @@
             cb();
           });
         }
+        _cacheThesaurusFind(expression, emotion) {
+          expression.addSimilarTo(emotion.toLowerCase());
+        }
         _useThesaurusMatch(emotion, similarWords) {
           this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords));
           this.addMessageToConsole(`match found: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
           this._setMood(emotion.toLowerCase());
+          return this.getMoodExpression;
         }
         _raiseNoMatchInLibrary() {
           this.addMessageToConsole("no match to the expressions in the library");
@@ -260,7 +267,7 @@
           let downCaseEmotion = emotion.toLowerCase();
           this.addMessageToConsole(`user input: ${emotion}`);
           this.addMessageToConsole(`input in lower case: ${downCaseEmotion}`);
-          this.addMessageToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
+          this.addMessageToConsole(`match with an expression in the library? ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
         }
         _setMoodExpression(expression) {
           return this.moodExpression = expression;
