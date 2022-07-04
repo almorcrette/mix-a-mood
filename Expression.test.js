@@ -35,18 +35,43 @@ describe('Expression', () => {
         })
       })
     })
-    describe('.getSimilarTo', () => {
-      describe('returns attribute of similar word', () => {
-        it("returns ['exhausted'] for an expression arranged with this as similarTo", () => {
+    describe('.isSimilarTo', () => {
+      describe('returns whether word passed is element in similar words property', () => {
+        it("returns true from 'exhausted' for an expression arranged with similarTo ['exhausted']", () => {
           expression = new Expression('tired');
           expression.addSimilarTo('exhausted')
-          expect(expression.getSimilarTo()).toEqual(['exhausted'])
+          expect(expression.isSimilarTo('exhausted')).toEqual(true)
         });
-        it("returns ['exhausted', 'knackered'] for an expression arranged with this as similarTo", () => {
+        it("returns false from 'exhausted' for an expression arranged with similarTo []", () => {
+          expression = new Expression('tired');
+          expect(expression.isSimilarTo('exhausted')).toEqual(false)
+        });
+        it("returns true from 'knackered' for an expression arranged with similarTo ['knackered']", () => {
+          expression = new Expression('tired');
+          expression.addSimilarTo('knackered')
+          expect(expression.isSimilarTo('knackered')).toEqual(true)
+        });
+        it("returns false from 'knackered' for an expression arranged with similarTo []", () => {
+          expression = new Expression('tired');
+          expect(expression.isSimilarTo('knackered')).toEqual(false)
+        });
+        it("returns true from 'exhausted' for an expression arranged with this as similarTo ['exhausted', knackered']", () => {
           expression = new Expression('tired');
           expression.addSimilarTo('exhausted')
           expression.addSimilarTo('knackered')
-          expect(expression.getSimilarTo()).toEqual(['exhausted', 'knackered'])
+          expect(expression.isSimilarTo('exhausted')).toEqual(true)
+        })
+        it("returns true from 'knackered' for an expression arranged with this as similarTo ['exhausted', knackered']", () => {
+          expression = new Expression('tired');
+          expression.addSimilarTo('exhausted')
+          expression.addSimilarTo('knackered')
+          expect(expression.isSimilarTo('knackered')).toEqual(true)
+        })
+        it("returns false from 'energetic' for an expression arranged with this as similarTo ['exhausted', knackered']", () => {
+          expression = new Expression('tired');
+          expression.addSimilarTo('exhausted')
+          expression.addSimilarTo('knackered')
+          expect(expression.isSimilarTo('energetic')).toEqual(false)
         })
       })
     })

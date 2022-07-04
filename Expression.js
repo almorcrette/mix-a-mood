@@ -16,8 +16,15 @@ class Expression {
     return this.similarTo.push(emotion);
   }
 
-  getSimilarTo() {
-    return this.similarTo
+  isSimilarTo(emotion) {
+    let boolean = false;
+    this.similarTo.forEach((similarWord) => {
+      if (emotion === similarWord) {
+        boolean = true;
+        return
+      }
+    })
+    return boolean
   }
 }
 

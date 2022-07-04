@@ -21,6 +21,12 @@ describe('ExpressionsLibrary', () => {
       })
     })
 
+    // describe('.hasSimilarExpression', () => {
+    //   describe("passes an emotion (string), return true/false depending on match with expression's similar words property", () => {
+    //     it()
+    //   })
+    // })
+
     describe('.retrieveExpression', () => {
       describe('returns the expression whose name matches the emotion passed as parameter', () => {
         it("returns 'happyExpression' if passed 'happy'", () => {
