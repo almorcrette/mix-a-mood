@@ -18,7 +18,7 @@ class MoodModel {
   }
   
   _selectRandomLibraryExpression() {
-    this.addMessageToConsole('randomly selecting an expression in the library...');
+    this.addMessageToConsole('randomly selecting a expression in the library...');
     let randomExpression = this.expressionsLibrary.selectRandomExpression();
     this.addMessageToConsole(`selected expression: ${randomExpression.getName()}`);
     this._setMoodExpression(randomExpression);
@@ -27,18 +27,16 @@ class MoodModel {
 
   processUserEmotion(emotion, cb) {
     this._addMessagesToConsoleAttemptLibraryMatch(emotion);
-    console.log('emotion', emotion, 'this.expressionsLibrary.isExpression(emotion)', this.expressionsLibrary.isExpression(emotion))
     if (this.expressionsLibrary.isExpression(emotion)) {
-      console.log('getting here inside true for isExpression?')
       this._useMoodFromLibrary(emotion, cb);
     } else {
-      console.log('getting here?', emotion)
-      this.addMessageToConsole("no exact match with expressions in library, now checking expressions' banks of similar words...")
+      this.addMessageToConsole("no exact match with expressions in library")
+      this.addMessageToConsole("checking the cache of previous, successful thesaurus queries...")
       if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
-        this.addMessageToConsole("found match with one of the library expressions' similar words so using this expression")
+        this.addMessageToConsole("found a match in the cache")
         this._useSimilarMoodFromLibrary(emotion, cb);
       } else {
-        this.addMessageToConsole("no match with any of the library expressions' similar words")
+        this.addMessageToConsole("no match in the cache")
         this._findMoodUsingThesaurus(emotion, cb);
       };
     } 
@@ -65,9 +63,10 @@ class MoodModel {
   }
 
   _useSimilarMoodFromLibrary(emotion, cb) {
-    this.addMessageToConsole('using the similar expression from the library');
     this._setMoodExpression(this.expressionsLibrary.retrieveSimilarExpression(emotion));
     this._setMood(emotion.toLowerCase());
+    this.addMessageToConsole(`using the match from the cache: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
+
     cb();
     return this;
 
@@ -94,7 +93,7 @@ class MoodModel {
           this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
           if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
             this._useThesaurusMatch(emotion, similarWords);
-            // add call on matching mood expression to addSimilarTo
+            this._cacheThesaurusFind(this.moodExpression, emotion);
           } else {
             this._raiseNoMatchInLibrary();
           };
