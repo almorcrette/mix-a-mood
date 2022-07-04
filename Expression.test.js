@@ -26,5 +26,19 @@ describe('Expression', () => {
         });
       });
     });
+    describe('.addSimilarTo', () => {
+      describe('adds similar word passed in as parameter to similarTo property', () => {
+        it("adds 'exhausted' to similarTo array when addSimilarTo('expression') is called", () => {
+          expression = new Expression('tired');
+          expression.addSimilarTo('exhausted')
+          expect(expression.similarTo[expression.similarTo.length - 1]).toEqual('exhausted')
+        })
+      })
+    })
+    // describe('.getSimilarTo', () => {
+    //   describe('returns attribute of similar word', () => {
+    //     it("returns ['exhasted', 'knackered'] for an expression )
+    //   })
+    // })
   });
 });

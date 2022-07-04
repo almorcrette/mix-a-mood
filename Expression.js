@@ -1,7 +1,7 @@
 class Expression {
   constructor(name) {
     this.name = name;
-    // similarTo attribute
+    this.similarTo = []
   }
 
   getName() {
@@ -12,9 +12,9 @@ class Expression {
     return `static/images/${this.name}.png`
   }
 
-  //getSimilarTo
-
-  //addSimilarTo
+  addSimilarTo(emotion) {
+    return this.similarTo.push(emotion);
+  }
 }
 
 module.exports = Expression;
