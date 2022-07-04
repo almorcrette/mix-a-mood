@@ -18,7 +18,7 @@ class MoodModel {
   }
   
   _selectRandomLibraryExpression() {
-    this.addMessageToConsole('randomly selecting an expression in the library...');
+    this.addMessageToConsole('randomly selecting a expression in the library...');
     let randomExpression = this.expressionsLibrary.selectRandomExpression();
     this.addMessageToConsole(`selected expression: ${randomExpression.getName()}`);
     this._setMoodExpression(randomExpression);
@@ -30,9 +30,16 @@ class MoodModel {
     if (this.expressionsLibrary.isExpression(emotion)) {
       this._useMoodFromLibrary(emotion, cb);
     } else {
-      this._findMoodUsingThesaurus(emotion, cb);
-      
-    };
+      this.addMessageToConsole("no exact match with expressions in library")
+      this.addMessageToConsole("checking the cache of previous, successful thesaurus queries...")
+      if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
+        this.addMessageToConsole("found a match in the cache")
+        this._useSimilarMoodFromLibrary(emotion, cb);
+      } else {
+        this.addMessageToConsole("no match in the cache")
+        this._findMoodUsingThesaurus(emotion, cb);
+      };
+    } 
   };
 
   getMood() {
@@ -55,6 +62,16 @@ class MoodModel {
     return this.console = [];
   }
 
+  _useSimilarMoodFromLibrary(emotion, cb) {
+    this._setMoodExpression(this.expressionsLibrary.retrieveSimilarExpression(emotion));
+    this._setMood(emotion.toLowerCase());
+    this.addMessageToConsole(`using the match from the cache: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
+
+    cb();
+    return this;
+
+  }
+
   _useMoodFromLibrary(emotion, cb) {
     this.addMessageToConsole('using the expression from the library');
     this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
@@ -62,6 +79,9 @@ class MoodModel {
     cb();
     return this;
   }
+
+
+
 
   _findMoodUsingThesaurus(emotion, cb) {
     this.addMessageToConsole('Searching the thesaurus (WordsApi)...');
@@ -73,12 +93,17 @@ class MoodModel {
           this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
           if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
             this._useThesaurusMatch(emotion, similarWords);
+            this._cacheThesaurusFind(this.moodExpression, emotion);
           } else {
             this._raiseNoMatchInLibrary();
           };
         };
         cb();
       });
+  }
+
+  _cacheThesaurusFind(expression, emotion) {
+    expression.addSimilarTo(emotion.toLowerCase());
   }
 
   _useThesaurusMatch(emotion, similarWords) {
@@ -90,6 +115,7 @@ class MoodModel {
         this.getMoodExpression().getName()
       } which is in the library`);
     this._setMood(emotion.toLowerCase());
+    return this.getMoodExpression
   }
 
   _raiseNoMatchInLibrary() {
@@ -116,7 +142,7 @@ class MoodModel {
     let downCaseEmotion = emotion.toLowerCase();
     this.addMessageToConsole(`user input: ${emotion}`);
     this.addMessageToConsole(`input in lower case: ${downCaseEmotion}`);
-    this.addMessageToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
+    this.addMessageToConsole(`match with an expression in the library? ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
   }
 
   _setMoodExpression(expression) {

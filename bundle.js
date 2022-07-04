@@ -10,12 +10,26 @@
       var Expression2 = class {
         constructor(name) {
           this.name = name;
+          this.similarTo = [];
         }
         getName() {
           return this.name;
         }
         getImgSrc() {
           return `static/images/${this.name}.png`;
+        }
+        addSimilarTo(emotion) {
+          return this.similarTo.push(emotion);
+        }
+        isSimilarTo(emotion) {
+          let boolean = false;
+          this.similarTo.forEach((similarWord) => {
+            if (emotion === similarWord) {
+              boolean = true;
+              return;
+            }
+          });
+          return boolean;
         }
       };
       module.exports = Expression2;
@@ -53,6 +67,31 @@
             }
           });
           return record;
+        }
+        hasSimilarExpression(emotion) {
+          console.log("inside hasSimilarExpression with: ", emotion);
+          let boolean = false;
+          this.expressions.forEach((expression) => {
+            if (expression.isSimilarTo(emotion) === true) {
+              boolean = true;
+              return;
+            }
+            ;
+          });
+          console.log("hasSimilarExpression returning: ", boolean);
+          return boolean;
+        }
+        retrieveSimilarExpression(emotion) {
+          console.log("inside retrieveSimilarExpression with: ", emotion);
+          let matchingExpression = null;
+          this.expressions.forEach((expression) => {
+            if (expression.isSimilarTo(emotion) === true) {
+              matchingExpression = expression;
+              return;
+            }
+          });
+          console.log("retrieveSimilarExpression returning: ", matchingExpression);
+          return matchingExpression;
         }
         hasMatchInLibrary(arr) {
           let boolean = false;
@@ -126,7 +165,7 @@
           cb(this._selectRandomLibraryExpression());
         }
         _selectRandomLibraryExpression() {
-          this.addMessageToConsole("randomly selecting an expression in the library...");
+          this.addMessageToConsole("randomly selecting a expression in the library...");
           let randomExpression = this.expressionsLibrary.selectRandomExpression();
           this.addMessageToConsole(`selected expression: ${randomExpression.getName()}`);
           this._setMoodExpression(randomExpression);
@@ -137,9 +176,17 @@
           if (this.expressionsLibrary.isExpression(emotion)) {
             this._useMoodFromLibrary(emotion, cb);
           } else {
-            this._findMoodUsingThesaurus(emotion, cb);
+            this.addMessageToConsole("no exact match with expressions in library");
+            this.addMessageToConsole("checking the cache of previous, successful thesaurus queries...");
+            if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
+              this.addMessageToConsole("found a match in the cache");
+              this._useSimilarMoodFromLibrary(emotion, cb);
+            } else {
+              this.addMessageToConsole("no match in the cache");
+              this._findMoodUsingThesaurus(emotion, cb);
+            }
+            ;
           }
-          ;
         }
         getMood() {
           return this.mood;
@@ -155,6 +202,13 @@
         }
         clearConsole() {
           return this.console = [];
+        }
+        _useSimilarMoodFromLibrary(emotion, cb) {
+          this._setMoodExpression(this.expressionsLibrary.retrieveSimilarExpression(emotion));
+          this._setMood(emotion.toLowerCase());
+          this.addMessageToConsole(`using the match from the cache: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
+          cb();
+          return this;
         }
         _useMoodFromLibrary(emotion, cb) {
           this.addMessageToConsole("using the expression from the library");
@@ -173,6 +227,7 @@
               this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
               if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
                 this._useThesaurusMatch(emotion, similarWords);
+                this._cacheThesaurusFind(this.moodExpression, emotion);
               } else {
                 this._raiseNoMatchInLibrary();
               }
@@ -182,10 +237,14 @@
             cb();
           });
         }
+        _cacheThesaurusFind(expression, emotion) {
+          expression.addSimilarTo(emotion.toLowerCase());
+        }
         _useThesaurusMatch(emotion, similarWords) {
           this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords));
           this.addMessageToConsole(`match found: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
           this._setMood(emotion.toLowerCase());
+          return this.getMoodExpression;
         }
         _raiseNoMatchInLibrary() {
           this.addMessageToConsole("no match to the expressions in the library");
@@ -207,7 +266,7 @@
           let downCaseEmotion = emotion.toLowerCase();
           this.addMessageToConsole(`user input: ${emotion}`);
           this.addMessageToConsole(`input in lower case: ${downCaseEmotion}`);
-          this.addMessageToConsole(`match with an expression in the library?: ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
+          this.addMessageToConsole(`match with an expression in the library? ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
         }
         _setMoodExpression(expression) {
           return this.moodExpression = expression;

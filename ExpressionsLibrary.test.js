@@ -2,9 +2,16 @@ const ExpressionsLibrary = require('./ExpressionsLibrary')
 
 const mockHappyExpression = {};
 mockHappyExpression.getName = jest.fn().mockReturnValue('happy');
+mockHappyExpression.isSimilarTo = jest.fn().mockReturnValue(true)
 
 const mockSadExpression = {};
 mockSadExpression.getName = jest.fn().mockReturnValue('sad');
+mockSadExpression.isSimilarTo = jest.fn().mockReturnValue(false)
+
+const mockTiredExpression = {};
+mockTiredExpression.getName = jest.fn().mockReturnValue('tired');
+mockTiredExpression.isSimilarTo = jest.fn().mockReturnValue(true)
+
 
 describe('ExpressionsLibrary', () => {
   describe('.prototype', () => {
@@ -21,12 +28,30 @@ describe('ExpressionsLibrary', () => {
       })
     })
 
+    describe('.hasSimilarExpression', () => {
+      it("returns true if any calls .isSimilarTo on expression in the library and return true", () => {
+        const libraryWithSimilarToMatch = new ExpressionsLibrary(mockHappyExpression);
+        const libraryWithNoSimilarToMatch = new ExpressionsLibrary(mockSadExpression);
+        const libraryWithSimilarToMatchAndNonMatch = new ExpressionsLibrary(mockHappyExpression, mockSadExpression);
+        expect(libraryWithSimilarToMatch.hasSimilarExpression('emotion')).toEqual(true)
+        expect(libraryWithNoSimilarToMatch.hasSimilarExpression('emotion')).toEqual(false)
+        expect(libraryWithSimilarToMatchAndNonMatch.hasSimilarExpression('emotion')).toEqual(true)
+      })
+    })
+
     describe('.retrieveExpression', () => {
       describe('returns the expression whose name matches the emotion passed as parameter', () => {
         it("returns 'happyExpression' if passed 'happy'", () => {
           const expressionsLibrary = new ExpressionsLibrary(mockHappyExpression);
           expect(expressionsLibrary.retrieveExpression('happy')).toEqual(mockHappyExpression);
         })
+      })
+    })
+
+    describe('.retrieveSimilarExpression', () => {
+      it('returns the first expression which has a similar word match to the word passed as argument', () => {
+        const expressionsLibrary = new ExpressionsLibrary(mockHappyExpression, mockSadExpression);
+        expect(expressionsLibrary.retrieveSimilarExpression('bright').getName()).toEqual('happy')
       })
     })
   
