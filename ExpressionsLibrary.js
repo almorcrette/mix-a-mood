@@ -19,17 +19,6 @@ class ExpressionsLibrary {
     return boolean;
   }
 
-  hasSimilarExpression(emotion) {
-    let boolean = false;
-    this.expressions.forEach((expression) => {
-      if (expression.isSimilarTo(emotion) === true) {
-        boolean = true;
-        return;
-      };
-    });
-    return boolean
-  }
-
   retrieveExpression(emotion) {
     let downCaseEmotion = emotion.toLowerCase();
     let record = null;
@@ -39,6 +28,17 @@ class ExpressionsLibrary {
       }
     })
     return record;
+  }
+
+  hasSimilarExpression(emotion) {
+    let boolean = false;
+    this.expressions.forEach((expression) => {
+      if (expression.isSimilarTo(emotion) === true) {
+        boolean = true;
+        return;
+      };
+    });
+    return boolean
   }
 
   retrieveSimilarExpression(emotion) {
@@ -51,8 +51,6 @@ class ExpressionsLibrary {
     })
     return matchingExpression
   }
-
-
 
   hasMatchInLibrary(arr) {
     let boolean = false;

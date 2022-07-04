@@ -55,6 +55,15 @@ class MoodModel {
     return this.console = [];
   }
 
+  _useSimilarMoodFromLibrary(emotion, cb) {
+    this.addMessageToConsole('using the similar expression from the library');
+    this._setMoodExpression(this.expressionsLibrary.retrieveSimilarExpression(emotion));
+    this._setMood(emotion.toLowerCase());
+    cb();
+    return this;
+
+  }
+
   _useMoodFromLibrary(emotion, cb) {
     this.addMessageToConsole('using the expression from the library');
     this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
@@ -63,7 +72,7 @@ class MoodModel {
     return this;
   }
 
-  // useSimilarMoodFromLibrary
+
 
 
   _findMoodUsingThesaurus(emotion, cb) {

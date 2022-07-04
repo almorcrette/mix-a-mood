@@ -19,6 +19,7 @@ mockedExpressionsLibrary.isExpression.mockReturnValueOnce(true).mockReturnValue(
 mockedExpressionsLibrary.retrieveExpression = jest.fn();
 mockedExpressionsLibrary.retrieveExpression.mockReturnValue(mockTiredExpression).mockReturnValueOnce(mockHappyExpression);
 mockedExpressionsLibrary.firstMatchToExpression = jest.fn();
+mockedExpressionsLibrary.retrieveSimilarExpression = jest.fn().mockReturnValue(mockHappyExpression)
 
 const moodModel = new MoodModel(mockedEmotionsApi, mockedExpressionsLibrary);
 
@@ -145,6 +146,24 @@ describe('MoodModel', () => {
           moodModel.addMessageToConsole('Searching the thesaurus...');
           moodModel.clearConsole();
           expect(moodModel.console.length).toEqual(0);
+      });
+    });
+
+    describe('._useSimilarMoodFromLibrary', () => {
+      it('calls this.expressionLibrary.retrieveSimilarExpression(emotion)', () => {
+        moodModel._useSimilarMoodFromLibrary('bright', () => {
+          expect(mockedExpressionsLibrary.retrieveSimilarExpression).toHaveBeenCalledWith('bright')
+        })
+      })
+      it('sets the return value to the moodExpression', () => {
+        moodModel._useSimilarMoodFromLibrary('bright', () => {
+          expect(moodModel.getMoodExpression().getName()).toEqual('happy')
+        })
+      })
+      it('sets the mood to the passed emotion', () => {
+        moodModel._useSimilarMoodFromLibrary('bright', () => {
+          expect(moodModel.getMood()).toEqual('bright')
+        })
       })
     })
   });
