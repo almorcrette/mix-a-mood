@@ -35,10 +35,20 @@ describe('Expression', () => {
         })
       })
     })
-    // describe('.getSimilarTo', () => {
-    //   describe('returns attribute of similar word', () => {
-    //     it("returns ['exhasted', 'knackered'] for an expression )
-    //   })
-    // })
+    describe('.getSimilarTo', () => {
+      describe('returns attribute of similar word', () => {
+        it("returns ['exhausted'] for an expression arranged with this as similarTo", () => {
+          expression = new Expression('tired');
+          expression.addSimilarTo('exhausted')
+          expect(expression.getSimilarTo()).toEqual(['exhausted'])
+        });
+        it("returns ['exhausted', 'knackered'] for an expression arranged with this as similarTo", () => {
+          expression = new Expression('tired');
+          expression.addSimilarTo('exhausted')
+          expression.addSimilarTo('knackered')
+          expect(expression.getSimilarTo()).toEqual(['exhausted', 'knackered'])
+        })
+      })
+    })
   });
 });

@@ -15,6 +15,10 @@ class Expression {
   addSimilarTo(emotion) {
     return this.similarTo.push(emotion);
   }
+
+  getSimilarTo() {
+    return this.similarTo
+  }
 }
 
 module.exports = Expression;
