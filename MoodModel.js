@@ -63,6 +63,9 @@ class MoodModel {
     return this;
   }
 
+  // useSimilarMoodFromLibrary
+
+
   _findMoodUsingThesaurus(emotion, cb) {
     this.addMessageToConsole('Searching the thesaurus (WordsApi)...');
     this.emotionsApi.fetchSimilarWords(emotion, (similarWords) => {
@@ -73,6 +76,7 @@ class MoodModel {
           this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
           if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
             this._useThesaurusMatch(emotion, similarWords);
+            // add call on matching mood expression to addSimilarTo
           } else {
             this._raiseNoMatchInLibrary();
           };
@@ -90,6 +94,7 @@ class MoodModel {
         this.getMoodExpression().getName()
       } which is in the library`);
     this._setMood(emotion.toLowerCase());
+    // return the matching MoodExpression
   }
 
   _raiseNoMatchInLibrary() {

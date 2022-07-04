@@ -19,6 +19,8 @@ class ExpressionsLibrary {
     return boolean;
   }
 
+  //hasSimilarExpression
+
   retrieveExpression(emotion) {
     let downCaseEmotion = emotion.toLowerCase();
     let record = null;
@@ -29,6 +31,10 @@ class ExpressionsLibrary {
     })
     return record;
   }
+
+  //retrieveSimilarExpression
+
+
 
   hasMatchInLibrary(arr) {
     let boolean = false;
