@@ -1,4 +1,4 @@
-const Library = require('./Library')
+const Library = require('./library')
 
 const mockHappyExpression = {};
 mockHappyExpression.getName = jest.fn().mockReturnValue('happy');
@@ -84,5 +84,24 @@ describe('Library', () => {
         })
       })
     })
+    describe('.makeImageSource', () => {
+      describe("returns the url of the expression whose name is passed as argument", () => {
+        it("returns 'static/images/happy.jpg' when 'happy' passed as parameter", () => {
+          const library = new Library(mockHappyExpression);
+          expect(library.makeImageSource('happy')).toEqual('static/images/happy.png')
+        });
+        it("returns 'static/images/sad.jpg' when 'sad' passed as parameter", () => {
+          const library = new Library(mockSadExpression);
+          expect(library.makeImageSource('sad')).toEqual('static/images/sad.png');
+        });
+      });
+      describe("thow exception if string passed as argument is not the name of an expression in the library", () => {
+        it("throws ''dog' is not the name of an expression in the library'", () => {
+          const library = new Library();
+          function makeImageSourceFromNonName() {library.makeImageSource('dog')}
+          expect(makeImageSourceFromNonName).toThrowError(new Error("'dog' is not the name of an expression in the library"));
+        });
+      })
+    });
   })
 })

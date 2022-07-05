@@ -84,6 +84,21 @@ class Library {
     return expressionMatch;
   }
 
+  makeImageSource(string) {
+    let boolean = false;
+    this.expressions.forEach((expression) => {
+      if (expression.getName() === string) {
+        boolean = true;
+        return
+      }
+    })
+    if (boolean === false) {
+      throw `'${string}' is not the name of an expression in the library`
+    } else {
+      return `static/images/${string}.png`
+    }
+
+  }
 }
 
 module.exports = Library;

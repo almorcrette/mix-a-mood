@@ -14,18 +14,7 @@ describe('Expression', () => {
         });
       });
     });
-    describe('.getImgSrc', () => {
-      describe("returns the url of the expression's image", () => {
-        it("returns 'static/images/name.jpg' for an expression initiated with 'name' as parameter", () => {
-          expression = new Expression('name');
-          expect(expression.getImgSrc()).toEqual('static/images/name.png');
-        });
-        it("returns 'static/images/anotherName.jpg' for an expression initiated with 'anotherName' as parameter", () => {
-          expression = new Expression('anotherName');
-          expect(expression.getImgSrc()).toEqual('static/images/anotherName.png');
-        });
-      });
-    });
+    
     describe('.addSimilarTo', () => {
       describe('adds similar word passed in as parameter to similarTo property', () => {
         it("adds 'exhausted' to similarTo array when addSimilarTo('expression') is called", () => {
