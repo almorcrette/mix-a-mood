@@ -1,8 +1,8 @@
-const MoodModel = require('./MoodModel')
+const Mood = require('./mood')
 
-class HomeViewModel {
-  constructor(moodModel = new MoodModel) {
-    this.moodModel = moodModel;
+class View {
+  constructor(mood = new Mood) {
+    this.mood = mood;
 
     this.dialogueContainerEl = document.querySelector("#dialogue-container");
     this.expressionContainerEl = document.querySelector("#expression-container");
@@ -15,10 +15,10 @@ class HomeViewModel {
     this.playAgainButtonEl = document.querySelector('button#play-again');
 
     this.generateButtonEl.addEventListener('click', () => {
-      this.moodModel.processUserEmotion(this.emotionInputEl.value,
+      this.mood.processUserEmotion(this.emotionInputEl.value,
         (res) => {
           this.hideEmotionSelection();
-          if (this.moodModel.getMood() === undefined) {
+          if (this.mood.getMood() === undefined) {
             this.displayNotFound();
           } else {
             this.displayMood();
@@ -29,7 +29,7 @@ class HomeViewModel {
       ); 
     })
     this.randomiseButtonEl.addEventListener('click', () => {
-      this.moodModel.setRandomMood(
+      this.mood.setRandomMood(
         (res) => {
           this.hideEmotionSelection();
           this.displayMood();
@@ -58,21 +58,21 @@ class HomeViewModel {
   _displayMoodImage() {
     let moodDisplayEl = document.createElement('img');
     moodDisplayEl.classList.add('mood-display');
-    moodDisplayEl.alt = `${this.moodModel.getMoodExpression().getName()} face`;
-    moodDisplayEl.id = `${this.moodModel.getMoodExpression().getName()}-img`;
-    moodDisplayEl.src = this.moodModel.getMoodExpression().getImgSrc();
+    moodDisplayEl.alt = `${this.mood.getMoodExpression().getName()} face`;
+    moodDisplayEl.id = `${this.mood.getMoodExpression().getName()}-img`;
+    moodDisplayEl.src = this.mood.getMoodExpression().getImgSrc();
     this.expressionContainerEl.append(moodDisplayEl);
   }
 
   _displayMoodComment() {
     let moodTextDisplayEl = document.createElement('h3');
-    moodTextDisplayEl.innerText = `You are feeling ${this.moodModel.getMood()}`;
+    moodTextDisplayEl.innerText = `You are feeling ${this.mood.getMood()}`;
     moodTextDisplayEl.classList.add('mood-display');
     document.querySelector("#mood-dialogue-result-container").append(moodTextDisplayEl);
   }
 
   displayConsole() {
-    this.moodModel.getConsole().forEach((message) => {
+    this.mood.getConsole().forEach((message) => {
       let consoleMessageEl = document.createElement('li');
       consoleMessageEl.classList.add('console-message')
       consoleMessageEl.innerText = message;
@@ -102,7 +102,7 @@ class HomeViewModel {
     document.querySelectorAll('.console-message').forEach((message) => {
       message.remove();
     });
-    this.moodModel.clearConsole();
+    this.mood.clearConsole();
     this.emotionSelectionEls.forEach((element) => {
       element.hidden = false;
     });
@@ -115,4 +115,4 @@ class HomeViewModel {
   }
 }
 
-module.exports = HomeViewModel;
+module.exports = View;

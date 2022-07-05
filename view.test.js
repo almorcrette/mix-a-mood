@@ -3,45 +3,45 @@
  */
 
 const fs = require('fs');
-const HomeViewModel = require('./HomeViewModel.js')
+const View = require('./View.js')
 
 const mockExpression = {};
 mockExpression.getName = jest.fn().mockReturnValue('dummy-mood');
 mockExpression.getImgSrc = jest.fn().mockReturnValue('static/images/dummy-mood.jpg');
 
-const mockedMoodModel = {};
-mockedMoodModel.getMoodExpression = jest.fn().mockReturnValue(mockExpression);
-mockedMoodModel.getMood = jest.fn().mockReturnValue('user-input-emotion-downcase');
-mockedMoodModel.processUserEmotion = jest.fn()
-mockedMoodModel.getConsole = jest.fn().mockReturnValue([
+const mockedMood = {};
+mockedMood.getMoodExpression = jest.fn().mockReturnValue(mockExpression);
+mockedMood.getMood = jest.fn().mockReturnValue('user-input-emotion-downcase');
+mockedMood.processUserEmotion = jest.fn()
+mockedMood.getConsole = jest.fn().mockReturnValue([
   'A first console message',
   'Another console message which is longer than the first one...',
   'A third console message'
 ])
-mockedMoodModel.clearConsole = jest.fn().mockReturnValue([]);
+mockedMood.clearConsole = jest.fn().mockReturnValue([]);
 
 
-describe('HomeViewModel', () => {
+describe('View', () => {
   describe('.prototype', () => {
     describe('variables include', () => {
       describe("event listener for click of 'generate' button", () => {
-        it('calls moodModel to process the user emotion', () => {
+        it('calls mood to process the user emotion', () => {
           document.body.innerHTML = fs.readFileSync('./index.HTML')
-          homeView = new HomeViewModel(mockedMoodModel);
-          homeView.generateButtonEl = document.querySelector("button#generate");
-          homeView.emotionInputEl = document.querySelector('input#emotion-input');
-          homeView.generateButtonEl.click();
-          expect(mockedMoodModel.processUserEmotion).toHaveBeenCalledWith(
-            homeView.emotionInputEl.value,
+          view = new View(mockedMood);
+          view.generateButtonEl = document.querySelector("button#generate");
+          view.emotionInputEl = document.querySelector('input#emotion-input');
+          view.generateButtonEl.click();
+          expect(mockedMood.processUserEmotion).toHaveBeenCalledWith(
+            view.emotionInputEl.value,
             expect.anything()
           )
         })
-        // it('call backs to hide the emotion selection section, once moodModel has prcessed user emotion', () => {
+        // it('call backs to hide the emotion selection section, once mood has prcessed user emotion', () => {
         //   document.body.innerHTML = fs.readFileSync('./index.HTML')
-        //   homeView = new HomeViewModel(mockedMoodModel);
-        //   homeView.generateButtonEl = document.querySelector("button#generate");
-        //   homeView.emotionInputEl = document.querySelector('input#emotion-input');
-        //   homeView.generateButtonEl.click();
+        //   view = new View(mockedMood);
+        //   view.generateButtonEl = document.querySelector("button#generate");
+        //   view.emotionInputEl = document.querySelector('input#emotion-input');
+        //   view.generateButtonEl.click();
         // })
       })
     })
@@ -50,12 +50,12 @@ describe('HomeViewModel', () => {
     describe('.hideEmotionSelection', () => {
       it('hides the emotion selection section in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
+        view = new View(mockedMood);
         const emotionSelectionEls = document.querySelectorAll('.emotion-selection');
         emotionSelectionEls.forEach((element) => {
           element.hidden = false;
         });
-        homeView.hideEmotionSelection();
+        view.hideEmotionSelection();
         emotionSelectionEls.forEach((element) => {
           expect(element.hidden).toBe(true);
         });
@@ -64,40 +64,40 @@ describe('HomeViewModel', () => {
     describe('.displayMood', () => {
       it('hides the prototype expression', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
-        homeView.displayMood();
+        view = new View(mockedMood);
+        view.displayMood();
         expect(document.querySelector("img#prototype-expression").hidden).toBe(true)
       });
       it('displays the mood image in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
-        homeView.displayMood();
+        view = new View(mockedMood);
+        view.displayMood();
         expect(document.querySelector("img.mood-display").alt).toEqual('dummy-mood face');
         expect(document.querySelector("img.mood-display").id).toEqual('dummy-mood-img');
         expect(document.querySelector("img.mood-display").src).toEqual('http://localhost/static/images/dummy-mood.jpg');
       });
       it('displays the mood comment', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
-        homeView.displayMood();
+        view = new View(mockedMood);
+        view.displayMood();
         expect(document.querySelector("h3.mood-display").innerText).toEqual('You are feeling user-input-emotion-downcase');
       });
     });
     describe('.displayPlayAgainButton', () => {
       it("reveals the 'play again' button in the view", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
+        view = new View(mockedMood);
         const playAgainButtonEl = document.querySelector('button#play-again');
         playAgainButtonEl.hidden = true;
-        homeView.displayPlayAgainButton();
+        view.displayPlayAgainButton();
         expect(playAgainButtonEl.hidden).toBe(false);
       })
     })
     describe('.displayConsole', () => {
       it("reveals the console with commentary about the algorithm in the view", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
-        homeView.displayConsole();
+        view = new View(mockedMood);
+        view.displayConsole();
         const consoleMessageEls = document.querySelectorAll('.console-message')
         expect(consoleMessageEls.length).toEqual(3);
       })
@@ -105,50 +105,50 @@ describe('HomeViewModel', () => {
     describe('.resetDisplay', () => {
       it('reveals the emotion selection section in the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
+        view = new View(mockedMood);
         const emotionSelectionEls = document.querySelectorAll('.emotion-selection');
         emotionSelectionEls.forEach((element) => {
           element.hidden = true;
         });
-        homeView.resetDisplay();
+        view.resetDisplay();
         emotionSelectionEls.forEach((element) => {
           expect(element.hidden).toBe(false);
         });
       });
       it('reveals the prototype expression', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
+        view = new View(mockedMood);
         document.querySelector("img#prototype-expression").hidden = true;
-        homeView.resetDisplay();
+        view.resetDisplay();
         expect(document.querySelector("img#prototype-expression").hidden).toBe(false);
       })
       it('removes mood display elements from the view', () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
-        homeView.resetDisplay();
+        view = new View(mockedMood);
+        view.resetDisplay();
         expect(document.querySelectorAll('.mood-display').length).toEqual(0);
       })
       it("hides the 'play again' button in the view", () => {
         document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
+        view = new View(mockedMood);
         const playAgainButtonEl = document.querySelector('button#play-again');
         playAgainButtonEl.hidden = false;
-        homeView.resetDisplay();
+        view.resetDisplay();
         expect(playAgainButtonEl.hidden).toBe(true);
       });
       describe("clears the console", () => {
-        it('calls clearConsole on moodModel', () => {
-          mockedMoodModel.clearConsole.mockReset();
+        it('calls clearConsole on mood', () => {
+          mockedMood.clearConsole.mockReset();
           document.body.innerHTML = fs.readFileSync('./index.HTML')
-          homeView = new HomeViewModel(mockedMoodModel);
-          homeView.resetDisplay();
-          expect(homeView.moodModel.clearConsole).toHaveBeenCalledTimes(1);
+          view = new View(mockedMood);
+          view.resetDisplay();
+          expect(view.mood.clearConsole).toHaveBeenCalledTimes(1);
         })
         it('removes displayed console messages', () => {
           document.body.innerHTML = fs.readFileSync('./index.HTML')
-        homeView = new HomeViewModel(mockedMoodModel);
-        homeView.displayConsole();
-        homeView.resetDisplay();
+        view = new View(mockedMood);
+        view.displayConsole();
+        view.resetDisplay();
         const consoleMessageEls = document.querySelectorAll('.console-message')
         expect(consoleMessageEls.length).toEqual(0);
         })

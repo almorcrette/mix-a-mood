@@ -1,4 +1,4 @@
-class ExpressionsLibrary {
+class Library {
   constructor(...expressions) {
     this.expressions = expressions; 
   }
@@ -86,4 +86,4 @@ class ExpressionsLibrary {
 
 }
 
-module.exports = ExpressionsLibrary;
+module.exports = Library;

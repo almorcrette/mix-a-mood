@@ -1,4 +1,4 @@
-const ThesaurusApi = require('./ThesaurusApi')
+const ThesaurusApi = require('./thesaurusapi')
 
 require('jest-fetch-mock').enableMocks();
 

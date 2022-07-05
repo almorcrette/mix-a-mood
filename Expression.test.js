@@ -1,4 +1,4 @@
-const Expression = require('./Expression');
+const Expression = require('./expression');
 
 describe('Expression', () => {
   describe('.prototype', () => {

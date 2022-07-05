@@ -1,14 +1,14 @@
-const ExpressionsLibrary = require('./ExpressionsLibrary');
-const EmotionsApi = require('./EmotionsApi');
+const Library = require('./library');
+const EmotionsApi = require('./emotionsapi');
 
-class MoodModel {
+class Mood {
   constructor(
     emotionsApi = new EmotionsApi(),
-    expressionsLibrary = new ExpressionsLibrary()
+    library = new Library()
     ) {
     this.emotionsApi = emotionsApi;
-    this.expressionsLibrary = expressionsLibrary;
-    this.mood = null;
+    this.library = library;
+    this.moodName = null;
     this.moodExpression = null;
     this.console = [];
   }
@@ -19,7 +19,7 @@ class MoodModel {
   
   _selectRandomLibraryExpression() {
     this.addMessageToConsole('randomly selecting an expression in the library...');
-    let randomExpression = this.expressionsLibrary.selectRandomExpression();
+    let randomExpression = this.library.selectRandomExpression();
     this.addMessageToConsole(`selected expression: ${randomExpression.getName()}`);
     this._setMoodExpression(randomExpression);
     return this._setMood(randomExpression.getName());
@@ -27,12 +27,12 @@ class MoodModel {
 
   processUserEmotion(emotion, cb) {
     this._addMessagesToConsoleAttemptLibraryMatch(emotion);
-    if (this.expressionsLibrary.isExpression(emotion)) {
+    if (this.library.isExpression(emotion)) {
       this._useMoodFromLibrary(emotion, cb);
     } else {
       this.addMessageToConsole("no exact match with expressions in library")
       this.addMessageToConsole("checking the cache of previous, successful thesaurus queries...")
-      if (this.expressionsLibrary.hasSimilarExpression(emotion)) {
+      if (this.library.hasSimilarExpression(emotion)) {
         this.addMessageToConsole("found a match in the cache")
         this._useSimilarMoodFromLibrary(emotion, cb);
       } else {
@@ -43,7 +43,7 @@ class MoodModel {
   };
 
   getMood() {
-    return this.mood;
+    return this.moodName;
   }
 
   getMoodExpression() {
@@ -63,7 +63,7 @@ class MoodModel {
   }
 
   _useSimilarMoodFromLibrary(emotion, cb) {
-    this._setMoodExpression(this.expressionsLibrary.retrieveSimilarExpression(emotion));
+    this._setMoodExpression(this.library.retrieveSimilarExpression(emotion));
     this._setMood(emotion.toLowerCase());
     this.addMessageToConsole(`using the match from the cache: ${emotion.toLowerCase()} is similar to ${this.getMoodExpression().getName()} which is in the library`);
 
@@ -74,7 +74,7 @@ class MoodModel {
 
   _useMoodFromLibrary(emotion, cb) {
     this.addMessageToConsole('using the expression from the library');
-    this._setMoodExpression(this.expressionsLibrary.retrieveExpression(emotion));
+    this._setMoodExpression(this.library.retrieveExpression(emotion));
     this._setMood(emotion.toLowerCase());
     cb();
     return this;
@@ -91,7 +91,7 @@ class MoodModel {
           this._raiseNoMatchInLibrary();
         } else {
           this._addMessagesToConsoleSimilarWordsAttemptLibraryMatch(similarWords);
-          if (this.expressionsLibrary.hasMatchInLibrary(similarWords)) {
+          if (this.library.hasMatchInLibrary(similarWords)) {
             this._useThesaurusMatch(emotion, similarWords);
             this._cacheThesaurusFind(this.moodExpression, emotion);
           } else {
@@ -107,7 +107,7 @@ class MoodModel {
   }
 
   _useThesaurusMatch(emotion, similarWords) {
-    this._setMoodExpression(this.expressionsLibrary.firstMatchToExpression(similarWords));
+    this._setMoodExpression(this.library.firstMatchToExpression(similarWords));
     this.addMessageToConsole(
       `match found: ${
         emotion.toLowerCase()
@@ -142,7 +142,7 @@ class MoodModel {
     let downCaseEmotion = emotion.toLowerCase();
     this.addMessageToConsole(`user input: ${emotion}`);
     this.addMessageToConsole(`input in lower case: ${downCaseEmotion}`);
-    this.addMessageToConsole(`match with an expression in the library? ${this.expressionsLibrary.isExpression(downCaseEmotion)}`);
+    this.addMessageToConsole(`match with an expression in the library? ${this.library.isExpression(downCaseEmotion)}`);
   }
 
   _setMoodExpression(expression) {
@@ -150,9 +150,9 @@ class MoodModel {
   }
 
   _setMood(emotion) {
-    return this.mood = emotion; 
+    return this.moodName = emotion; 
   }
 
 }
 
-module.exports = MoodModel;
+module.exports = Mood;

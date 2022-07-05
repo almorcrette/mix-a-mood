@@ -6,6 +6,7 @@ dotenv.config();
 
 // const EmotionsController = require('./controllers/emotions');
 const emotionsRouter = require('./routes/emotions');
+const expressionsRouter = require('./routes/expressions')
 const connectDB = require('./config/db');
 
 const app = express();
@@ -22,6 +23,7 @@ app.get('/bundle.js', (req, res) => {
 })
 
 app.use('/emotions', emotionsRouter);
+app.use('/expressions', expressionsRouter);
 
 app.use('/static', express.static('public'))
 

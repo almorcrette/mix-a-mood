@@ -1,3 +1,19 @@
+const mongoose = require('mongoose')
+
+const ExpressionSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  similarTo: {
+    type: Array,
+    required: true
+  }
+})
+
+module.exports = mongoose.model("Expression", ExpressionSchema)
+
+
 class Expression {
   constructor(name) {
     this.name = name;
