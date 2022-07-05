@@ -6,8 +6,12 @@ dotenv.config();
 
 // const EmotionsController = require('./controllers/emotions');
 const emotionsRouter = require('./routes/emotions');
+const connectDB = require('./config/db');
 
 const app = express();
+
+connectDB();
+
 const port = process.env.PORT || 3030;
 
 app.get('/', (req, res) => {

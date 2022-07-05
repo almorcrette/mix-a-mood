@@ -26,11 +26,13 @@
   "homepage": "https://github.com/almorcrette/mix-a-mood#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "config": "^3.3.7",
     "dotenv": "^16.0.1",
     "esbuild": "^0.14.42",
     "express": "^4.18.1",
     "jest": "^28.1.0",
     "jest-fetch-mock": "^3.0.3",
+    "mongoose": "^6.4.2",
     "os": "^0.1.2",
     "path": "^0.12.7"
   },
