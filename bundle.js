@@ -47704,7 +47704,6 @@
           return record;
         }
         hasSimilarExpression(emotion) {
-          console.log("inside hasSimilarExpression with: ", emotion);
           let boolean = false;
           this.expressions.forEach((expression) => {
             if (expression.isSimilarTo(emotion) === true) {
@@ -47713,11 +47712,9 @@
             }
             ;
           });
-          console.log("hasSimilarExpression returning: ", boolean);
           return boolean;
         }
         retrieveSimilarExpression(emotion) {
-          console.log("inside retrieveSimilarExpression with: ", emotion);
           let matchingExpression = null;
           this.expressions.forEach((expression) => {
             if (expression.isSimilarTo(emotion) === true) {
@@ -47725,7 +47722,6 @@
               return;
             }
           });
-          console.log("retrieveSimilarExpression returning: ", matchingExpression);
           return matchingExpression;
         }
         hasMatchInLibrary(arr) {
