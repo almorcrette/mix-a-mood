@@ -115,7 +115,6 @@ describe('Library', () => {
       })
       describe("thows exception if second argument passed as argument is not the name of an expression in the library", () => {
         it("throws 'dog' is not the name of an expression in the library'", () => {
-          console.log('trow error test')
           mockHappyExpression.isSimilarTo = jest.fn().mockReturnValue(false)
           const library = new Library();
           function addSimilarToWithNonName() {library.addSimilarTo('bright', 'dog')}
