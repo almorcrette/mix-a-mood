@@ -1,4 +1,4 @@
-class ThesaurusApi {
+class thesaurusapi {
 
   isSimilarTo(word, callback) {
     this.findSimilarTo(word, (data) => { callback(data.similarTo) }, this.standardErrorCB)
