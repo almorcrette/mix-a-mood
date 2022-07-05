@@ -1,5 +1,5 @@
 const Library = require('./library');
-const EmotionsApi = require('./EmotionsApi');
+const EmotionsApi = require('./emotionsapi');
 
 class Mood {
   constructor(
