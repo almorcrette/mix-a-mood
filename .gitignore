@@ -3,3 +3,4 @@ coverage
 .env
 cypress/screenshots/**
 cypress/videos/**
+config/default.json
