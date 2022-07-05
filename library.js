@@ -31,7 +31,6 @@ class Library {
   }
 
   hasSimilarExpression(emotion) {
-    console.log('inside hasSimilarExpression with: ', emotion)
     let boolean = false;
     this.expressions.forEach((expression) => {
       if (expression.isSimilarTo(emotion) === true) {
@@ -39,12 +38,10 @@ class Library {
         return;
       };
     });
-    console.log('hasSimilarExpression returning: ', boolean)
     return boolean
   }
 
   retrieveSimilarExpression(emotion) {
-    console.log('inside retrieveSimilarExpression with: ', emotion)
     let matchingExpression = null;
     this.expressions.forEach((expression) => {
       if (expression.isSimilarTo(emotion) === true) {
@@ -52,7 +49,6 @@ class Library {
         return
       }
     })
-    console.log('retrieveSimilarExpression returning: ', matchingExpression)
     return matchingExpression
   }
 
@@ -97,7 +93,34 @@ class Library {
     } else {
       return `static/images/${string}.png`
     }
+  }
 
+  addSimilarTo(emotion, expressionName) {
+    let selection = null;
+    this.expressions.forEach((expression) => {
+      if (expression.getName() === expressionName) {
+        selection = expression
+      }
+      if (selection === null) {
+        throw `'${expressionName}' is not the name of an expression in the library`
+      } else {
+        selection.addSimilarTo(emotion)
+      }
+    })
+  }
+
+  isSimilarTo(emotion, expressionName) {
+    let selection = null;
+    this.expressions.forEach((expression) => {
+      if (expression.getName() === expressionName) {
+        selection = expression
+      }
+    })
+    if (selection === null) {
+      throw `'${expressionName}' is not the name of an expression in the library`
+    } else {
+      return selection.isSimilarTo(emotion)
+    }
   }
 }
 

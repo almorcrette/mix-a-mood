@@ -3,6 +3,7 @@ const Library = require('./library')
 const mockHappyExpression = {};
 mockHappyExpression.getName = jest.fn().mockReturnValue('happy');
 mockHappyExpression.isSimilarTo = jest.fn().mockReturnValue(true)
+mockHappyExpression.addSimilarTo = jest.fn()
 
 const mockSadExpression = {};
 mockSadExpression.getName = jest.fn().mockReturnValue('sad');
@@ -95,7 +96,7 @@ describe('Library', () => {
           expect(library.makeImageSource('sad')).toEqual('static/images/sad.png');
         });
       });
-      describe("thow exception if string passed as argument is not the name of an expression in the library", () => {
+      describe("thows exception if string passed as argument is not the name of an expression in the library", () => {
         it("throws ''dog' is not the name of an expression in the library'", () => {
           const library = new Library();
           function makeImageSourceFromNonName() {library.makeImageSource('dog')}
@@ -103,5 +104,24 @@ describe('Library', () => {
         });
       })
     });
+
+    describe('.addSimilarTo', () => {
+      describe('adds similar word passed in as parameter to similarTo property of expression passed as parameter', () => {
+        it("adds 'bright' to similarTo array of 'happy' expression when addSimilarTo('bright', 'happy') is called", () => {
+          const library = new Library(mockHappyExpression);
+          library.addSimilarTo('bright', 'happy')
+          expect(library.isSimilarTo('bright', 'happy')).toEqual(true)
+        })
+      })
+      describe("thows exception if second argument passed as argument is not the name of an expression in the library", () => {
+        it("throws 'dog' is not the name of an expression in the library'", () => {
+          console.log('trow error test')
+          mockHappyExpression.isSimilarTo = jest.fn().mockReturnValue(false)
+          const library = new Library();
+          function addSimilarToWithNonName() {library.addSimilarTo('bright', 'dog')}
+          expect(addSimilarToWithNonName).toThrowError(new Error("'dog' is not the name of an expression in the library"));
+        })
+      })
+    })
   })
 })

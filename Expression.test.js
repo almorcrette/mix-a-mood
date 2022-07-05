@@ -15,15 +15,6 @@ describe('Expression', () => {
       });
     });
     
-    describe('.addSimilarTo', () => {
-      describe('adds similar word passed in as parameter to similarTo property', () => {
-        it("adds 'exhausted' to similarTo array when addSimilarTo('expression') is called", () => {
-          expression = new Expression('tired');
-          expression.addSimilarTo('exhausted')
-          expect(expression.similarTo[expression.similarTo.length - 1]).toEqual('exhausted')
-        })
-      })
-    })
     describe('.isSimilarTo', () => {
       describe('returns whether word passed is element in similar words property', () => {
         it("returns true from 'exhausted' for an expression arranged with similarTo ['exhausted']", () => {
